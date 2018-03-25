@@ -56,29 +56,35 @@ namespace ATGate
             // labelAppVersion
             // 
             this.labelAppVersion.AutoSize = true;
-            this.labelAppVersion.BackColor = System.Drawing.Color.White;
-            this.labelAppVersion.Location = new System.Drawing.Point(306, 13);
+            this.labelAppVersion.BackColor = System.Drawing.Color.Transparent;
+            this.labelAppVersion.Location = new System.Drawing.Point(315, 11);
             this.labelAppVersion.Margin = new System.Windows.Forms.Padding(0);
             this.labelAppVersion.Name = "labelAppVersion";
             this.labelAppVersion.Size = new System.Drawing.Size(126, 15);
             this.labelAppVersion.TabIndex = 1;
-            this.labelAppVersion.Text = "版本：15.0.0.0 开发版";
+            this.labelAppVersion.Text = "版本：" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " 开发版";
             // 
             // btn_about
             // 
-            this.btn_about.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btn_about.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_about.BackColor = System.Drawing.Color.White;
+            this.btn_about.Cursor = System.Windows.Forms.Cursors.Help;
+            this.btn_about.FlatAppearance.BorderSize = 0;
+            this.btn_about.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btn_about.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_about.Location = new System.Drawing.Point(380, 295);
             this.btn_about.Name = "btn_about";
             this.btn_about.Size = new System.Drawing.Size(52, 24);
             this.btn_about.TabIndex = 2;
             this.btn_about.Text = "关于";
-            this.btn_about.UseVisualStyleBackColor = true;
+            this.btn_about.UseVisualStyleBackColor = false;
             this.btn_about.Click += new System.EventHandler(this.Btn_about_Click);
             // 
             // server_status
             // 
             this.server_status.AutoSize = true;
             this.server_status.BackColor = System.Drawing.Color.Transparent;
+            this.server_status.Cursor = System.Windows.Forms.Cursors.Hand;
             this.server_status.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.server_status.Location = new System.Drawing.Point(28, 11);
             this.server_status.Margin = new System.Windows.Forms.Padding(0);

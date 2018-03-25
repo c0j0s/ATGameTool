@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,12 +15,18 @@ namespace ATGate
         public Homepage()
         {
             InitializeComponent();
-            DoWorkAsyncInfiniteLoop();
+            DoWorkAsyncCheckServerStatus();
         }
 
         private void Btn_start_game_Click(object sender, EventArgs e)
         {
-            if (!File.Exists("asktao.mod"))
+            #if DEBUG
+                string absPath = "C:/Users/User/Desktop/LTxiaoyao/asktao.mod";
+            #else
+                string absPath = @Directory.GetCurrentDirectory() + "/asktao.mod";
+            #endif
+
+            if (!File.Exists(absPath))
             {
                 string message = "请检查游戏文件。";
                 string caption = "未找到游戏";
@@ -35,16 +43,9 @@ namespace ATGate
                     Application.Exit();
                 }
 
-
             }
             else
             {
-                
-                #if DEBUG
-                    string absPath = "C:/Users/User/Desktop/LTxiaoyao/asktao.mod";
-                #else
-                    string absPath = @Directory.GetCurrentDirectory() + "/asktao.mod";
-                #endif
                 
                 string Location = "zh-TW";
                 string applicationName = absPath;
@@ -88,9 +89,7 @@ namespace ATGate
                 }
                 else
                 {
-                    System.Threading.Thread.Sleep(3000);
-                    this.Close();
-                    Application.Exit();
+                    DoWorkAsyncCheckGameStatus();
                 }
 
             }
@@ -107,32 +106,28 @@ namespace ATGate
             Check_server_status();
         }
 
-        private async Task DoWorkAsyncInfiniteLoop()
+        private async Task DoWorkAsyncCheckServerStatus()
         {
             while (true)
             {
                 Check_server_status();
-                // don't run again for at least 200 milliseconds
-                await Task.Delay(30000);
+                await Task.Delay(5000);
             }
         }
 
         private void Check_server_status() {
-            // do the work in the loop
             Ping pinger = new Ping();
             try
             {
-                //192.168.1.14
-                //120.79.216.211
                 Boolean server_status = false;
                 PingReply reply = pinger.Send(Program.server_ip);
                 server_status = reply.Status == IPStatus.Success;
                 Change_server_status_light(server_status);
-                Console.Write("Server online? " + server_status);
+                Console.WriteLine("Server online? " + server_status);
             }
             catch (PingException)
             {
-                Console.Write("Fail to ping server");
+                Console.WriteLine("Fail to ping server");
             }
         }
 
@@ -140,15 +135,29 @@ namespace ATGate
         {
             if (online)
             {
-                server_status.Text = "服务器 [" + Program.server_ip + "] 已连接";
+                server_status.Text = "服务器已连接";
                 serverStatusLight.Image = Properties.Resources.server_online;
-                btn_start_game.Enabled = true;
             }
             else
             {
                 server_status.Text = "服务器未连接";
                 serverStatusLight.Image = Properties.Resources.server_offline;
-                btn_start_game.Enabled = false;
+            }
+            btn_start_game.Enabled = online;
+        }
+
+        private async Task DoWorkAsyncCheckGameStatus()
+        {
+            while (true)
+            {
+                Process[] runningProcesses = Process.GetProcessesByName("asktao.mod");
+                if (runningProcesses.Length == 1)
+                {
+                    Console.WriteLine("Game Started, Ending Launcher.");
+                    Thread.Sleep(3000);
+                    Application.Exit();
+                }
+                await Task.Delay(1000);
             }
         }
     }

@@ -22,13 +22,22 @@ namespace ATGate
         [STAThread]
         static void Main()
         {
-            WriteDlls();
+            using (Mutex mutex = new Mutex(false, "Global\\1a25711f-a9dd-412b-8a93-82a7e2c3def8"))
+            {
+                if (!mutex.WaitOne(0, false))
+                {
+                    Console.WriteLine("Instance already running");
+                    return;
+                }
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+                WriteDlls();
 
-            ReadConfigFile();
-            Application.Run(new Homepage());
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+
+                ReadConfigFile();
+                Application.Run(new Homepage());
+            }
 
         }
 
