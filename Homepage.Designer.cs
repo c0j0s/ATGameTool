@@ -51,7 +51,7 @@ namespace ATGate
             this.btn_start_game.Size = new System.Drawing.Size(104, 24);
             this.btn_start_game.TabIndex = 0;
             this.btn_start_game.UseVisualStyleBackColor = false;
-            this.btn_start_game.Click += new System.EventHandler(this.btn_start_game_Click);
+            this.btn_start_game.Click += new System.EventHandler(this.Btn_start_game_Click);
             // 
             // labelAppVersion
             // 
@@ -62,7 +62,7 @@ namespace ATGate
             this.labelAppVersion.Name = "labelAppVersion";
             this.labelAppVersion.Size = new System.Drawing.Size(126, 15);
             this.labelAppVersion.TabIndex = 1;
-            this.labelAppVersion.Text = "版本：" + Assembly.GetExecutingAssembly().GetName().Version.ToString() +" 开发版";
+            this.labelAppVersion.Text = "版本：15.0.0.0 开发版";
             // 
             // btn_about
             // 
@@ -73,7 +73,7 @@ namespace ATGate
             this.btn_about.TabIndex = 2;
             this.btn_about.Text = "关于";
             this.btn_about.UseVisualStyleBackColor = true;
-            this.btn_about.Click += new System.EventHandler(this.btn_about_Click);
+            this.btn_about.Click += new System.EventHandler(this.Btn_about_Click);
             // 
             // server_status
             // 
@@ -86,6 +86,7 @@ namespace ATGate
             this.server_status.Size = new System.Drawing.Size(79, 15);
             this.server_status.TabIndex = 3;
             this.server_status.Text = "服务器未连接";
+            this.server_status.Click += new System.EventHandler(this.Server_status_Click);
             // 
             // serverStatusLight
             // 

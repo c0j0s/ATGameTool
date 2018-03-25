@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("ATGate - 逍遥问道启动器")]
+[assembly: AssemblyTitle("逍遥问道启动器")]
 [assembly: AssemblyDescription("A Custom Luancher for AskTao")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("CJS")]

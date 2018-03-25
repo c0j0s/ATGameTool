@@ -16,7 +16,7 @@ namespace ATGate
             DoWorkAsyncInfiniteLoop();
         }
 
-        private void btn_start_game_Click(object sender, EventArgs e)
+        private void Btn_start_game_Click(object sender, EventArgs e)
         {
             if (!File.Exists("asktao.mod"))
             {
@@ -96,47 +96,59 @@ namespace ATGate
             }
         }
 
-        private void btn_about_Click(object sender, EventArgs e)
+        private void Btn_about_Click(object sender, EventArgs e)
         {
             AboutBox aboutBox = new AboutBox();
             aboutBox.Show();
         }
 
-        private void change_server_status_light(Boolean online) {
-            if (online)
-            {
-                server_status.Text = "服务器 [" + Program.server_ip + "] 已连接";
-                serverStatusLight.Image = Properties.Resources.server_online;
-            }
-            else
-            {
-                server_status.Text = "服务器未连接";
-                serverStatusLight.Image = Properties.Resources.server_offline;
-            }
+        private void Server_status_Click(object sender, EventArgs e)
+        {
+            Check_server_status();
         }
 
         private async Task DoWorkAsyncInfiniteLoop()
         {
             while (true)
             {
-                // do the work in the loop
-                Ping pinger = new Ping();
-                try
-                {
-                    //192.168.1.14
-                    //120.79.216.211
-                    Boolean server_status = false;
-                    PingReply reply = pinger.Send(Program.server_ip);
-                    server_status = reply.Status == IPStatus.Success;
-                    change_server_status_light(server_status);
-                }
-                catch (PingException)
-                {
-                    Console.Write("Fail to ping server");
-                }
-
+                Check_server_status();
                 // don't run again for at least 200 milliseconds
                 await Task.Delay(30000);
+            }
+        }
+
+        private void Check_server_status() {
+            // do the work in the loop
+            Ping pinger = new Ping();
+            try
+            {
+                //192.168.1.14
+                //120.79.216.211
+                Boolean server_status = false;
+                PingReply reply = pinger.Send(Program.server_ip);
+                server_status = reply.Status == IPStatus.Success;
+                Change_server_status_light(server_status);
+                Console.Write("Server online? " + server_status);
+            }
+            catch (PingException)
+            {
+                Console.Write("Fail to ping server");
+            }
+        }
+
+        private void Change_server_status_light(Boolean online)
+        {
+            if (online)
+            {
+                server_status.Text = "服务器 [" + Program.server_ip + "] 已连接";
+                serverStatusLight.Image = Properties.Resources.server_online;
+                btn_start_game.Enabled = true;
+            }
+            else
+            {
+                server_status.Text = "服务器未连接";
+                serverStatusLight.Image = Properties.Resources.server_offline;
+                btn_start_game.Enabled = false;
             }
         }
     }

@@ -5,12 +5,6 @@ VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATGate", "ATGate.csproj", "{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5ED78877-E6B0-4921-84EB-3250EF477C69}"
-	ProjectSection(SolutionItems) = preProject
-		LoaderDll.dll = LoaderDll.dll
-		LocaleEmulator.dll = LocaleEmulator.dll
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

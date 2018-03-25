@@ -52,7 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>src\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>ACC61CDADE9088246F9D0E170F1729598AFC19DC</ManifestCertificateThumbprint>
@@ -66,11 +66,13 @@
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -121,7 +123,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ATGate_TemporaryKey.pfx" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -149,15 +150,20 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LoaderDll.dll" />
-    <EmbeddedResource Include="LocaleEmulator.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="icon.ico" />
     <None Include="src\server_online.png" />
     <None Include="src\server_offline.png" />
     <None Include="src\btn_start_game.PNG" />
     <None Include="src\background.jpg" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="lib\LoaderDll.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lib\LocaleEmulator.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
