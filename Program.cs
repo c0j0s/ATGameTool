@@ -14,7 +14,7 @@ namespace ATGate
 {
     static class Program
     {
-        public static string server_ip;
+        public static string server_ip = "120.79.216.211";
 
         /// <summary>
         /// The main entry point for the application.
@@ -35,12 +35,12 @@ namespace ATGate
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                ReadConfigFile();
                 Application.Run(new Homepage());
             }
 
         }
 
+        //NOT INUSE
         private static void ReadConfigFile()
         {
             string filename = Directory.GetCurrentDirectory() + "/download/global/global_distlist.txt";

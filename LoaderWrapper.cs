@@ -175,7 +175,7 @@ namespace ATGate
             if (string.IsNullOrEmpty(ApplicationName))
                 throw new Exception("ApplicationName cannot null.");
 
-            var newLEB = ArrayExtensions.StructToBytes(_leb);
+              var newLEB = ArrayExtensions.StructToBytes(_leb);
             newLEB = newLEB.CombineWith(_registry.GetBinaryData());
 
             var locLEB = Marshal.AllocHGlobal(newLEB.Length);
