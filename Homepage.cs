@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -11,20 +12,23 @@ using System.Windows.Forms;
 namespace ATGate
 {
     public partial class Homepage : Form
-    { 
+    {
         public Homepage()
         {
             InitializeComponent();
-            DoWorkAsyncCheckServerStatus();
+            Check_server_status();
+            //DoWorkAsyncCheckServerStatus();
         }
 
         private void Btn_start_game_Click(object sender, EventArgs e)
         {
             #if DEBUG
-                string absPath = "C:/Users/User/Desktop/LTxiaoyao/asktao.mod";
+                string absPath = @"C:\Users\User\Desktop\微端1.6\asktao.mod";
             #else
                 string absPath = @Directory.GetCurrentDirectory() + "/asktao.mod";
             #endif
+            string CommandLine = "des:1B8E503A3BEFF909F50D908D6D53EEC26F10C662A39AC98425BFA4218DDBE81C4C196C772872AD4D4FA5C505CAC3E8D3948F59491F059B19D31CBC09FD257696D5CE934F044323E501C14D98F424DAD7233839407A1872FB";
+
 
             if (!File.Exists(absPath))
             {
@@ -46,52 +50,73 @@ namespace ATGate
             }
             else
             {
-                
-                string Location = "zh-TW";
-                string applicationName = absPath;
+                StartProcessSimplify(absPath, CommandLine);
+                //StartProcessTraditional(absPath, CommandLine);
+            }
+        }
 
-                var currentDirectory = Path.GetDirectoryName(absPath);
-                var ansiCodePage = (uint)CultureInfo.GetCultureInfo(Location).TextInfo.ANSICodePage;
-                var oemCodePage = (uint)CultureInfo.GetCultureInfo(Location).TextInfo.OEMCodePage;
-                var localeID = (uint)CultureInfo.GetCultureInfo(Location).TextInfo.LCID;
-                var defaultCharset = (uint)136;
-                var registries = RegistryEntriesLoader.GetRegistryEntries(true);
+        private void StartProcessSimplify(string absPath, string cmd)
+        {
+            STARTUPINFO si = new STARTUPINFO();
+            PROCESS_INFORMATION pi = new PROCESS_INFORMATION();
+            CreateProcess(
+                absPath, 
+                cmd, 
+                IntPtr.Zero, 
+                IntPtr.Zero, 
+                false, 
+                0, 
+                IntPtr.Zero,
+                Path.GetDirectoryName(absPath), 
+                ref si, 
+                out pi);
+        }
 
-                var l = new LoaderWrapper
-                {
-                    ApplicationName = applicationName,
-                    CommandLine = "des:951A6367121D77FAABF5B6D3699D75F3ECD12843AB085EBB03CCF9AB4279613A9FD8AF40C7D3A5777DBB17C6A416065A1D73491AADCD8A1A0E6C3C7C1A67481B5AA36246A2B5E45B1871D7FC46513D3B1A567BD7AA056297",
-                    CurrentDirectory = currentDirectory,
-                    AnsiCodePage = ansiCodePage,
-                    OemCodePage = oemCodePage,
-                    LocaleID = localeID,
-                    DefaultCharset = defaultCharset,
-                    HookUILanguageAPI = 0,
-                    Timezone = "Tokyo Standard Time",
-                    NumberOfRegistryRedirectionEntries = registries.Length,
-                    DebugMode = false
-                };
+        private void StartProcessTraditional(string absPath, string cmd)
+        {
+            string Location = "zh-TW";
+            string applicationName = absPath;
 
-                registries?.ToList()
-                .ForEach(
-                    item =>
-                        l.AddRegistryRedirectEntry(item.Root,
-                            item.Key,
-                            item.Name,
-                            item.Type,
-                            item.GetValue(CultureInfo.GetCultureInfo(Location))));
+            var currentDirectory = Path.GetDirectoryName(absPath);
+            var ansiCodePage = (uint)CultureInfo.GetCultureInfo(Location).TextInfo.ANSICodePage;
+            var oemCodePage = (uint)CultureInfo.GetCultureInfo(Location).TextInfo.OEMCodePage;
+            var localeID = (uint)CultureInfo.GetCultureInfo(Location).TextInfo.LCID;
+            var defaultCharset = (uint)136;
+            var registries = RegistryEntriesLoader.GetRegistryEntries(true);
 
-                btn_start_game.Enabled = false;
+            var l = new LoaderWrapper
+            {
+                ApplicationName = applicationName,
+                CommandLine = cmd,
+                CurrentDirectory = currentDirectory,
+                AnsiCodePage = ansiCodePage,
+                OemCodePage = oemCodePage,
+                LocaleID = localeID,
+                DefaultCharset = defaultCharset,
+                HookUILanguageAPI = 0,
+                Timezone = "Tokyo Standard Time",
+                NumberOfRegistryRedirectionEntries = registries.Length,
+                DebugMode = false
+            };
 
-                if (l.Start() != 0)
-                {
-                    btn_start_game.Enabled = true;
-                }
-                else
-                {
-                    DoWorkAsyncCheckGameStatus();
-                }
+            registries?.ToList()
+            .ForEach(
+                item =>
+                    l.AddRegistryRedirectEntry(item.Root,
+                        item.Key,
+                        item.Name,
+                        item.Type,
+                        item.GetValue(CultureInfo.GetCultureInfo(Location))));
 
+            btn_start_game.Enabled = false;
+
+            if (l.Start() != 0)
+            {
+                btn_start_game.Enabled = true;
+            }
+            else
+            {
+                DoWorkAsyncCheckGameStatus();
             }
         }
 
@@ -99,6 +124,13 @@ namespace ATGate
         {
             AboutBox aboutBox = new AboutBox();
             aboutBox.Show();
+        }
+
+
+        private void Btn_register_Click(object sender, EventArgs e)
+        {
+            Register register = new Register();
+            register.ShowDialog(this);
         }
 
         private void Server_status_Click(object sender, EventArgs e)
@@ -115,7 +147,8 @@ namespace ATGate
             }
         }
 
-        private void Check_server_status() {
+        private void Check_server_status()
+        {
             Ping pinger = new Ping();
             try
             {
@@ -143,7 +176,11 @@ namespace ATGate
                 server_status.Text = "服务器未连接";
                 serverStatusLight.Image = Properties.Resources.server_offline;
             }
+            #if DEBUG
+            btn_start_game.Enabled = true;
+            #else
             btn_start_game.Enabled = online;
+            #endif
         }
 
         private async Task DoWorkAsyncCheckGameStatus()
@@ -160,6 +197,60 @@ namespace ATGate
                 await Task.Delay(1000);
             }
         }
+
+        [DllImport("kernel32.dll")]
+        static extern bool CreateProcess(
+            string lpApplicationName,
+            string lpCommandLine,
+            IntPtr lpProcessAttributes,
+            IntPtr lpThreadAttributes,
+            bool bInheritHandles,
+            uint dwCreationFlags,
+            IntPtr lpEnvironment,
+            string lpCurrentDirectory,
+            ref STARTUPINFO lpStartupInfo,
+            out PROCESS_INFORMATION lpProcessInformation);
+
+
+        public struct PROCESS_INFORMATION
+        {
+            public IntPtr hProcess;
+            public IntPtr hThread;
+            public uint dwProcessId;
+            public uint dwThreadId;
+        }
+
+        public struct STARTUPINFO
+        {
+            public uint cb;
+            public string lpReserved;
+            public string lpDesktop;
+            public string lpTitle;
+            public uint dwX;
+            public uint dwY;
+            public uint dwXSize;
+            public uint dwYSize;
+            public uint dwXCountChars;
+            public uint dwYCountChars;
+            public uint dwFillAttribute;
+            public uint dwFlags;
+            public short wShowWindow;
+            public short cbReserved2;
+            public IntPtr lpReserved2;
+            public IntPtr hStdInput;
+            public IntPtr hStdOutput;
+            public IntPtr hStdError;
+        }
+
+
+
+        public struct SECURITY_ATTRIBUTES
+        {
+            public int length;
+            public IntPtr lpSecurityDescriptor;
+            public bool bInheritHandle;
+        }
+
 
     }
 }
