@@ -93,26 +93,6 @@ namespace ATGate.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] LoaderDll {
-            get {
-                object obj = ResourceManager.GetObject("LoaderDll", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] LocaleEmulator {
-            get {
-                object obj = ResourceManager.GetObject("LocaleEmulator", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         internal static byte[] MySql_Data {
             get {
                 object obj = ResourceManager.GetObject("MySql_Data", resourceCulture);

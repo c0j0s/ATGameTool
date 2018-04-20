@@ -17,7 +17,6 @@ namespace ATGate
         {
             InitializeComponent();
             Check_server_status();
-            //DoWorkAsyncCheckServerStatus();
         }
 
         private void Btn_start_game_Click(object sender, EventArgs e)
@@ -59,7 +58,7 @@ namespace ATGate
         {
             STARTUPINFO si = new STARTUPINFO();
             PROCESS_INFORMATION pi = new PROCESS_INFORMATION();
-            CreateProcess(
+            bool status = CreateProcess(
                 absPath, 
                 cmd, 
                 IntPtr.Zero, 
@@ -70,53 +69,12 @@ namespace ATGate
                 Path.GetDirectoryName(absPath), 
                 ref si, 
                 out pi);
-        }
 
-        private void StartProcessTraditional(string absPath, string cmd)
-        {
-            string Location = "zh-TW";
-            string applicationName = absPath;
-
-            var currentDirectory = Path.GetDirectoryName(absPath);
-            var ansiCodePage = (uint)CultureInfo.GetCultureInfo(Location).TextInfo.ANSICodePage;
-            var oemCodePage = (uint)CultureInfo.GetCultureInfo(Location).TextInfo.OEMCodePage;
-            var localeID = (uint)CultureInfo.GetCultureInfo(Location).TextInfo.LCID;
-            var defaultCharset = (uint)136;
-            var registries = RegistryEntriesLoader.GetRegistryEntries(true);
-
-            var l = new LoaderWrapper
+            if (status)
             {
-                ApplicationName = applicationName,
-                CommandLine = cmd,
-                CurrentDirectory = currentDirectory,
-                AnsiCodePage = ansiCodePage,
-                OemCodePage = oemCodePage,
-                LocaleID = localeID,
-                DefaultCharset = defaultCharset,
-                HookUILanguageAPI = 0,
-                Timezone = "Tokyo Standard Time",
-                NumberOfRegistryRedirectionEntries = registries.Length,
-                DebugMode = false
-            };
-
-            registries?.ToList()
-            .ForEach(
-                item =>
-                    l.AddRegistryRedirectEntry(item.Root,
-                        item.Key,
-                        item.Name,
-                        item.Type,
-                        item.GetValue(CultureInfo.GetCultureInfo(Location))));
-
-            btn_start_game.Enabled = false;
-
-            if (l.Start() != 0)
-            {
-                btn_start_game.Enabled = true;
-            }
-            else
-            {
-                DoWorkAsyncCheckGameStatus();
+                Console.WriteLine("Game Started, Ending Launcher.");
+                Thread.Sleep(3000);
+                Application.Exit();
             }
         }
 
@@ -181,21 +139,6 @@ namespace ATGate
             #else
             btn_start_game.Enabled = online;
             #endif
-        }
-
-        private async Task DoWorkAsyncCheckGameStatus()
-        {
-            while (true)
-            {
-                Process[] runningProcesses = Process.GetProcessesByName("asktao.mod");
-                if (runningProcesses.Length == 1)
-                {
-                    Console.WriteLine("Game Started, Ending Launcher.");
-                    Thread.Sleep(3000);
-                    Application.Exit();
-                }
-                await Task.Delay(1000);
-            }
         }
 
         [DllImport("kernel32.dll")]

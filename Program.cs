@@ -42,14 +42,6 @@ namespace ATGate
 
         static void WriteDlls() {
            
-            if (!File.Exists(@Directory.GetCurrentDirectory() + "/LoaderDll.dll") )
-            {
-                File.WriteAllBytes("LoaderDll.dll", Properties.Resources.LoaderDll);
-            }
-            if (!File.Exists(@Directory.GetCurrentDirectory() + "/LocaleEmulator.dll"))
-            {
-                File.WriteAllBytes("LocaleEmulator.dll", Properties.Resources.LocaleEmulator);
-            }
             if (!File.Exists(@Directory.GetCurrentDirectory() + "/MySql.Data.dll"))
             {
                 File.WriteAllBytes("MySql.Data.dll", Properties.Resources.MySql_Data);

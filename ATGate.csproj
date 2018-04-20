@@ -106,8 +106,6 @@
     <Compile Include="Homepage.Designer.cs">
       <DependentUpon>Homepage.cs</DependentUpon>
     </Compile>
-    <Compile Include="LERegistryRedirector.cs" />
-    <Compile Include="LoaderWrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Register.cs">
@@ -116,8 +114,6 @@
     <Compile Include="Register.Designer.cs">
       <DependentUpon>Register.cs</DependentUpon>
     </Compile>
-    <Compile Include="RegistryEntriesLoader.cs" />
-    <Compile Include="RegistryEntry.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -171,12 +167,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\MySql.Data.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="lib\LoaderDll.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="lib\LocaleEmulator.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\icon.ico" />
