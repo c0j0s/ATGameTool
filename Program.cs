@@ -30,12 +30,18 @@ namespace ATGate
                     return;
                 }
 
-                WriteDlls();
-
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                Application.Run(new Homepage());
+                QQLogon qLogon = new QQLogon();
+                Application.Run(qLogon);
+
+                if (qLogon.verifiedStatus)
+                {
+                    WriteDlls();
+                    Application.Run(new Homepage());
+                }
+                
             }
 
         }

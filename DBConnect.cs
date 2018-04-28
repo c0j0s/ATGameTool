@@ -1,7 +1,8 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Data;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
+
 
 namespace ATGate
 {
@@ -15,10 +16,16 @@ namespace ATGate
         private string password;
 
         public DBConnect() {
+#if DEBUG
+            server = "localhost";
+            uid = "root";
+            password = "mysql";
+#else
             server = "47.106.10.242";
-            database = "dl_adb_all";
             uid = "root";
             password = "Jbc@database";
+#endif
+            database = "dl_adb_all";
             string connectionString;
             connectionString = "SERVER=" + server + ";" + "DATABASE=" +
             database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
@@ -45,9 +52,15 @@ namespace ATGate
                         MessageBox.Show("Invalid username/password, please try again");
                         break;
                 }
-                return false;
+
             }
+            catch (Exception)
+            {
+                MessageBox.Show("发生错误，请重试。");
+            }
+            return false;
         }
+    
 
         //Close connection
         private bool CloseConnection()
