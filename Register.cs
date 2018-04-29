@@ -28,24 +28,19 @@ namespace ATGate
             if (!username.Equals("") && !password.Equals("")) //field not empty
             {
                 //check username duplication
-                DBWrapper dw = new DBWrapper();
+                DBWrapper dw = new DBWrapper("default");
                 if (password.Length > 3) //password length > 3
                 {
 
-                    var macAddr =
-                    (
-                        from nic in NetworkInterface.GetAllNetworkInterfaces()
-                        where nic.OperationalStatus == OperationalStatus.Up
-                        select nic.GetPhysicalAddress().ToString()
-                    ).FirstOrDefault();
-
-                    macAddr = macAddr.PadLeft(16, '0');
+                    var macAddr = Program.GetMacAddr();
 
                     if (!dw.CheckIfMacRegisterLimitExceeds(macAddr))
                     {
                         if (dw.CreateAccount(username,password,macAddr))
                         {
                             MessageBox.Show("注册成功！");
+                            DBWrapper adw = new DBWrapper("launcher");
+                            adw.RecordGameAccountCreated(username);
                             regStatus = true;
                         }
                     }

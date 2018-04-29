@@ -7,25 +7,21 @@ namespace ATGate
 {
     class DBWrapper
     {
-        DBConnect db;
-        public DBWrapper() {
-            db = new DBConnect();
-        }
+        private DBConnect db;
 
-        //Not needed
-        public bool CheckIfAccountExist(string account) {
+        public DBWrapper(string schema) {
+            if (schema.Equals("default"))
+            {
+                db = new DBConnect("dl_adb_all");
+            }
+            else if (schema.Equals("launcher"))
+            {
+                db = new DBConnect("launcher");
+            }
             
-            DataTable dt = db.Select("SELECT * from account where account = \"" + account + "\";");
-            if (dt.Rows.Count == 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
         }
 
+        //Not Tested
         public bool CheckIfMacRegisterLimitExceeds(string macAddr)
         {
 
@@ -97,6 +93,68 @@ namespace ATGate
             Tuple<string, string> encrypt = new Tuple<string, string>(encytPass,checksum);
 
             return encrypt;
+        }
+
+        public bool CreateAccountRecord() {
+
+            string statement = "INSERT into account values('"+ Program.qq +"','"+ DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "')";
+
+            Console.WriteLine(statement);
+
+            if (db.InsertNoException(statement) != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateAccountLog(string ipAddr, string macAddr, string launcherVersion)
+        {
+            string uuid = Guid.NewGuid().ToString().Replace("-", "");
+            string statement = "INSERT into log values(" +
+                                "'" + uuid + "'," +
+                                "'" + Program.qq + "'," +
+                                "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
+                                "'"+ launcherVersion +"'," +
+                                "'"+ ipAddr +"'," +
+                                "'"+ macAddr +"'" +
+                                ")"; ;
+
+            Console.WriteLine(statement);
+
+            if (db.InsertNoException(statement) != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool RecordGameAccountCreated(string account)
+        {
+            string uuid = Guid.NewGuid().ToString().Replace("-", "");
+            string statement = "INSERT into game_account_log values(" +
+                                "'" + uuid + "'," +
+                                "'" + Program.qq + "'," +
+                                "'" + account + "'," +
+                                "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+                                ")"; ;
+
+            Console.WriteLine(statement);
+
+            if (db.InsertNoException(statement) != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

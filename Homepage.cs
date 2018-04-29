@@ -68,6 +68,8 @@ namespace ATGate
 
             if (status)
             {
+                DBWrapper adw = new DBWrapper("launcher");
+                adw.UpdateAccountLog(Program.GetIpAddr(),Program.GetMacAddr(),Application.ProductVersion);
                 Console.WriteLine("Game Started, Ending Launcher.");
                 Application.Exit();
             }
