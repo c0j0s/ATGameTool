@@ -11,21 +11,15 @@ namespace ATGate
     {
         private MySqlConnection connection;
         private string server;
-        private string database;
         private string uid;
         private string password;
 
-        public DBConnect() {
-#if DEBUG
-            server = "localhost";
-            uid = "root";
-            password = "mysql";
-#else
+        public DBConnect(string database) {
+
             server = "47.106.10.242";
             uid = "root";
             password = "Jbc@database";
-#endif
-            database = "dl_adb_all";
+
             string connectionString;
             connectionString = "SERVER=" + server + ";" + "DATABASE=" +
             database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
@@ -103,6 +97,31 @@ namespace ATGate
                             MessageBox.Show("注册失败，请联系管理员。QQ:1097808560");
                             break;
                     }
+                }
+                this.CloseConnection();
+                return status;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public int InsertNoException(string value)
+        {
+            //Open connection
+            if (this.OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(value, connection);
+                int status = 0;
+                try
+                {
+                    status = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
                 this.CloseConnection();
                 return status;

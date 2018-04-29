@@ -25,6 +25,8 @@ namespace ATGate
             qqLogonPanel.Navigate(uri);
             WebBrowserNavigatedEventHandler handle = new WebBrowserNavigatedEventHandler(Wb_urlChange_Handler);
             qqLogonPanel.Navigated += handle;
+            CancelEventHandler newWinHandle = new CancelEventHandler(Wb_NewWindow);
+            qqLogonPanel.NewWindow += newWinHandle;
             
         }
 
@@ -38,6 +40,7 @@ namespace ATGate
                 case "qun":
                     qqLogonPanel.Visible = false;
                     loadingPanel.Visible = true;
+                    ExtractQQ();
                     Uri uri = new Uri("http://bbs.qun.qq.com/forumdisplay?gId=649967463");
                     qqLogonPanel.Navigate(uri);
                     Console.WriteLine("login success");
@@ -52,6 +55,8 @@ namespace ATGate
                     //is a member
                     logonStatus.Text = "成员验证通过";
                     verifiedStatus = true;
+                    DBWrapper adw = new DBWrapper("launcher");
+                    adw.CreateAccountRecord();
                     this.Close();
                     break;
                 case "qm.":
@@ -62,10 +67,35 @@ namespace ATGate
            
         }
 
-        private void requestMembership_Click(object sender, EventArgs e)
+        private void GetQQ()
+        {
+            Uri uri = new Uri("https://user.qzone.qq.com");
+            qqLogonPanel.Navigate(uri);
+        }
+
+        private void ExtractQQ() {
+            try
+            {
+                string cookie = qqLogonPanel.Document.Cookie;
+                string[] split = cookie.Split(';');
+                string qq = split[0].Substring(10);
+                Program.qq = Int32.Parse(qq);
+            }
+            catch (NullReferenceException)
+            {
+                Program.qq = 0;
+            }
+        }
+
+        private void RequestMembership_Click(object sender, EventArgs e)
         {
             Uri uri = new Uri("http://qm.qq.com/cgi-bin/qm/qr?k=2VkJJskQw_SgcwBytKS0pq_qrWUoPcTk");
             qqLogonPanel.Navigate(uri);
+        }
+
+        private void Wb_NewWindow(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
         }
     }
 }

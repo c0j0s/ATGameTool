@@ -106,7 +106,7 @@
             this.requestMembership.TabIndex = 8;
             this.requestMembership.Text = "申请加群";
             this.requestMembership.UseVisualStyleBackColor = false;
-            this.requestMembership.Click += new System.EventHandler(this.requestMembership_Click);
+            this.requestMembership.Click += new System.EventHandler(this.RequestMembership_Click);
             // 
             // QQLogon
             // 
