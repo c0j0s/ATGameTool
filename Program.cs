@@ -36,12 +36,15 @@ namespace ATGate
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
+                WriteDlls();
+
+                Application.Run(new Homepage());
+
                 QQLogon qLogon = new QQLogon();
                 Application.Run(qLogon);
 
                 if (qLogon.verifiedStatus)
                 {
-                    WriteDlls();
                     Application.Run(new Homepage());
                 }
 
@@ -51,8 +54,9 @@ namespace ATGate
 
         static void WriteDlls() {
            
-            if (!File.Exists(@Directory.GetCurrentDirectory() + "/MySql.Data.dll"))
+            if (File.Exists(@Directory.GetCurrentDirectory() + "/MySql.Data.dll"))
             {
+                File.Delete(@Directory.GetCurrentDirectory() + "/MySql.Data.dll");
                 File.WriteAllBytes("MySql.Data.dll", Properties.Resources.MySql_Data);
             }
         }
@@ -71,15 +75,8 @@ namespace ATGate
 
         public static string GetIpAddr()
         {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    return ip.ToString();
-                }
-            }
-            throw new Exception("No network adapters with an IPv4 address in the system!");
+            string externalip = new WebClient().DownloadString("http://icanhazip.com");
+            return externalip;
         }
     }
 

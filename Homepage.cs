@@ -93,14 +93,6 @@ namespace ATGate
             Check_server_status();
         }
 
-        private async Task DoWorkAsyncCheckServerStatus()
-        {
-            while (true)
-            {
-                Check_server_status();
-                await Task.Delay(5000);
-            }
-        }
 
         private void Check_server_status()
         {
