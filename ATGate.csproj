@@ -183,8 +183,5 @@
   <ItemGroup>
     <None Include="src\icon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="lib\mysql.data.xp.dll" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
