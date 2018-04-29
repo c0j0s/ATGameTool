@@ -25,8 +25,6 @@ namespace ATGate
             qqLogonPanel.Navigate(uri);
             WebBrowserNavigatedEventHandler handle = new WebBrowserNavigatedEventHandler(Wb_urlChange_Handler);
             qqLogonPanel.Navigated += handle;
-            CancelEventHandler newWinHandle = new CancelEventHandler(Wb_NewWindow);
-            qqLogonPanel.NewWindow += newWinHandle;
             
         }
 
@@ -91,11 +89,6 @@ namespace ATGate
         {
             Uri uri = new Uri("http://qm.qq.com/cgi-bin/qm/qr?k=2VkJJskQw_SgcwBytKS0pq_qrWUoPcTk");
             qqLogonPanel.Navigate(uri);
-        }
-
-        private void Wb_NewWindow(object sender, CancelEventArgs e)
-        {
-            e.Cancel = true;
         }
     }
 }
