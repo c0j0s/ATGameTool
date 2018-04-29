@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.NetworkInformation;
-using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -17,7 +15,6 @@ namespace ATGate
     static class Program
     {
         public static string server_ip = "47.106.10.242";
-        public static int qq = 0;
 
         /// <summary>
         /// The main entry point for the application.
@@ -44,7 +41,7 @@ namespace ATGate
                     WriteDlls();
                     Application.Run(new Homepage());
                 }
-
+                
             }
 
         }
@@ -55,31 +52,6 @@ namespace ATGate
             {
                 File.WriteAllBytes("MySql.Data.dll", Properties.Resources.MySql_Data);
             }
-        }
-
-        public static string GetMacAddr() {
-            var macAddr =
-                    (
-                        from nic in NetworkInterface.GetAllNetworkInterfaces()
-                        where nic.OperationalStatus == OperationalStatus.Up
-                        select nic.GetPhysicalAddress().ToString()
-                    ).FirstOrDefault();
-
-            macAddr = macAddr.PadLeft(16, '0');
-            return macAddr;
-        }
-
-        public static string GetIpAddr()
-        {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    return ip.ToString();
-                }
-            }
-            throw new Exception("No network adapters with an IPv4 address in the system!");
         }
     }
 
