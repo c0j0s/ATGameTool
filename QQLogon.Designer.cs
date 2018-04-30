@@ -31,10 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QQLogon));
             this.qqLogonPanel = new System.Windows.Forms.WebBrowser();
             this.loadingPanel = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.logonStatusInfo = new System.Windows.Forms.Label();
-            this.logonStatus = new System.Windows.Forms.Label();
             this.requestMembership = new System.Windows.Forms.Button();
+            this.logonStatus = new System.Windows.Forms.Label();
+            this.logonStatusInfo = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.loadingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -54,6 +54,7 @@
             // 
             // loadingPanel
             // 
+            this.loadingPanel.BackColor = System.Drawing.SystemColors.Window;
             this.loadingPanel.Controls.Add(this.requestMembership);
             this.loadingPanel.Controls.Add(this.logonStatus);
             this.loadingPanel.Controls.Add(this.logonStatusInfo);
@@ -64,15 +65,28 @@
             this.loadingPanel.TabIndex = 2;
             this.loadingPanel.Visible = false;
             // 
-            // pictureBox1
+            // requestMembership
             // 
-            this.pictureBox1.BackgroundImage = global::ATGate.Properties.Resources.background;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(464, 264);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.requestMembership.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.requestMembership.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.requestMembership.Enabled = false;
+            this.requestMembership.FlatAppearance.BorderSize = 0;
+            this.requestMembership.Location = new System.Drawing.Point(12, 299);
+            this.requestMembership.Name = "requestMembership";
+            this.requestMembership.Size = new System.Drawing.Size(100, 30);
+            this.requestMembership.TabIndex = 8;
+            this.requestMembership.Text = "申请加群";
+            this.requestMembership.UseVisualStyleBackColor = false;
+            this.requestMembership.Click += new System.EventHandler(this.RequestMembership_Click);
+            // 
+            // logonStatus
+            // 
+            this.logonStatus.AutoSize = true;
+            this.logonStatus.Location = new System.Drawing.Point(182, 274);
+            this.logonStatus.Name = "logonStatus";
+            this.logonStatus.Size = new System.Drawing.Size(66, 15);
+            this.logonStatus.TabIndex = 2;
+            this.logonStatus.Text = "Checking...";
             // 
             // logonStatusInfo
             // 
@@ -85,33 +99,22 @@
             this.logonStatusInfo.TabIndex = 1;
             this.logonStatusInfo.Text = "检查账号是否是群成员中:";
             // 
-            // logonStatus
+            // pictureBox1
             // 
-            this.logonStatus.AutoSize = true;
-            this.logonStatus.Location = new System.Drawing.Point(182, 274);
-            this.logonStatus.Name = "logonStatus";
-            this.logonStatus.Size = new System.Drawing.Size(66, 15);
-            this.logonStatus.TabIndex = 2;
-            this.logonStatus.Text = "Checking...";
-            // 
-            // requestMembership
-            // 
-            this.requestMembership.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.requestMembership.BackColor = System.Drawing.SystemColors.Control;
-            this.requestMembership.Enabled = false;
-            this.requestMembership.FlatAppearance.BorderSize = 0;
-            this.requestMembership.Location = new System.Drawing.Point(12, 299);
-            this.requestMembership.Name = "requestMembership";
-            this.requestMembership.Size = new System.Drawing.Size(100, 30);
-            this.requestMembership.TabIndex = 8;
-            this.requestMembership.Text = "申请加群";
-            this.requestMembership.UseVisualStyleBackColor = false;
-            this.requestMembership.Click += new System.EventHandler(this.RequestMembership_Click);
+            this.pictureBox1.BackgroundImage = global::ATGate.Properties.Resources.background;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(464, 264);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // QQLogon
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Window;
+            this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(384, 341);
             this.Controls.Add(this.loadingPanel);
             this.Controls.Add(this.qqLogonPanel);
@@ -121,7 +124,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "QQLogon";
-            this.Text = "逍遥问道启动器";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = this.ProductName;
             this.loadingPanel.ResumeLayout(false);
             this.loadingPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

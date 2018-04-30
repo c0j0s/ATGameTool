@@ -70,8 +70,9 @@ namespace ATGate
             // btn_start_game
             // 
             this.btn_start_game.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_start_game.BackColor = System.Drawing.SystemColors.Control;
+            this.btn_start_game.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.btn_start_game.FlatAppearance.BorderSize = 0;
+            this.btn_start_game.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btn_start_game.Location = new System.Drawing.Point(372, 159);
             this.btn_start_game.Name = "btn_start_game";
             this.btn_start_game.Size = new System.Drawing.Size(100, 30);
@@ -83,7 +84,7 @@ namespace ATGate
             // btn_register
             // 
             this.btn_register.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_register.BackColor = System.Drawing.SystemColors.Control;
+            this.btn_register.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.btn_register.FlatAppearance.BorderSize = 0;
             this.btn_register.Location = new System.Drawing.Point(372, 195);
             this.btn_register.Name = "btn_register";
@@ -96,7 +97,7 @@ namespace ATGate
             // btn_about
             // 
             this.btn_about.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_about.BackColor = System.Drawing.SystemColors.Control;
+            this.btn_about.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.btn_about.FlatAppearance.BorderSize = 0;
             this.btn_about.Location = new System.Drawing.Point(372, 231);
             this.btn_about.Name = "btn_about";
@@ -125,7 +126,7 @@ namespace ATGate
             this.MinimizeBox = false;
             this.Name = "Homepage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "逍遥问道启动器";
+            this.Text = this.ProductName;
             ((System.ComponentModel.ISupportInitialize)(this.serverStatusLight)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

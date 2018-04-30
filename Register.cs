@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Data;
-using System.Linq;
-using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ATGate
@@ -10,63 +8,75 @@ namespace ATGate
     public partial class Register : Form
     {
 
-        bool regStatus = false;
+        Task<bool> regStatus;
 
         public Register()
         {
             InitializeComponent();
         }
 
-        public bool RegStatus { get => regStatus; set => regStatus = value; }
-
-        private void Btn_register_Click(object sender, EventArgs e)
+        private async void Btn_register_Click(object sender, EventArgs e)
         {
-            
+
+            EnableControls(false);
+
             string username = tb_username.Text;
             string password = tb_password.Text;
 
             if (!username.Equals("") && !password.Equals("")) //field not empty
             {
-                //check username duplication
-                DBWrapper dw = new DBWrapper("default");
                 if (password.Length > 3) //password length > 3
                 {
 
-                    var macAddr = Program.GetMacAddr();
-
-                    if (!dw.CheckIfMacRegisterLimitExceeds(macAddr))
-                    {
-                        if (dw.CreateAccount(username,password,macAddr))
-                        {
-                            MessageBox.Show("注册成功！");
-                            DBWrapper adw = new DBWrapper("launcher");
-                            adw.RecordGameAccountCreated(username);
-                            regStatus = true;
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("该电脑已超过注册数限制，请联系管理员。QQ:1097808560");
-                    }
+                    DBWrapper dw = new DBWrapper("default");
+                    regStatus = await Task.Factory.StartNew(() => dw.CreateAccountWithMacVerificationAsync(username, password));
                 }
                 else
                 {
                     MessageBox.Show("密码过短。");
                 }
-                //MessageBox.Show("用户名已存在！");
                 
             }
             else
             {
                 MessageBox.Show("请输入用户名与密码。");
             }
-
-            if (RegStatus)
+            try
             {
-                this.Close();
+                if (regStatus.Result)
+                {
+                    this.Close();
+                }
+                else
+                {
+                    EnableControls(true);
+                }
             }
+            catch (NullReferenceException)
+            {
+                EnableControls(true);
+            }
+
         }
 
+        private void EnableControls(bool enable) {
+            if (enable)
+            {
+                btn_register.Enabled = true;
+                btn_register.UseWaitCursor = false;
+                tb_username.Enabled = true;
+                tb_password.Enabled = true;
+                btn_register.Text = "注册";
+            }
+            else
+            {
+                btn_register.Enabled = false;
+                btn_register.UseWaitCursor = true;
+                tb_username.Enabled = false;
+                tb_password.Enabled = false;
+                btn_register.Text = "注册中";
+            }
+        }
 
         private void Tb_username_KeyPress(object sender, KeyPressEventArgs e)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CrashReporterDotNET;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -25,6 +26,9 @@ namespace ATGate
         [STAThread]
         static void Main()
         {
+            Application.ThreadException += ApplicationThreadException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+
             using (Mutex mutex = new Mutex(false, "Global\\1a25711f-a9dd-412b-8a93-82a7e2c3def8"))
             {
                 if (!mutex.WaitOne(0, false))
@@ -36,29 +40,25 @@ namespace ATGate
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                WriteDlls();
-
-                Application.Run(new Homepage());
+                var watch = System.Diagnostics.Stopwatch.StartNew();
 
                 QQLogon qLogon = new QQLogon();
                 Application.Run(qLogon);
 
+                watch.Stop();
+
                 if (qLogon.verifiedStatus)
                 {
+                    CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(),1);
                     Application.Run(new Homepage());
+                }
+                else
+                {
+                    CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(), 0);
                 }
 
             }
 
-        }
-
-        static void WriteDlls() {
-           
-            if (File.Exists(@Directory.GetCurrentDirectory() + "/MySql.Data.dll"))
-            {
-                File.Delete(@Directory.GetCurrentDirectory() + "/MySql.Data.dll");
-                File.WriteAllBytes("MySql.Data.dll", Properties.Resources.MySql_Data);
-            }
         }
 
         public static string GetMacAddr() {
@@ -77,6 +77,35 @@ namespace ATGate
         {
             string externalip = new WebClient().DownloadString("http://icanhazip.com");
             return externalip;
+        }
+
+
+        private static async Task CreateAccountRecordAsync(string timeTaken,int loginSuccess)
+        {
+
+            Console.WriteLine("Login Time:" + timeTaken + " " + loginSuccess);
+            DBWrapper adw = new DBWrapper("launcher");
+            await Task.Factory.StartNew(() => adw.CreateAccountRecord(timeTaken,loginSuccess,GetIpAddr(),GetMacAddr(),Application.ProductVersion));
+        }
+
+        private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
+        {
+            ReportCrash((Exception)unhandledExceptionEventArgs.ExceptionObject);
+            Environment.Exit(0);
+        }
+
+        private static void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
+        {
+            ReportCrash(e.Exception);
+        }
+
+        public static void ReportCrash(Exception exception, string developerMessage = "")
+        {
+            var reportCrash = new ReportCrash("1097808560@qq.com")
+            {
+                DeveloperMessage = developerMessage
+            };
+            reportCrash.Send(exception);
         }
     }
 

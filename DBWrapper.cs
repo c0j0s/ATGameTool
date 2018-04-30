@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Data;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ATGate
 {
@@ -26,7 +29,7 @@ namespace ATGate
         {
 
             DataTable dt = db.Select("SELECT first_login_mac from account where first_login_mac = \"" + macAddr + "\";");
-            if (dt.Rows.Count > 5)
+            if (dt.Rows.Count >= 5)
             {
                 return true;
             }
@@ -35,6 +38,29 @@ namespace ATGate
                 return false;
             }
         }
+
+        public async Task<bool> CreateAccountWithMacVerificationAsync(string username, string password)
+        {
+            bool regStatus = false;
+            var macAddr = Program.GetMacAddr();
+
+            if (!CheckIfMacRegisterLimitExceeds(macAddr))
+            {
+                if (CreateAccount(username, password, macAddr))
+                {
+                    MessageBox.Show("注册成功！");
+                    DBWrapper adw = new DBWrapper("launcher");
+                    await Task.Factory.StartNew(() => adw.RecordGameAccountCreated(username));
+                    regStatus = true;
+                }
+            }
+            else
+            {
+                MessageBox.Show("该电脑已超过注册数限制，请联系管理员。QQ:1097808560");
+            }
+            return regStatus;
+        }
+
 
         public bool CreateAccount(string account, string password,string macAddr)
         {
@@ -95,20 +121,24 @@ namespace ATGate
             return encrypt;
         }
 
-        public bool CreateAccountRecord() {
+        public void CreateAccountRecord(string timeTaken, int loginSuccess, string ipAddr, string macAddr, string launcherVersion) {
 
+            string uuid = Guid.NewGuid().ToString().Replace("-", "");
             string statement = "INSERT into account values('"+ Program.qq +"','"+ DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "')";
-
+            string loginLogStatement = "INSERT into login_log values('"+ uuid +"'," +
+                                                                    "'" + Program.qq + "'," + 
+                                                                    "'" + timeTaken +"'," +
+                                                                    "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',"+ 
+                                                                    "'" + loginSuccess + "'," +
+                                                                    "'" + launcherVersion + "'," +
+                                                                    "'" + ipAddr + "'," +
+                                                                    "'" + macAddr + "'" +
+                                                                    ")";
             Console.WriteLine(statement);
-
-            if (db.InsertNoException(statement) != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            Console.WriteLine(loginLogStatement);
+            db.InsertNoException(loginLogStatement);
+            db.InsertNoException(statement);
+            
         }
 
         public bool UpdateAccountLog(string ipAddr, string macAddr, string launcherVersion)
@@ -156,5 +186,6 @@ namespace ATGate
                 return false;
             }
         }
+
     }
 }
