@@ -36,6 +36,7 @@ namespace ATGate
             }
             catch (MySqlException ex)
             {
+                Program.LogException(ex);
                 switch (ex.Number)
                 {
                     case 0:
@@ -48,8 +49,9 @@ namespace ATGate
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Program.LogException(e);
                 MessageBox.Show("发生错误，请重试。");
             }
             return false;
@@ -67,6 +69,7 @@ namespace ATGate
             }
             catch (MySqlException ex)
             {
+                Program.LogException(ex);
                 MessageBox.Show(ex.Message);
                 return false;
             }
@@ -87,7 +90,7 @@ namespace ATGate
                 }
                 catch (MySqlException ex)
                 {
-                    Console.WriteLine(ex.Number);
+                    Program.LogException(ex);
                     switch (ex.Number)
                     {
                         case 1062:

@@ -187,5 +187,31 @@ namespace ATGate
             }
         }
 
+        public bool SentHandleExceptionLog(string ipAddr, string macAddr, string launcherVersion,string message,string osVersion) {
+            string uuid = Guid.NewGuid().ToString().Replace("-", "");
+            string statement = "INSERT into launcher_exception_log values(" +
+                    "'" + uuid + "'," +
+                    "'" + Program.qq + "'," +
+                    "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
+                    "'" + launcherVersion + "'," +
+                    "'" + ipAddr + "'," +
+                    "'" + macAddr + "'," +
+                    "'" + message + "'," +
+                    "'" + osVersion + "'" +
+                    ")"; ;
+
+
+            Console.WriteLine(statement);
+
+            if (db.InsertNoException(statement) != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

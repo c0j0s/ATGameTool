@@ -30,6 +30,7 @@ namespace ATGate
                     Console.WriteLine("Instance already running");
                     return;
                 }
+                
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -43,7 +44,7 @@ namespace ATGate
 
                 if (qLogon.verifiedStatus)
                 {
-                    CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(),1);
+                    CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(), 1);
                     Application.Run(new Homepage());
                 }
                 else
@@ -76,10 +77,22 @@ namespace ATGate
 
         private static async Task CreateAccountRecordAsync(string timeTaken,int loginSuccess)
         {
+            try
+            {
+                Console.WriteLine("Login Time:" + timeTaken + " " + loginSuccess);
+                DBWrapper adw = new DBWrapper("launcher");
+                await Task.Factory.StartNew(() => adw.CreateAccountRecord(timeTaken, loginSuccess, GetIpAddr(), GetMacAddr(), Application.ProductVersion));
+            }
+            catch (Exception e)
+            {
+                await Task.Factory.StartNew(() => LogException(e));
+            }
+        }
 
-            Console.WriteLine("Login Time:" + timeTaken + " " + loginSuccess);
+        public static void LogException(Exception e)
+        {
             DBWrapper adw = new DBWrapper("launcher");
-            await Task.Factory.StartNew(() => adw.CreateAccountRecord(timeTaken,loginSuccess,GetIpAddr(),GetMacAddr(),Application.ProductVersion));
+            adw.SentHandleExceptionLog(GetIpAddr(), GetMacAddr(), Application.ProductVersion, e.StackTrace.ToString(), Environment.OSVersion.ToString());
         }
 
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)

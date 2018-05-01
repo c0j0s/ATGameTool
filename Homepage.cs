@@ -46,7 +46,6 @@ namespace ATGate
             else
             {
                 StartProcessSimplify(absPath, CommandLine);
-                //StartProcessTraditional(absPath, CommandLine);
             }
         }
 
@@ -90,7 +89,7 @@ namespace ATGate
 
         private void Server_status_Click(object sender, EventArgs e)
         {
-            Check_server_status();
+            Task.Factory.StartNew(() => Check_server_status());
         }
 
 
@@ -105,8 +104,9 @@ namespace ATGate
                 Change_server_status_light(server_status);
                 Console.WriteLine("Server online? " + server_status);
             }
-            catch (PingException)
+            catch (PingException ex)
             {
+                Program.LogException(ex);
                 Console.WriteLine("Fail to ping server");
             }
         }
