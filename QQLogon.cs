@@ -1,14 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ATGate
@@ -59,9 +49,15 @@ namespace ATGate
                 case "qm.":
                     qqLogonPanel.Visible = true;
                     loadingPanel.Visible = false;
+                    System.Threading.Timer t = new System.Threading.Timer(TimerC, null, 5000, 5000);
                     break;
             }
            
+        }
+
+        private void TimerC(object state)
+        {
+            Environment.Exit(0);
         }
 
         private void ExtractQQ() {
