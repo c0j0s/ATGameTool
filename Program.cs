@@ -1,8 +1,14 @@
 ﻿using CrashReporterDotNET;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -34,22 +40,22 @@ namespace ATGate
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                //var watch = System.Diagnostics.Stopwatch.StartNew();
+                var watch = System.Diagnostics.Stopwatch.StartNew();
 
-                //QQLogon qLogon = new QQLogon();
-                //Application.Run(qLogon);
+                QQLogon qLogon = new QQLogon();
+                Application.Run(qLogon);
 
-                //watch.Stop();
+                watch.Stop();
 
-                //if (qLogon.verifiedStatus)
-                //{
-                    CreateAccountRecordAsync("0",1);
+                if (qLogon.verifiedStatus)
+                {
+                    CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(),1);
                     Application.Run(new Homepage());
-                //}
-                //else
-                //{
-                //    CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(), 0);
-                //}
+                }
+                else
+                {
+                    CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(), 0);
+                }
 
             }
 
