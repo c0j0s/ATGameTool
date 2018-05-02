@@ -31,24 +31,39 @@ namespace ATGate
                     return;
                 }
 
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-
-                var watch = System.Diagnostics.Stopwatch.StartNew();
-
-                QQLogon qLogon = new QQLogon();
-                Application.Run(qLogon);
-
-                watch.Stop();
-
-                if (qLogon.verifiedStatus)
+                try
                 {
-                    CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(), 1);
-                    Application.Run(new Homepage());
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+
+                    var watch = System.Diagnostics.Stopwatch.StartNew();
+
+                    QQLogon qLogon = new QQLogon();
+                    Application.Run(qLogon);
+
+                    watch.Stop();
+
+                    if (qLogon.verifiedStatus)
+                    {
+                        CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(), 1);
+                        Application.Run(new Homepage());
+                    }
+                    else
+                    {
+                        CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(), 0);
+                    }
+
                 }
-                else
+                catch (System.IO.FileLoadException e)
                 {
-                    CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(), 0);
+                    if (MessageBox.Show(
+                            "访问" + Properties.Resources.dotNet_update_link + Environment.NewLine + "下载更新 .Net 架构后重试。", "请更新 .Net 架构", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk
+                        ) == DialogResult.Yes)
+                    {
+                        System.Diagnostics.Process.Start(Properties.Resources.dotNet_update_link);
+                        LogException(e);
+                        Environment.Exit(0);
+                    }
                 }
 
             }
@@ -85,14 +100,7 @@ namespace ATGate
             }
             catch (Exception e)
             {
-                if (MessageBox.Show(
-                        "访问" + Properties.Resources.dotNet_update_link + Environment.NewLine + "下载更新 .Net 架构后重试。", "请更新 .Net 架构", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk
-                    ) == DialogResult.Yes)
-                {
-                    System.Diagnostics.Process.Start(Properties.Resources.dotNet_update_link);
-                }
                 LogException(e);
-                Environment.Exit(0);
             } 
         }
 
