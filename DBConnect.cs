@@ -10,9 +10,6 @@ namespace ATGate
     class DBConnect
     {
         private MySqlConnection connection;
-        private string server;
-        private string uid;
-        private string password;
 
         public DBConnect(string database) {
 

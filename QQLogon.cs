@@ -57,6 +57,7 @@ namespace ATGate
 
         private void TimerC(object state)
         {
+            MessageBox.Show("QQ群验证通过后重启重试。", "申请加群");
             Environment.Exit(0);
         }
 

@@ -35,11 +35,10 @@ namespace ATGate
                 result = MessageBox.Show(this, message, caption, buttons,
                     MessageBoxIcon.Error, MessageBoxDefaultButton.Button1,
                     MessageBoxOptions.RightAlign);
-
+                
                 if (result == DialogResult.OK)
                 {
-                    this.Close();
-                    Application.Exit();
+                    Environment.Exit(0);
                 }
 
             }
@@ -77,7 +76,7 @@ namespace ATGate
         private void Btn_about_Click(object sender, EventArgs e)
         {
             AboutBox aboutBox = new AboutBox();
-            aboutBox.Show();
+            aboutBox.ShowDialog(this);
         }
 
 
