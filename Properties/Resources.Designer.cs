@@ -61,6 +61,24 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 987884557.
+        /// </summary>
+        internal static string admin_qq {
+            get {
+                return ResourceManager.GetString("admin_qq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to des:1B8E503A3BEFF909F50D908D6D53EEC26F10C662A39AC98425BFA4218DDBE81C4C196C772872AD4D4FA5C505CAC3E8D3948F59491F059B19D31CBC09FD257696D5CE934F044323E501C14D98F424DAD7233839407A1872FB.
+        /// </summary>
+        internal static string asktao_des {
+            get {
+                return ResourceManager.GetString("asktao_des", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap background {
@@ -71,12 +89,75 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 1097808560@qq.com.
+        /// </summary>
+        internal static string crash_report_email {
+            get {
+                return ResourceManager.GetString("crash_report_email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to launcherlogin.
+        /// </summary>
+        internal static string db_passwd {
+            get {
+                return ResourceManager.GetString("db_passwd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to launcher.
+        /// </summary>
+        internal static string db_uid {
+            get {
+                return ResourceManager.GetString("db_uid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.microsoft.com/zh-CN/download/details.aspx?id=29053.
+        /// </summary>
+        internal static string dotNet_update_link {
+            get {
+                return ResourceManager.GetString("dotNet_update_link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://icanhazip.com.
+        /// </summary>
+        internal static string get_ip_link {
+            get {
+                return ResourceManager.GetString("get_ip_link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon icon {
             get {
                 object obj = ResourceManager.GetObject("icon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 649967463.
+        /// </summary>
+        internal static string qq_group {
+            get {
+                return ResourceManager.GetString("qq_group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 47.106.10.242.
+        /// </summary>
+        internal static string server_ip {
+            get {
+                return ResourceManager.GetString("server_ip", resourceCulture);
             }
         }
         

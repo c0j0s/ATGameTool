@@ -11,7 +11,7 @@ namespace ATGate
 {
     static class Program
     {
-        public static string server_ip = "47.106.10.242";
+        public static string server_ip = Properties.Resources.server_ip;
         public static int qq = 0;
 
         /// <summary>
@@ -27,10 +27,9 @@ namespace ATGate
             {
                 if (!mutex.WaitOne(0, false))
                 {
-                    Console.WriteLine("Instance already running");
+                    MessageBox.Show("启动器已运行",Application.ProductName, MessageBoxButtons.OK,MessageBoxIcon.Asterisk);
                     return;
                 }
-                
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -70,7 +69,7 @@ namespace ATGate
 
         public static string GetIpAddr()
         {
-            string externalip = new WebClient().DownloadString("http://icanhazip.com");
+            string externalip = new WebClient().DownloadString(Properties.Resources.get_ip_link);
             return externalip;
         }
 
@@ -82,17 +81,25 @@ namespace ATGate
                 Console.WriteLine("Login Time:" + timeTaken + " " + loginSuccess);
                 DBWrapper adw = new DBWrapper("launcher");
                 await Task.Factory.StartNew(() => adw.CreateAccountRecord(timeTaken, loginSuccess, GetIpAddr(), GetMacAddr(), Application.ProductVersion));
+                
             }
             catch (Exception e)
             {
-                await Task.Factory.StartNew(() => LogException(e));
-            }
+                if (MessageBox.Show(
+                        "访问" + Properties.Resources.dotNet_update_link + Environment.NewLine + "下载更新 .Net 架构后重试。", "请更新 .Net 架构", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk
+                    ) == DialogResult.Yes)
+                {
+                    System.Diagnostics.Process.Start(Properties.Resources.dotNet_update_link);
+                }
+                LogException(e);
+                Environment.Exit(0);
+            } 
         }
 
         public static void LogException(Exception e)
         {
             DBWrapper adw = new DBWrapper("launcher");
-            adw.SentHandleExceptionLog(GetIpAddr(), GetMacAddr(), Application.ProductVersion, e.StackTrace.ToString(), Environment.OSVersion.ToString());
+            adw.SentHandleExceptionLog(GetIpAddr(), GetMacAddr(), Application.ProductVersion, e.ToString(), Environment.OSVersion.ToString());
         }
 
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
@@ -108,7 +115,7 @@ namespace ATGate
 
         public static void ReportCrash(Exception exception, string developerMessage = "")
         {
-            var reportCrash = new ReportCrash("1097808560@qq.com")
+            var reportCrash = new ReportCrash(Properties.Resources.crash_report_email)
             {
                 DeveloperMessage = developerMessage
             };

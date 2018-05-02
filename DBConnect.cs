@@ -16,13 +16,9 @@ namespace ATGate
 
         public DBConnect(string database) {
 
-            server = "47.106.10.242";
-            uid = "root";
-            password = "Jbc@database";
-
             string connectionString;
-            connectionString = "SERVER=" + server + ";" + "DATABASE=" +
-            database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
+            connectionString = "SERVER=" + Properties.Resources.server_ip + ";" + "DATABASE=" +
+            database + ";" + "UID=" + Properties.Resources.db_uid + ";" + "PASSWORD=" + Properties.Resources.db_passwd + ";";
             connection = new MySqlConnection(connectionString);
         }
 
@@ -40,7 +36,7 @@ namespace ATGate
                 switch (ex.Number)
                 {
                     case 0:
-                        MessageBox.Show("数据库未连接，请联系管理员。QQ:1097808560");
+                        MessageBox.Show("数据库未连接，请联系管理员。QQ:" + Properties.Resources.admin_qq);
                         break;
 
                     case 1045:
@@ -97,7 +93,7 @@ namespace ATGate
                             MessageBox.Show("用户名已注册！");
                             break;
                         default:
-                            MessageBox.Show("注册失败，请联系管理员。QQ:1097808560");
+                            MessageBox.Show("注册失败，请联系管理员。QQ:" + Properties.Resources.admin_qq);
                             break;
                     }
                 }

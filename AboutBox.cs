@@ -48,7 +48,7 @@ namespace ATGate
             get
             {
               
-                return "A Custom Launcher for Asktao Game. "  + Environment.NewLine + Environment.NewLine + "Author: " + Environment.NewLine + "CJS QQ1097808560" + Environment.NewLine +  Environment.NewLine +  "Credit: " + Environment.NewLine + "xupefei http://pooi.moe/Locale-Emulator/";
+                return "A Custom Launcher for Asktao Game. "  + Environment.NewLine + Environment.NewLine + "管理员:" + Environment.NewLine + Properties.Resources.admin_qq + Environment.NewLine +  Environment.NewLine +  "QQ群: " + Properties.Resources.qq_group;
             }
         }
 

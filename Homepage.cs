@@ -22,7 +22,7 @@ namespace ATGate
             #else
                 string absPath = @Directory.GetCurrentDirectory() + "/asktao.mod";
             #endif
-            string CommandLine = "des:1B8E503A3BEFF909F50D908D6D53EEC26F10C662A39AC98425BFA4218DDBE81C4C196C772872AD4D4FA5C505CAC3E8D3948F59491F059B19D31CBC09FD257696D5CE934F044323E501C14D98F424DAD7233839407A1872FB";
+            string CommandLine = Properties.Resources.asktao_des;
 
 
             if (!File.Exists(absPath))
