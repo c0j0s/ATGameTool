@@ -20,72 +20,111 @@ namespace ATGate
         [STAThread]
         static void Main()
         {
-            Application.ThreadException += ApplicationThreadException;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+            InitilizeProgram();
 
-            using (Mutex mutex = new Mutex(false, "Global\\1a25711f-a9dd-412b-8a93-82a7e2c3def8"))
+            bool createdNew = true;
+            using (Mutex mutex = new Mutex(false, Application.ProductName, out createdNew))
             {
-                if (!mutex.WaitOne(0, false))
+                if (!createdNew)
                 {
-                    MessageBox.Show("启动器已运行",Application.ProductName, MessageBoxButtons.OK,MessageBoxIcon.Asterisk);
+                    MessageBox.Show("启动器已运行", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     return;
                 }
-
-                try
+                else
                 {
-                    Application.EnableVisualStyles();
-                    Application.SetCompatibleTextRenderingDefault(false);
-
-                    var watch = System.Diagnostics.Stopwatch.StartNew();
-
-                    QQLogon qLogon = new QQLogon();
-                    Application.Run(qLogon);
-
-                    watch.Stop();
-
-                    if (qLogon.verifiedStatus)
+                    try
                     {
-                        CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(), 1);
+#if NeedVerify
+                        if (StartVerification())
+                        {
+                            Application.Run(new Homepage());
+                        }
+                        else
+                        {
+                            Environment.Exit(0);
+                        }
+#else
                         Application.Run(new Homepage());
+#endif
                     }
-                    else
+                    catch (System.IO.FileLoadException e)
                     {
-                        CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(), 0);
-                    }
-
-                }
-                catch (System.IO.FileLoadException e)
-                {
-                    if (MessageBox.Show(
-                            "访问" + Properties.Resources.dotNet_update_link + Environment.NewLine + "下载更新 .Net 架构后重试。", "请更新 .Net 架构", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk
-                        ) == DialogResult.Yes)
-                    {
-                        System.Diagnostics.Process.Start(Properties.Resources.dotNet_update_link);
+                        PromptUpdateDotNet();
                         LogException(e);
-                        Environment.Exit(0);
                     }
                 }
+            }
+        }
 
+        public static void InitilizeProgram() {
+
+            Application.ThreadException += ApplicationThreadException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+            Application.ApplicationExit += ApplicationExitHandler;
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+        }
+
+        public static bool StartVerification() {
+
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
+            QQLogon qLogon = new QQLogon();
+            Application.Run(qLogon);
+
+            watch.Stop();
+            CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(), qLogon.verifiedStatus ? 1 : 0);
+
+            return qLogon.verifiedStatus;
+        }
+
+        public static void PromptUpdateDotNet() {
+
+            if (MessageBox.Show(
+                    "访问" + Properties.Resources.dotNet_update_link + Environment.NewLine + "下载更新 .Net 架构后重试。", "请更新 .Net 架构", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk
+                ) == DialogResult.Yes)
+            {
+                System.Diagnostics.Process.Start(Properties.Resources.dotNet_update_link);
+                Environment.Exit(0);
             }
 
         }
 
         public static string GetMacAddr() {
-            var macAddr =
-                    (
-                        from nic in NetworkInterface.GetAllNetworkInterfaces()
-                        where nic.OperationalStatus == OperationalStatus.Up
-                        select nic.GetPhysicalAddress().ToString()
-                    ).FirstOrDefault();
+            try
+            {
+                var macAddr =
+                (
+                    from nic in NetworkInterface.GetAllNetworkInterfaces()
+                    where nic.OperationalStatus == OperationalStatus.Up
+                    select nic.GetPhysicalAddress().ToString()
+                ).FirstOrDefault();
 
-            macAddr = macAddr.PadLeft(16, '0');
-            return macAddr;
+                macAddr = macAddr.PadLeft(16, '0');
+                return macAddr;
+            }
+            catch (Exception)
+            {
+                return "GetMacFail";
+            }
+
         }
 
         public static string GetIpAddr()
         {
-            string externalip = new WebClient().DownloadString(Properties.Resources.get_ip_link);
-            return externalip;
+            try
+            {
+                WebClient wb = new WebClient();
+                string externalip = wb.DownloadString(Properties.Resources.get_ip_link);
+                wb.Dispose();
+                return externalip;
+            }
+            catch (Exception)
+            {
+                return "GetIPFail";
+            }
+
         }
 
 
@@ -123,11 +162,14 @@ namespace ATGate
 
         public static void ReportCrash(Exception exception, string developerMessage = "")
         {
-            var reportCrash = new ReportCrash(Properties.Resources.crash_report_email)
-            {
-                DeveloperMessage = developerMessage
-            };
+            var reportCrash = new ReportCrash(Properties.Resources.crash_report_email);
             reportCrash.Send(exception);
+        }
+
+        private static void ApplicationExitHandler(object sender, EventArgs e)
+        {
+            //run all jobs
+            //Commit database
         }
     }
 
