@@ -41,6 +41,10 @@
             // 
             this.btn_register.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_register.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btn_register.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btn_register.FlatAppearance.BorderSize = 3;
+            this.btn_register.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.btn_register.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_register.Location = new System.Drawing.Point(12, 125);
             this.btn_register.Name = "btn_register";
             this.btn_register.Size = new System.Drawing.Size(100, 30);
@@ -51,6 +55,7 @@
             // 
             // tb_username
             // 
+            this.tb_username.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tb_username.Location = new System.Drawing.Point(12, 27);
             this.tb_username.Name = "tb_username";
             this.tb_username.Size = new System.Drawing.Size(176, 23);
@@ -113,7 +118,7 @@
             this.Controls.Add(this.tb_username);
             this.Controls.Add(this.btn_register);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;

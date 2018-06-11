@@ -42,15 +42,15 @@ namespace ATGate
         public async Task<bool> CreateAccountWithMacVerificationAsync(string username, string password)
         {
             bool regStatus = false;
-            var macAddr = Program.GetMacAddr();
+            var macAddr = ATGateUtil.GetMacAddr();
 
             if (!CheckIfMacRegisterLimitExceeds(macAddr))
             {
                 if (CreateAccount(username, password, macAddr))
                 {
                     MessageBox.Show("注册成功！");
-                    DBWrapper adw = new DBWrapper("launcher");
-                    await Task.Factory.StartNew(() => adw.RecordGameAccountCreated(username));
+                    //DBWrapper adw = new DBWrapper("launcher");
+                    //await Task.Factory.StartNew(() => adw.RecordGameAccountCreated(username));
                     regStatus = true;
                 }
             }
@@ -84,7 +84,7 @@ namespace ATGate
                 "'"+ checksum +"', '', '', '', '', " +
                 "'', '', '', '0', '', " +
                 "'0', '0', '', '', '', " +
-                "'"+ timeStamp + "', '');";
+                "'"+ timeStamp + "', '');COMMIT;";
 
             if (db.Insert(statement) != 0)
             {
@@ -121,97 +121,97 @@ namespace ATGate
             return encrypt;
         }
 
-        public void CreateAccountRecord(string timeTaken, int loginSuccess, string ipAddr, string macAddr, string launcherVersion) {
+        //public void CreateAccountRecord(string timeTaken, int loginSuccess, string ipAddr, string macAddr, string launcherVersion) {
 
-            string uuid = Guid.NewGuid().ToString().Replace("-", "");
-            string statement = "INSERT into account values('"+ Program.qq +"','"+ DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "')";
-            string loginLogStatement = "INSERT into login_log values('"+ uuid +"'," +
-                                                                    "'" + Program.qq + "'," + 
-                                                                    "'" + timeTaken +"'," +
-                                                                    "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',"+ 
-                                                                    "'" + loginSuccess + "'," +
-                                                                    "'" + launcherVersion + "'," +
-                                                                    "'" + ipAddr + "'," +
-                                                                    "'" + macAddr + "'" +
-                                                                    ")";
-            Console.WriteLine(statement);
-            Console.WriteLine(loginLogStatement);
-            db.InsertNoException(loginLogStatement);
-            db.InsertNoException(statement);
+        //    string uuid = Guid.NewGuid().ToString().Replace("-", "");
+        //    string statement = "INSERT into account values('"+ Program.qq +"','"+ DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "');";
+        //    string loginLogStatement = "INSERT into login_log values('"+ uuid +"'," +
+        //                                                            "'" + Program.qq + "'," + 
+        //                                                            "'" + timeTaken +"'," +
+        //                                                            "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',"+ 
+        //                                                            "'" + loginSuccess + "'," +
+        //                                                            "'" + launcherVersion + "'," +
+        //                                                            "'" + ipAddr + "'," +
+        //                                                            "'" + macAddr + "'" +
+        //                                                            ");";
+        //    Console.WriteLine(statement);
+        //    Console.WriteLine(loginLogStatement);
+        //    db.InsertNoException(loginLogStatement);
+        //    db.InsertNoException(statement);
             
-        }
+        //}
 
-        public bool UpdateAccountLog(string ipAddr, string macAddr, string launcherVersion)
-        {
-            string uuid = Guid.NewGuid().ToString().Replace("-", "");
-            string statement = "INSERT into log values(" +
-                                "'" + uuid + "'," +
-                                "'" + Program.qq + "'," +
-                                "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
-                                "'"+ launcherVersion +"'," +
-                                "'"+ ipAddr +"'," +
-                                "'"+ macAddr +"'" +
-                                ")"; ;
+        //public bool UpdateAccountLog(string ipAddr, string macAddr, string launcherVersion)
+        //{
+        //    string uuid = Guid.NewGuid().ToString().Replace("-", "");
+        //    string statement = "INSERT into log values(" +
+        //                        "'" + uuid + "'," +
+        //                        "'" + Program.qq + "'," +
+        //                        "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
+        //                        "'"+ launcherVersion +"'," +
+        //                        "'"+ ipAddr +"'," +
+        //                        "'"+ macAddr +"'" +
+        //                        ");"; 
 
-            Console.WriteLine(statement);
+        //    Console.WriteLine(statement);
 
-            if (db.InsertNoException(statement) != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //    if (db.InsertNoException(statement) != 0)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
-        public bool RecordGameAccountCreated(string account)
-        {
-            string uuid = Guid.NewGuid().ToString().Replace("-", "");
-            string statement = "INSERT into game_account_log values(" +
-                                "'" + uuid + "'," +
-                                "'" + Program.qq + "'," +
-                                "'" + account + "'," +
-                                "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-                                ")"; ;
+        //public bool RecordGameAccountCreated(string account)
+        //{
+        //    string uuid = Guid.NewGuid().ToString().Replace("-", "");
+        //    string statement = "INSERT into game_account_log values(" +
+        //                        "'" + uuid + "'," +
+        //                        "'" + Program.qq + "'," +
+        //                        "'" + account + "'," +
+        //                        "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+        //                        ")"; ;
 
-            Console.WriteLine(statement);
+        //    Console.WriteLine(statement);
 
-            if (db.InsertNoException(statement) != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //    if (db.InsertNoException(statement) != 0)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
-        public bool SentHandleExceptionLog(string ipAddr, string macAddr, string launcherVersion,string message,string osVersion) {
-            string uuid = Guid.NewGuid().ToString().Replace("-", "");
-            string statement = "INSERT into launcher_exception_log values(" +
-                    "'" + uuid + "'," +
-                    "'" + Program.qq + "'," +
-                    "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
-                    "'" + launcherVersion + "'," +
-                    "'" + ipAddr + "'," +
-                    "'" + macAddr + "'," +
-                    "'" + message + "'," +
-                    "'" + osVersion + "'" +
-                    ")"; ;
+        //public bool SentHandleExceptionLog(string ipAddr, string macAddr, string launcherVersion,string message,string osVersion) {
+        //    string uuid = Guid.NewGuid().ToString().Replace("-", "");
+        //    string statement = "INSERT into launcher_exception_log values(" +
+        //            "'" + uuid + "'," +
+        //            "'" + Program.qq + "'," +
+        //            "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
+        //            "'" + launcherVersion + "'," +
+        //            "'" + ipAddr + "'," +
+        //            "'" + macAddr + "'," +
+        //            "'" + message + "'," +
+        //            "'" + osVersion + "'" +
+        //            ")"; ;
 
 
-            Console.WriteLine(statement);
+        //    Console.WriteLine(statement);
 
-            if (db.InsertNoException(statement) != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //    if (db.InsertNoException(statement) != 0)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
     }
 }

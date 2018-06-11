@@ -186,8 +186,10 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="ATGateUtil.cs" />
     <Compile Include="DBConnect.cs" />
     <Compile Include="DBWrapper.cs" />
+    <Compile Include="HandleStartGame.cs" />
     <Compile Include="Homepage.cs">
       <SubType>Form</SubType>
     </Compile>

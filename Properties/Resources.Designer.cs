@@ -89,6 +89,15 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 1.
+        /// </summary>
+        internal static string collect_data {
+            get {
+                return ResourceManager.GetString("collect_data", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 1097808560@qq.com.
         /// </summary>
         internal static string crash_report_email {
@@ -153,11 +162,20 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 47.106.10.242.
+        ///   Looks up a localized string similar to 112.74.183.167.
         /// </summary>
         internal static string server_ip {
             get {
                 return ResourceManager.GetString("server_ip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 问道一区.
+        /// </summary>
+        internal static string server_name {
+            get {
+                return ResourceManager.GetString("server_name", resourceCulture);
             }
         }
         

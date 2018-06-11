@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Net.NetworkInformation;
-using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,64 +12,74 @@ namespace ATGate
         public Homepage()
         {
             InitializeComponent();
-            Check_server_status();
+            bool status = ATGateUtil.CheckServerStatus();
+            Change_server_status_light(status);
+            //GetNoticeBoard();
         }
 
-        private void Btn_start_game_Click(object sender, EventArgs e)
+        private void GetNoticeBoard()
+        {
+            List<string> items = new List<string>();
+            items.Add("hi");
+            lb_notice_board.DataSource = items;
+        }
+
+        private async void Btn_start_game_Click(object sender, EventArgs e)
         {
             #if DEBUG
                 string absPath = @"C:\Users\User\Desktop\微端1.6\asktao.mod";
             #else
                 string absPath = @Directory.GetCurrentDirectory() + "/asktao.mod";
             #endif
-            string CommandLine = Properties.Resources.asktao_des;
+                string CommandLine = Properties.Resources.asktao_des;
 
 
             if (!File.Exists(absPath))
             {
-                string message = "请检查游戏文件。";
-                string caption = "未找到游戏";
-                MessageBoxButtons buttons = MessageBoxButtons.OK;
-                DialogResult result;
-
-                result = MessageBox.Show(this, message, caption, buttons,
-                    MessageBoxIcon.Error, MessageBoxDefaultButton.Button1,
-                    MessageBoxOptions.RightAlign);
-                
-                if (result == DialogResult.OK)
-                {
-                    Environment.Exit(0);
-                }
-
+                ATGateUtil.HandleGameNotFound();
             }
             else
             {
-                StartProcessSimplify(absPath, CommandLine);
-            }
-        }
+                bool status = false;
+                
+                if (Environment.OSVersion.Version.Major.Equals(5))
+                {
+                    await Task.Factory.StartNew(() =>
+                    {
+                        status = HandleStartGame.StartProcessByCmd();
+                    });
+                }
+                else 
+                {
+                    await Task.Factory.StartNew(() =>
+                    {
+                        status = HandleStartGame.StartProcessSimplify(absPath, CommandLine);
+                    });
+                }
 
-        private void StartProcessSimplify(string absPath, string cmd)
-        {
-            STARTUPINFO si = new STARTUPINFO();
-            PROCESS_INFORMATION pi = new PROCESS_INFORMATION();
-            bool status = CreateProcess(
-                absPath, 
-                cmd, 
-                IntPtr.Zero, 
-                IntPtr.Zero, 
-                false, 
-                0, 
-                IntPtr.Zero,
-                Path.GetDirectoryName(absPath), 
-                ref si, 
-                out pi);
+                if (status)
+                {
+                    btn_start_game.Enabled = false;
+                    btn_register.Enabled = false;
+                    btn_about.Enabled = false;
+                    lb_startGameStatus.Visible = true;
+                    server_status.Enabled = false;
 
-            if (status)
-            {
-                DBWrapper adw = new DBWrapper("launcher");
-                adw.UpdateAccountLog(Program.GetIpAddr(),Program.GetMacAddr(),Application.ProductVersion);
-                Console.WriteLine("Game Started, Ending Launcher.");
-                Application.Exit();
+                    await Task.Factory.StartNew(() =>
+                    {
+                        Thread.Sleep(3000);
+                        Console.WriteLine("Game Started, Ending Launcher.");
+                        Environment.Exit(0);
+                    });
+                }
+                else {
+                    server_status.Enabled = true;
+                    btn_start_game.Enabled = true;
+                    btn_register.Enabled = true;
+                    btn_about.Enabled = true;
+                    lb_startGameStatus.Visible = false;
+                }
+
             }
         }
 
@@ -86,28 +96,14 @@ namespace ATGate
             register.ShowDialog(this);
         }
 
-        private void Server_status_Click(object sender, EventArgs e)
+        private async void Server_status_Click(object sender, EventArgs e)
         {
-            Task.Factory.StartNew(() => Check_server_status());
-        }
-
-
-        private void Check_server_status()
-        {
-            Ping pinger = new Ping();
-            try
-            {
-                Boolean server_status = false;
-                PingReply reply = pinger.Send(Program.server_ip);
-                server_status = reply.Status == IPStatus.Success;
-                Change_server_status_light(server_status);
-                Console.WriteLine("Server online? " + server_status);
-            }
-            catch (PingException ex)
-            {
-                Program.LogException(ex);
-                Console.WriteLine("Fail to ping server");
-            }
+            bool status = false;
+            await Task.Factory.StartNew(() => {
+                status = ATGateUtil.CheckServerStatus();
+             });
+            Console.WriteLine(status);
+            Change_server_status_light(status);
         }
 
         private void Change_server_status_light(Boolean online)
@@ -121,67 +117,17 @@ namespace ATGate
             {
                 server_status.Text = "服务器未连接";
                 serverStatusLight.Image = Properties.Resources.server_offline;
+                ToolTip tt = new ToolTip();
+                tt.SetToolTip(server_status, "点击此处可更新状态");
             }
-            #if DEBUG
+#if DEBUG
             btn_start_game.Enabled = true;
-            #else
+            btn_register.Enabled = true;
+#else
             btn_start_game.Enabled = online;
-            #endif
+            btn_register.Enabled = online;
+#endif
         }
-
-        [DllImport("kernel32.dll")]
-        static extern bool CreateProcess(
-            string lpApplicationName,
-            string lpCommandLine,
-            IntPtr lpProcessAttributes,
-            IntPtr lpThreadAttributes,
-            bool bInheritHandles,
-            uint dwCreationFlags,
-            IntPtr lpEnvironment,
-            string lpCurrentDirectory,
-            ref STARTUPINFO lpStartupInfo,
-            out PROCESS_INFORMATION lpProcessInformation);
-
-
-        public struct PROCESS_INFORMATION
-        {
-            public IntPtr hProcess;
-            public IntPtr hThread;
-            public uint dwProcessId;
-            public uint dwThreadId;
-        }
-
-        public struct STARTUPINFO
-        {
-            public uint cb;
-            public string lpReserved;
-            public string lpDesktop;
-            public string lpTitle;
-            public uint dwX;
-            public uint dwY;
-            public uint dwXSize;
-            public uint dwYSize;
-            public uint dwXCountChars;
-            public uint dwYCountChars;
-            public uint dwFillAttribute;
-            public uint dwFlags;
-            public short wShowWindow;
-            public short cbReserved2;
-            public IntPtr lpReserved2;
-            public IntPtr hStdInput;
-            public IntPtr hStdOutput;
-            public IntPtr hStdError;
-        }
-
-
-
-        public struct SECURITY_ATTRIBUTES
-        {
-            public int length;
-            public IntPtr lpSecurityDescriptor;
-            public bool bInheritHandle;
-        }
-
 
     }
 }

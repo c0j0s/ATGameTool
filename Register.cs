@@ -17,32 +17,31 @@ namespace ATGate
 
         private async void Btn_register_Click(object sender, EventArgs e)
         {
-
-            EnableControls(false);
-
-            string username = tb_username.Text;
-            string password = tb_password.Text;
-
-            if (!username.Equals("") && !password.Equals("")) //field not empty
+            try
             {
-                if (password.Length > 3) //password length > 3
-                {
+                EnableControls(false);
 
-                    DBWrapper dw = new DBWrapper("default");
-                    regStatus = await Task.Factory.StartNew(() => dw.CreateAccountWithMacVerificationAsync(username, password));
+                string username = tb_username.Text;
+                string password = tb_password.Text;
+
+                if (!username.Equals("") && !password.Equals("")) //field not empty
+                {
+                    if (password.Length > 3) //password length > 3
+                    {
+                        DBWrapper dw = new DBWrapper("default");
+                        regStatus = await Task.Factory.StartNew(() => dw.CreateAccountWithMacVerificationAsync(username, password));
+                    }
+                    else
+                    {
+                        MessageBox.Show("密码过短。");
+                    }
+
                 }
                 else
                 {
-                    MessageBox.Show("密码过短。");
+                    MessageBox.Show("请输入用户名与密码。");
                 }
-                
-            }
-            else
-            {
-                MessageBox.Show("请输入用户名与密码。");
-            }
-            try
-            {
+
                 if (regStatus.Result)
                 {
                     this.Close();
@@ -52,11 +51,14 @@ namespace ATGate
                     EnableControls(true);
                 }
             }
-            catch (NullReferenceException)
+            catch (System.IO.FileLoadException)
             {
-                EnableControls(true);
+                ATGateUtil.HandleDotNetException();
             }
-
+            catch (NullReferenceException) {
+                MessageBox.Show("无法注册请重试");
+                this.Close();
+            }
         }
 
         private void EnableControls(bool enable) {

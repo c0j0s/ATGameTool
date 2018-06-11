@@ -155,6 +155,12 @@
     <value>649967463</value>
   </data>
   <data name="server_ip" xml:space="preserve">
-    <value>47.106.10.242</value>
+    <value>112.74.183.167</value>
+  </data>
+  <data name="collect_data" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="server_name" xml:space="preserve">
+    <value>问道一区</value>
   </data>
 </root>

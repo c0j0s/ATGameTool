@@ -29,7 +29,6 @@ namespace ATGate
             }
             catch (MySqlException ex)
             {
-                Program.LogException(ex);
                 switch (ex.Number)
                 {
                     case 0:
@@ -42,9 +41,8 @@ namespace ATGate
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Program.LogException(e);
                 MessageBox.Show("发生错误，请重试。");
             }
             return false;
@@ -62,7 +60,6 @@ namespace ATGate
             }
             catch (MySqlException ex)
             {
-                Program.LogException(ex);
                 MessageBox.Show(ex.Message);
                 return false;
             }
@@ -83,7 +80,6 @@ namespace ATGate
                 }
                 catch (MySqlException ex)
                 {
-                    Program.LogException(ex);
                     switch (ex.Number)
                     {
                         case 1062:
@@ -126,18 +122,6 @@ namespace ATGate
             {
                 return 0;
             }
-        }
-
-        //Update statement
-        public void Update()
-        {
-
-        }
-
-        //Delete statement
-        public void Delete()
-        {
-
         }
 
         //Select statement
