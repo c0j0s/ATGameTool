@@ -8,13 +8,13 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("逍遥问道启动器")]
+[assembly: AssemblyTitle("问道登入器")]
 [assembly: AssemblyDescription("A Custom Luancher for AskTao")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("CJS")]
-[assembly: AssemblyProduct("逍遥问道启动器 ")]
+[assembly: AssemblyProduct("问道登入器")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("CJS")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -36,7 +36,7 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 // MajorVersion.ClientVersion.NeedVerify?.BuildVersion:
-[assembly: AssemblyVersion("1.0.0.000")]
-[assembly: AssemblyFileVersion("1.0.0.000")]
+[assembly: AssemblyVersion("1.1.0.000")]
+[assembly: AssemblyFileVersion("1.1.0.000")]
 [assembly: NeutralResourcesLanguage("zh-CN")]
 

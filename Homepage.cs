@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,19 +10,88 @@ namespace ATGate
 {
     public partial class Homepage : Form
     {
+        private Button serverRefreashBtn = new Button();
+        private int selectedServer;
+        private List<Server> serverList = new List<Server> {
+            new Server("新区","47.88.175.74"),
+            new Server("旧区","112.74.183.167"),
+        };
+
         public Homepage()
         {
             InitializeComponent();
-            bool status = ATGateUtil.CheckServerStatus();
-            Change_server_status_light(status);
-            //GetNoticeBoard();
         }
 
-        private void GetNoticeBoard()
+        private void Homepage_Load(object sender, EventArgs e)
         {
-            List<string> items = new List<string>();
-            items.Add("hi");
-            lb_notice_board.DataSource = items;
+            ListViewItem[] lvs = new ListViewItem[serverList.Count];
+
+            for (int index = 0; index < serverList.Count; index++)
+            {
+                lvs[index] = new ListViewItem(new string[] { serverList[index].Name + " - 服务器" + serverList[index].Status, "" });
+            }
+
+            lv_serverlist.Items.AddRange(lvs);
+
+            serverRefreashBtn.Visible = true;
+            serverRefreashBtn.Text = "更新状态";
+            serverRefreashBtn.Font = new Font(serverRefreashBtn.Font.FontFamily, 9);
+            serverRefreashBtn.Click += UpdateServerStatus;
+            lv_serverlist.Controls.Add(serverRefreashBtn);
+            serverRefreashBtn.Size = new Size(lv_serverlist.Items[0].SubItems[1].Bounds.Width,
+            lv_serverlist.Items[0].SubItems[1].Bounds.Height);
+            lv_serverlist.Items[0].Selected = true;
+            lv_serverlist.Select();
+
+            GetInitServerStatus();
+        }
+
+        private void GetInitServerStatus()
+        {
+            for (int index = 0; index < serverList.Count; index++)
+            {
+                if (ATGateUtil.CheckServerStatus(serverList[index].Ip))
+                {
+                    serverList[index].Status = "已连接";
+                }
+                else {
+                    serverList[index].Status = "未连接";
+                }
+                
+                lv_serverlist.Items[index].SubItems[0].Text = serverList[index].Name + " - 服务器" + serverList[index].Status;
+            }
+        }
+
+        private void Lv_serverlist_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListViewItem[] lvs = new ListViewItem[2];
+            if (lv_serverlist.SelectedItems.Count > 0)
+            {
+                serverRefreashBtn.Location = new Point(lv_serverlist.SelectedItems[0].SubItems[1].Bounds.Left, lv_serverlist.SelectedItems[0].SubItems[1].Bounds.Top);
+                serverRefreashBtn.Visible = true;
+                selectedServer = lv_serverlist.SelectedItems[0].Index;
+                Console.WriteLine(selectedServer);
+            }
+        }
+
+        private async void UpdateServerStatus(object sender, EventArgs e) {
+            selectedServer = lv_serverlist.SelectedIndices[0];
+
+            int index = selectedServer;
+            await Task.Factory.StartNew(() =>
+            {
+                if (ATGateUtil.CheckServerStatus(serverList[index].Ip))
+                {
+                    serverList[index].Status = "已连接";
+                }
+                else
+                {
+                    serverList[index].Status = "未连接";
+                }
+            });
+            Console.WriteLine(serverList[index].Status);
+            lv_serverlist.Items[index].SubItems[0].Text = serverList[index].Name + " - 服务器" + serverList[index].Status;
+            Console.WriteLine(index);
         }
 
         private async void Btn_start_game_Click(object sender, EventArgs e)
@@ -33,6 +103,11 @@ namespace ATGate
             #endif
                 string CommandLine = Properties.Resources.asktao_des;
 
+            if (!CheckServerStatus()) {
+                return;
+            }
+            Console.WriteLine("Starting Game" + selectedServer);
+            Server server = serverList[selectedServer];
 
             if (!File.Exists(absPath))
             {
@@ -42,20 +117,20 @@ namespace ATGate
             {
                 bool status = false;
                 
-                if (Environment.OSVersion.Version.Major.Equals(5))
-                {
+                //if (Environment.OSVersion.Version.Major.Equals(5))
+                //{
                     await Task.Factory.StartNew(() =>
                     {
-                        status = HandleStartGame.StartProcessByCmd();
+                        status = HandleStartGame.StartProcessByCmd(server);
                     });
-                }
-                else 
-                {
-                    await Task.Factory.StartNew(() =>
-                    {
-                        status = HandleStartGame.StartProcessSimplify(absPath, CommandLine);
-                    });
-                }
+                //}
+                //else 
+                //{
+                //    await Task.Factory.StartNew(() =>
+                //    {
+                //        status = HandleStartGame.StartProcessSimplify(absPath, CommandLine);
+                //    });
+                //}
 
                 if (status)
                 {
@@ -63,7 +138,6 @@ namespace ATGate
                     btn_register.Enabled = false;
                     btn_about.Enabled = false;
                     lb_startGameStatus.Visible = true;
-                    server_status.Enabled = false;
 
                     await Task.Factory.StartNew(() =>
                     {
@@ -73,7 +147,6 @@ namespace ATGate
                     });
                 }
                 else {
-                    server_status.Enabled = true;
                     btn_start_game.Enabled = true;
                     btn_register.Enabled = true;
                     btn_about.Enabled = true;
@@ -89,45 +162,30 @@ namespace ATGate
             aboutBox.ShowDialog(this);
         }
 
-
         private void Btn_register_Click(object sender, EventArgs e)
         {
+            if (!CheckServerStatus())
+            {
+                return;
+            }
+
             Register register = new Register();
             register.ShowDialog(this);
         }
 
-        private async void Server_status_Click(object sender, EventArgs e)
+        private void lb_serverlist_title_Click(object sender, EventArgs e)
         {
-            bool status = false;
-            await Task.Factory.StartNew(() => {
-                status = ATGateUtil.CheckServerStatus();
-             });
-            Console.WriteLine(status);
-            Change_server_status_light(status);
+
         }
 
-        private void Change_server_status_light(Boolean online)
+        private bool CheckServerStatus()
         {
-            if (online)
+            if (serverList[selectedServer].Status.Equals("未连接"))
             {
-                server_status.Text = "服务器已连接";
-                serverStatusLight.Image = Properties.Resources.server_online;
+                MessageBox.Show("服务器未连接，请更新状态或选择其他分区。", "服务器未连接");
+                return false;
             }
-            else
-            {
-                server_status.Text = "服务器未连接";
-                serverStatusLight.Image = Properties.Resources.server_offline;
-                ToolTip tt = new ToolTip();
-                tt.SetToolTip(server_status, "点击此处可更新状态");
-            }
-#if DEBUG
-            btn_start_game.Enabled = true;
-            btn_register.Enabled = true;
-#else
-            btn_start_game.Enabled = online;
-            btn_register.Enabled = online;
-#endif
+            return true;
         }
-
     }
 }

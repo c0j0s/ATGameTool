@@ -95,13 +95,13 @@ namespace ATGate
         /*
          * Check if server online
          */
-        public static bool CheckServerStatus()
+        public static bool CheckServerStatus(string ip)
         {
             try
             {
                 Ping pinger = new Ping();
                 Boolean server_status = false;
-                PingReply reply = pinger.Send(Properties.Resources.server_ip);
+                PingReply reply = pinger.Send(ip);
                 server_status = reply.Status == IPStatus.Success;
                 Console.WriteLine("Server online? " + server_status);
                 return server_status;

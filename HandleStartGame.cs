@@ -25,13 +25,16 @@ namespace ATGate
             return status;
         }
 
-        public static bool StartProcessByCmd()
+        public static bool StartProcessByCmd(Server server)
         {
+            Console.WriteLine(server.CmdString);
             Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = "/C start asktao.mod " + Properties.Resources.server_name + ";" + Properties.Resources.server_ip + ";8101;kbd:0;swictch:0;paroxy:0;flag:;uncheck";
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                WindowStyle = ProcessWindowStyle.Hidden,
+                FileName = "cmd.exe",
+                Arguments = server.CmdString
+            };
             process.StartInfo = startInfo;
             bool status = process.Start();
             return status;
