@@ -30,7 +30,7 @@ namespace ATGate
         public string Port { get => port; set => port = value; }
 
         public string CmdString {
-            get => "/C start asktao.mod 问道一区;" + this.ip + ";"+Port+";kbd:0;swictch:0;paroxy:0;flag:;uncheck";
+            get => "/C start asktao.mod " + this.name + ";" + this.ip + ";"+Port+";kbd:0;swictch:0;paroxy:0;flag:;uncheck";
             set => cmdString = value;
         }
         public string Status { get => status; set => status = value; }
