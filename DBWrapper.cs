@@ -12,16 +12,15 @@ namespace ATGate
     {
         private DBConnect db;
 
-        public DBWrapper(string schema) {
+        public DBWrapper(string server_ip, string schema) {
             if (schema.Equals("default"))
             {
-                db = new DBConnect("dl_adb_all");
+                db = new DBConnect(server_ip,"dl_adb_all");
             }
             else if (schema.Equals("launcher"))
             {
-                db = new DBConnect("launcher");
+                db = new DBConnect(server_ip,"launcher");
             }
-            
         }
 
         //Not Tested

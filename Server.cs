@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ATGate
 {
-    class Server
+    public class Server
     {
         private string name;
         private string ip;
@@ -13,6 +13,7 @@ namespace ATGate
         private string port;
         private string cmdString;
         private string status;
+        private string delay;
 
         public Server(string name, string ip) {
             this.name = name;
@@ -34,5 +35,6 @@ namespace ATGate
             set => cmdString = value;
         }
         public string Status { get => status; set => status = value; }
+        public string Delay { get => delay+"ms"; set => delay = value; }
     }
 }

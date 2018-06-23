@@ -95,22 +95,23 @@ namespace ATGate
         /*
          * Check if server online
          */
-        public static bool CheckServerStatus(string ip)
+        public static Tuple<bool, string> CheckServerStatus(string ip)
         {
             try
             {
                 Ping pinger = new Ping();
                 Boolean server_status = false;
                 PingReply reply = pinger.Send(ip);
+                Console.WriteLine("reply.RoundtripTime: " + reply.RoundtripTime);
                 server_status = reply.Status == IPStatus.Success;
                 Console.WriteLine("Server online? " + server_status);
-                return server_status;
+                return new Tuple<bool, string>(server_status, reply.RoundtripTime.ToString());
             }
             catch (PingException)
             {
                 Console.WriteLine("Fail to ping server");
             }
-            return false;
+            return new Tuple<bool, string>(false,"0");
         }
 
         public static void HandleGameNotFound() {

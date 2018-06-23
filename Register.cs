@@ -7,12 +7,13 @@ namespace ATGate
 {
     public partial class Register : Form
     {
-
+        private string server_ip;
         Task<bool> regStatus;
 
-        public Register()
+        public Register(Server server)
         {
             InitializeComponent();
+            server_ip = server.Ip;
         }
 
         private async void Btn_register_Click(object sender, EventArgs e)
@@ -28,7 +29,7 @@ namespace ATGate
                 {
                     if (password.Length > 3) //password length > 3
                     {
-                        DBWrapper dw = new DBWrapper("default");
+                        DBWrapper dw = new DBWrapper(server_ip, "default");
                         regStatus = await Task.Factory.StartNew(() => dw.CreateAccountWithMacVerificationAsync(username, password));
                     }
                     else

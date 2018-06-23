@@ -28,7 +28,7 @@ namespace ATGate
 
             for (int index = 0; index < serverList.Count; index++)
             {
-                lvs[index] = new ListViewItem(new string[] { serverList[index].Name + " - 服务器" + serverList[index].Status, "" });
+                lvs[index] = new ListViewItem(new string[] { serverList[index].Name + " - 服务器" + serverList[index].Status, "0ms","" });
             }
 
             lv_serverlist.Items.AddRange(lvs);
@@ -38,8 +38,8 @@ namespace ATGate
             serverRefreashBtn.Font = new Font(serverRefreashBtn.Font.FontFamily, 9);
             serverRefreashBtn.Click += UpdateServerStatus;
             lv_serverlist.Controls.Add(serverRefreashBtn);
-            serverRefreashBtn.Size = new Size(lv_serverlist.Items[0].SubItems[1].Bounds.Width,
-            lv_serverlist.Items[0].SubItems[1].Bounds.Height);
+            serverRefreashBtn.Size = new Size(lv_serverlist.Items[0].SubItems[2].Bounds.Width,
+            lv_serverlist.Items[0].SubItems[2].Bounds.Height);
             lv_serverlist.Items[0].Selected = true;
             lv_serverlist.Select();
 
@@ -50,15 +50,17 @@ namespace ATGate
         {
             for (int index = 0; index < serverList.Count; index++)
             {
-                if (ATGateUtil.CheckServerStatus(serverList[index].Ip))
+                Tuple<bool, string> tuple = ATGateUtil.CheckServerStatus(serverList[index].Ip);
+                if (tuple.Item1)
                 {
                     serverList[index].Status = "已连接";
                 }
                 else {
                     serverList[index].Status = "未连接";
                 }
-                
-                lv_serverlist.Items[index].SubItems[0].Text = serverList[index].Name + " - 服务器" + serverList[index].Status;
+                serverList[index].Delay = tuple.Item2;
+                lv_serverlist.Items[index].SubItems[1].Text = serverList[index].Delay;
+                lv_serverlist.Items[index].SubItems[0].Text = serverList[index].Name + " - " + serverList[index].Status;
             }
         }
 
@@ -67,7 +69,7 @@ namespace ATGate
             ListViewItem[] lvs = new ListViewItem[2];
             if (lv_serverlist.SelectedItems.Count > 0)
             {
-                serverRefreashBtn.Location = new Point(lv_serverlist.SelectedItems[0].SubItems[1].Bounds.Left, lv_serverlist.SelectedItems[0].SubItems[1].Bounds.Top);
+                serverRefreashBtn.Location = new Point(lv_serverlist.SelectedItems[0].SubItems[2].Bounds.Left, lv_serverlist.SelectedItems[0].SubItems[2].Bounds.Top);
                 serverRefreashBtn.Visible = true;
                 selectedServer = lv_serverlist.SelectedItems[0].Index;
                 Console.WriteLine(selectedServer);
@@ -80,7 +82,8 @@ namespace ATGate
             int index = selectedServer;
             await Task.Factory.StartNew(() =>
             {
-                if (ATGateUtil.CheckServerStatus(serverList[index].Ip))
+                Tuple<bool,string> tuple = ATGateUtil.CheckServerStatus(serverList[index].Ip);
+                if (tuple.Item1)
                 {
                     serverList[index].Status = "已连接";
                 }
@@ -88,9 +91,10 @@ namespace ATGate
                 {
                     serverList[index].Status = "未连接";
                 }
+                serverList[index].Delay = tuple.Item2;
             });
-            Console.WriteLine(serverList[index].Status);
-            lv_serverlist.Items[index].SubItems[0].Text = serverList[index].Name + " - 服务器" + serverList[index].Status;
+            lv_serverlist.Items[index].SubItems[1].Text = serverList[index].Delay;
+            lv_serverlist.Items[index].SubItems[0].Text = serverList[index].Name + " - " + serverList[index].Status;
             Console.WriteLine(index);
         }
 
@@ -168,8 +172,10 @@ namespace ATGate
             {
                 return;
             }
-
-            Register register = new Register();
+            Console.WriteLine("Register server " + selectedServer);
+            Server server = serverList[selectedServer];
+            Register register = new Register(server);
+            register.Text = server.Name + " - 注册账号";
             register.ShowDialog(this);
         }
 

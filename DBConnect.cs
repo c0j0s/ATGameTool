@@ -11,10 +11,10 @@ namespace ATGate
     {
         private MySqlConnection connection;
 
-        public DBConnect(string database) {
+        public DBConnect(string server_ip, string database) {
 
             string connectionString;
-            connectionString = "SERVER=" + Properties.Resources.server_ip + ";" + "DATABASE=" +
+            connectionString = "SERVER=" + server_ip + ";" + "DATABASE=" +
             database + ";" + "UID=" + Properties.Resources.db_uid + ";" + "PASSWORD=" + Properties.Resources.db_passwd + ";";
             connection = new MySqlConnection(connectionString);
         }

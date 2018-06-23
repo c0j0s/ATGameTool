@@ -40,6 +40,7 @@ namespace ATGate
             this.lv_serverlist = new System.Windows.Forms.ListView();
             this.分区 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.操作 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.延迟 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -139,6 +140,7 @@ namespace ATGate
             this.lv_serverlist.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lv_serverlist.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.分区,
+            this.延迟,
             this.操作});
             this.lv_serverlist.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lv_serverlist.FullRowSelect = true;
@@ -157,13 +159,19 @@ namespace ATGate
             // 分区
             // 
             this.分区.Text = "分区";
-            this.分区.Width = 200;
+            this.分区.Width = 160;
             // 
             // 操作
             // 
             this.操作.Text = "操作";
             this.操作.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.操作.Width = 125;
+            this.操作.Width = 95;
+            // 
+            // 延迟
+            // 
+            this.延迟.Text = "延迟";
+            this.延迟.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.延迟.Width = 70;
             // 
             // Homepage
             // 
@@ -203,6 +211,7 @@ namespace ATGate
         private System.Windows.Forms.ListView lv_serverlist;
         private System.Windows.Forms.ColumnHeader 分区;
         private System.Windows.Forms.ColumnHeader 操作;
+        private System.Windows.Forms.ColumnHeader 延迟;
     }
 }
 
