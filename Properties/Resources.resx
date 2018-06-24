@@ -163,4 +163,10 @@
   <data name="server_online" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\server_online.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="gold_amt" xml:space="preserve">
+    <value>1000000000</value>
+  </data>
+  <data name="silver_amt" xml:space="preserve">
+    <value>1000000000</value>
+  </data>
 </root>

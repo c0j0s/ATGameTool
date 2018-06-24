@@ -70,13 +70,13 @@ namespace ATGate
             Tuple<string,string> encrypt = EncryptPassword(account,password);
             encytPass = encrypt.Item1;
             checksum = encrypt.Item2;
-
+            Console.WriteLine(checksum);
             string statement = 
                 "INSERT INTO account " +
                 " VALUES " +
                 "('"+ account +"', '', '', '', '', " +
-                "'"+ encytPass + "', '', '0', '', '10000000', " +
-                "'0', '0', '', '', '', " +
+                "'"+ encytPass + "', '', '0', '', '"+ Properties.Resources.gold_amt +"', " +
+                "'"+ Properties.Resources.silver_amt +"', '0', '', '', '', " +
                 "'', '', '', '', '', " +
                 "'0', '', '', '"+ macAddr +"', '"+ privilege +"', " +
                 "'', '', '', '', '1', " +
@@ -84,7 +84,7 @@ namespace ATGate
                 "'', '', '', '0', '', " +
                 "'0', '0', '', '', '', " +
                 "'"+ timeStamp + "', '');COMMIT;";
-
+            Console.WriteLine(statement);
             if (db.Insert(statement) != 0)
             {
                 return true;
@@ -109,12 +109,12 @@ namespace ATGate
             output = md5.ComputeHash(result);
             encytPass = BitConverter.ToString(output).Replace("-","").ToUpper();
 
-            checksum = string.Format("{0}{1}{2,8:X8}" + "{3}{4,8:X8}{5,8:X8}" + "{6}{7}{8}" + "{9}{10}" + "ABCDEF",account,encytPass,0,"",10000000,0,"","","","","");
-
+            checksum = string.Format("{0}{1}{2,8:X8}{3}{4,8:X8}{5,8:X8}{6}{7}{8}{9}{10}ABCDEF",account,encytPass,0,"",Int32.Parse(Properties.Resources.gold_amt), Int32.Parse(Properties.Resources.silver_amt),"","","","","");
+            
             result = Encoding.Default.GetBytes(checksum);
             output = md5.ComputeHash(result);
             checksum = BitConverter.ToString(output).Replace("-", "").ToUpper();
-
+            
             Tuple<string, string> encrypt = new Tuple<string, string>(encytPass,checksum);
 
             return encrypt;

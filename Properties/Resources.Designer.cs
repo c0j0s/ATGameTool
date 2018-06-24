@@ -143,6 +143,15 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 1000000000.
+        /// </summary>
+        internal static string gold_amt {
+            get {
+                return ResourceManager.GetString("gold_amt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon icon {
@@ -196,6 +205,15 @@ namespace ATGate.Properties {
             get {
                 object obj = ResourceManager.GetObject("server_online", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1000000000.
+        /// </summary>
+        internal static string silver_amt {
+            get {
+                return ResourceManager.GetString("silver_amt", resourceCulture);
             }
         }
     }
