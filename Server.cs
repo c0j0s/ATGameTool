@@ -22,6 +22,14 @@ namespace ATGate
             this.status = "未连接";
         }
 
+        public Server(string name, string ip, string port)
+        {
+            this.name = name;
+            this.ip = ip;
+            this.port = port;
+            this.status = "未连接";
+        }
+
         public string Name { get => name; set => name = value; }
 
         public string Ip { get => ip; set => ip = value; }
