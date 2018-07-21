@@ -14,7 +14,7 @@ namespace ATGate
         private int selectedServer;
         private List<Server> serverList = new List<Server> {
             new Server("问道二区","47.88.175.74"),
-            new Server("问道一区","112.74.183.167"),
+            new Server("问道一区","112.74.183.7"),
         };
 
         public Homepage()
@@ -48,7 +48,7 @@ namespace ATGate
 
         private void GetInitServerStatus()
         {
-            for (int index = 0; index < serverList.Count; index++)
+            for (int index = 0; index < serverList.Count; index++) 
             {
                 Tuple<bool, string> tuple = ATGateUtil.CheckServerStatus(serverList[index].Ip);
                 if (tuple.Item1)
