@@ -12,10 +12,12 @@ namespace ATGate
     {
         private Button serverRefreashBtn = new Button();
         private int selectedServer;
+
+        /// <summary>
+        /// 服务器列表
+        /// </summary>
         private List<Server> serverList = new List<Server> {
-
-             new Server("问道一区","112.74.183.167"),
-
+             new Server("问道一区","115.47.142.65"),
         };
 
         public Homepage()
@@ -47,6 +49,9 @@ namespace ATGate
             GetInitServerStatus();
         }
 
+        /// <summary>
+        /// 读取服务器初始状态
+        /// </summary>
         private void GetInitServerStatus()
         {
             for (int index = 0; index < serverList.Count; index++) 
@@ -65,6 +70,11 @@ namespace ATGate
             }
         }
 
+        /// <summary>
+        /// 处理选择项更改事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Lv_serverlist_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListViewItem[] lvs = new ListViewItem[2];
@@ -77,114 +87,159 @@ namespace ATGate
             }
         }
 
+        /// <summary>
+        /// 更新服务器状态
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void UpdateServerStatus(object sender, EventArgs e) {
-            selectedServer = lv_serverlist.SelectedIndices[0];
-
-            int index = selectedServer;
-            await Task.Factory.StartNew(() =>
+            try
             {
-                Tuple<bool,string> tuple = ATGateUtil.CheckServerStatus(serverList[index].Ip);
-                if (tuple.Item1)
+                selectedServer = lv_serverlist.SelectedIndices[0];
+
+                int index = selectedServer;
+                await Task.Factory.StartNew(() =>
                 {
-                    serverList[index].Status = "已连接";
+                    Tuple<bool, string> tuple = ATGateUtil.CheckServerStatus(serverList[index].Ip);
+                    if (tuple.Item1)
+                    {
+                        serverList[index].Status = "已连接";
+                    }
+                    else
+                    {
+                        serverList[index].Status = "未连接";
+                    }
+                    serverList[index].Delay = tuple.Item2;
+                });
+                lv_serverlist.Items[index].SubItems[1].Text = serverList[index].Delay;
+                lv_serverlist.Items[index].SubItems[0].Text = serverList[index].Name + " - " + serverList[index].Status;
+                Console.WriteLine(index);
+
+            }
+            catch (FileLoadException)
+            {
+                ATGateUtil.HandleDotNetException();
+            }
+            catch (Exception) {
+                MessageBox.Show("更新服务器状态失败，请重试。", "更新服务器状态");
+            }
+        }
+
+        /// <summary>
+        /// 开始游戏按钮事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Btn_start_game_Click(object sender, EventArgs e)
+        {
+            try
+            {
+#if DEBUG
+                string absPath = @"C:\Users\User\Desktop\微端1.6\asktao.mod";
+#else
+                string absPath = @Directory.GetCurrentDirectory() + "/asktao.mod";
+#endif
+                string CommandLine = Properties.Resources.asktao_des;
+
+                if (!CheckServerStatus())
+                {
+                    return;
+                }
+                Console.WriteLine("Starting Game " + selectedServer);
+                Server server = serverList[selectedServer];
+
+                if (!File.Exists(absPath))
+                {
+                    ATGateUtil.HandleGameNotFound();
                 }
                 else
                 {
-                    serverList[index].Status = "未连接";
-                }
-                serverList[index].Delay = tuple.Item2;
-            });
-            lv_serverlist.Items[index].SubItems[1].Text = serverList[index].Delay;
-            lv_serverlist.Items[index].SubItems[0].Text = serverList[index].Name + " - " + serverList[index].Status;
-            Console.WriteLine(index);
-        }
-
-        private async void Btn_start_game_Click(object sender, EventArgs e)
-        {
-            #if DEBUG
-                string absPath = @"C:\Users\User\Desktop\微端1.6\asktao.mod";
-            #else
-                string absPath = @Directory.GetCurrentDirectory() + "/asktao.mod";
-            #endif
-                string CommandLine = Properties.Resources.asktao_des;
-
-            if (!CheckServerStatus()) {
-                return;
-            }
-            Console.WriteLine("Starting Game" + selectedServer);
-            Server server = serverList[selectedServer];
-
-            if (!File.Exists(absPath))
-            {
-                ATGateUtil.HandleGameNotFound();
-            }
-            else
-            {
-                bool status = false;
-                
-                //if (Environment.OSVersion.Version.Major.Equals(5))
-                //{
+                    bool status = false;
                     await Task.Factory.StartNew(() =>
                     {
                         status = HandleStartGame.StartProcessByCmd(server);
                     });
-                //}
-                //else 
-                //{
-                //    await Task.Factory.StartNew(() =>
-                //    {
-                //        status = HandleStartGame.StartProcessSimplify(absPath, CommandLine);
-                //    });
-                //}
 
-                if (status)
-                {
-                    btn_start_game.Enabled = false;
-                    btn_register.Enabled = false;
-                    btn_about.Enabled = false;
-                    lb_startGameStatus.Visible = true;
-
-                    await Task.Factory.StartNew(() =>
+                    if (status)
                     {
-                        Thread.Sleep(3000);
-                        Console.WriteLine("Game Started, Ending Launcher.");
-                        Environment.Exit(0);
-                    });
-                }
-                else {
-                    btn_start_game.Enabled = true;
-                    btn_register.Enabled = true;
-                    btn_about.Enabled = true;
-                    lb_startGameStatus.Visible = false;
+                        btn_start_game.Enabled = false;
+                        btn_register.Enabled = false;
+                        btn_about.Enabled = false;
+                        lb_startGameStatus.Visible = true;
+
+                        await Task.Factory.StartNew(() =>
+                        {
+                            Thread.Sleep(3000);
+                            Console.WriteLine("Game Started, Ending Launcher.");
+                            Environment.Exit(0);
+                        });
+                    }
+                    else
+                    {
+                        btn_start_game.Enabled = true;
+                        btn_register.Enabled = true;
+                        btn_about.Enabled = true;
+                        lb_startGameStatus.Visible = false;
+                    }
+
                 }
 
             }
+            catch (System.IO.FileLoadException) {
+                ATGateUtil.HandleDotNetException();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("启动失败，请重试。", "游戏启动失败");
+                return;
+            }
         }
 
+        /// <summary>
+        /// 关于按钮事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_about_Click(object sender, EventArgs e)
         {
             AboutBox aboutBox = new AboutBox();
             aboutBox.ShowDialog(this);
         }
 
+        /// <summary>
+        /// 注册按钮事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_register_Click(object sender, EventArgs e)
         {
-            if (!CheckServerStatus())
+            try
             {
+
+                if (!CheckServerStatus())
+                {
+                    return;
+                }
+                Console.WriteLine("Register server " + selectedServer);
+                Server server = serverList[selectedServer];
+                Register register = new Register(server);
+                register.Text = server.Name + " - 注册账号";
+                register.ShowDialog(this);
+            }
+            catch (System.IO.FileLoadException) {
+                ATGateUtil.HandleDotNetException();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("注册失败，请重试。", "注册账号");
                 return;
             }
-            Console.WriteLine("Register server " + selectedServer);
-            Server server = serverList[selectedServer];
-            Register register = new Register(server);
-            register.Text = server.Name + " - 注册账号";
-            register.ShowDialog(this);
         }
 
-        private void lb_serverlist_title_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// 检查服务器是否在线
+        /// </summary>
+        /// <returns>真/假</returns>
         private bool CheckServerStatus()
         {
             if (serverList[selectedServer].Status.Equals("未连接"))

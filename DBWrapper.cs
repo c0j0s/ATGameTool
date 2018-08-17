@@ -23,12 +23,17 @@ namespace ATGate
             }
         }
 
-        //Not Tested
+        /// <summary>
+        /// 检查注册限制
+        /// </summary>
+        /// <param name="macAddr">MAC地址</param>
+        /// <returns>真/假</returns>
         public bool CheckIfMacRegisterLimitExceeds(string macAddr)
         {
+            int registerLimit = Int32.Parse((Properties.Resources.registerLimit.Equals(""))? "5": Properties.Resources.registerLimit);
 
             DataTable dt = db.Select("SELECT first_login_mac from account where first_login_mac = \"" + macAddr + "\";");
-            if (dt.Rows.Count >= 5)
+            if (dt.Rows.Count >= registerLimit)
             {
                 return true;
             }
@@ -60,7 +65,13 @@ namespace ATGate
             return regStatus;
         }
 
-
+        /// <summary>
+        /// 注册账号
+        /// </summary>
+        /// <param name="account">用户名</param>
+        /// <param name="password">密码</param>
+        /// <param name="macAddr">MAC地址</param>
+        /// <returns>真/假</returns>
         public bool CreateAccount(string account, string password,string macAddr)
         {
             string encytPass, checksum;
@@ -95,8 +106,16 @@ namespace ATGate
             }
         }
 
+        /// <summary>
+        /// 密码加密
+        /// </summary>
+        /// <param name="account">用户名</param>
+        /// <param name="password">密码</param>
+        /// <returns></returns>
         public Tuple<string, string> EncryptPassword(string account,string password) {
             string encytPass, checksum;
+            string gold = (Properties.Resources.gold_amt.Equals(""))? "0" : Properties.Resources.gold_amt;
+            string silver = (Properties.Resources.silver_amt.Equals("")) ? "0" : Properties.Resources.silver_amt;
 
             byte[] result = Encoding.Default.GetBytes(password.Trim());
             MD5 md5 = new MD5CryptoServiceProvider();
@@ -109,7 +128,7 @@ namespace ATGate
             output = md5.ComputeHash(result);
             encytPass = BitConverter.ToString(output).Replace("-","").ToUpper();
 
-            checksum = string.Format("{0}{1}{2,8:X8}{3}{4,8:X8}{5,8:X8}{6}{7}{8}{9}{10}ABCDEF",account,encytPass,0,"",Int32.Parse(Properties.Resources.gold_amt), Int32.Parse(Properties.Resources.silver_amt),"","","","","");
+            checksum = string.Format("{0}{1}{2,8:X8}{3}{4,8:X8}{5,8:X8}{6}{7}{8}{9}{10}ABCDEF",account,encytPass,0,"",Int32.Parse(gold), Int32.Parse(silver),"","","","","");
             
             result = Encoding.Default.GetBytes(checksum);
             output = md5.ComputeHash(result);

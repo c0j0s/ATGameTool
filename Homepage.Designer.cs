@@ -123,7 +123,6 @@ namespace ATGate
             this.lb_serverlist_title.Size = new System.Drawing.Size(348, 32);
             this.lb_serverlist_title.TabIndex = 10;
             this.lb_serverlist_title.Text = "服务区";
-            this.lb_serverlist_title.Click += new System.EventHandler(this.lb_serverlist_title_Click);
             // 
             // panel1
             // 

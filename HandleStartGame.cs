@@ -7,6 +7,12 @@ namespace ATGate
 {
     class HandleStartGame
     {
+        /// <summary>
+        /// 新建进程启动游戏
+        /// </summary>
+        /// <param name="absPath">游戏路径</param>
+        /// <param name="cmd">CMD参数串</param>
+        /// <returns>真/假</returns>
         public static bool StartProcessSimplify(string absPath, string cmd)
         {
             STARTUPINFO si = new STARTUPINFO();
@@ -25,6 +31,11 @@ namespace ATGate
             return status;
         }
 
+        /// <summary>
+        /// CMD启动游戏
+        /// </summary>
+        /// <param name="server">服务器对象</param>
+        /// <returns>真/假</returns>
         public static bool StartProcessByCmd(Server server)
         {
             Console.WriteLine(server.CmdString);
@@ -40,6 +51,20 @@ namespace ATGate
             return status;
         }
 
+        /// <summary>
+        /// 导入外部方式
+        /// </summary>
+        /// <param name="lpApplicationName"></param>
+        /// <param name="lpCommandLine"></param>
+        /// <param name="lpProcessAttributes"></param>
+        /// <param name="lpThreadAttributes"></param>
+        /// <param name="bInheritHandles"></param>
+        /// <param name="dwCreationFlags"></param>
+        /// <param name="lpEnvironment"></param>
+        /// <param name="lpCurrentDirectory"></param>
+        /// <param name="lpStartupInfo"></param>
+        /// <param name="lpProcessInformation"></param>
+        /// <returns></returns>
         [DllImport("kernel32.dll")]
         static extern bool CreateProcess(
             string lpApplicationName,

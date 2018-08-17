@@ -171,6 +171,15 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 5.
+        /// </summary>
+        internal static string registerLimit {
+            get {
+                return ResourceManager.GetString("registerLimit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 112.74.183.167.
         /// </summary>
         internal static string server_ip {
@@ -209,7 +218,7 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1000000000.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string silver_amt {
             get {

@@ -9,14 +9,16 @@ using System.Windows.Forms;
 
 namespace ATGate
 {
-    /*
-    * A utility class with common static methods
-    */
+    /// <summary>
+    /// 通用方法
+    /// </summary>
     class ATGateUtil
     {
-        /*
-         * Check if .Net framwork 4.0 or later is installed 
-         */
+        /// <summary>
+        /// Check if .Net framwork 4.0 or later is installed 
+        /// 检查.Net架构版本是否是4.0以上
+        /// </summary>
+        /// <returns>真/假</returns>
         public static bool IfdotNet4AndLaterInstalled()
         {
             RegistryKey installed_versions = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP");
@@ -30,10 +32,11 @@ namespace ATGate
             return false;
         }
 
-        /*
-         * Check if .Net framwork 4.5 or later is installed 
-         * Not in use
-         */
+        /// <summary>
+        /// Check if .Net framwork 4.5 or later is installed 
+        /// 检查.Net架构版本是否是4.5以上
+        /// </summary>
+        /// <returns>真/假</returns>
         public static bool IfdotNet45AndLaterInstalled()
         {
             using (RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey("SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full\\"))
@@ -50,9 +53,10 @@ namespace ATGate
             return false;
         }
 
-        /*
-         * Get the Mac address of the computer
-         */
+        /// <summary>
+        /// 获取电脑MAC地址
+        /// </summary>
+        /// <returns>MAC地址</returns>
         public static string GetMacAddr()
         {
             try
@@ -73,9 +77,10 @@ namespace ATGate
             }
         }
 
-        /*
-         * Get the IP address of the computer
-         */
+        /// <summary>
+        /// 获取电脑IP地址
+        /// </summary>
+        /// <returns>IP地址</returns>
         public static string GetIpAddr()
         {
             try
@@ -92,9 +97,11 @@ namespace ATGate
 
         }
 
-        /*
-         * Check if server online
-         */
+        /// <summary>
+        /// 检查服务器是否在线
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <returns>真/假</returns>
         public static Tuple<bool, string> CheckServerStatus(string ip)
         {
             try
@@ -114,6 +121,9 @@ namespace ATGate
             return new Tuple<bool, string>(false,"0");
         }
 
+        /// <summary>
+        /// 处理未找到游戏文件事件
+        /// </summary>
         public static void HandleGameNotFound() {
             string message = "请检查游戏文件,并确保登入器放至于游戏目录下。";
             string caption = "未找到游戏";
@@ -130,6 +140,9 @@ namespace ATGate
             }
         }
 
+        /// <summary>
+        /// 处理.Net错误事件
+        /// </summary>
         public static void HandleDotNetException()
         {
 

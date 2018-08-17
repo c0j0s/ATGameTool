@@ -16,6 +16,11 @@ namespace ATGate
             server_ip = server.Ip;
         }
 
+        /// <summary>
+        /// 注册账号按钮事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Btn_register_Click(object sender, EventArgs e)
         {
             try
@@ -35,12 +40,16 @@ namespace ATGate
                     else
                     {
                         MessageBox.Show("密码过短。");
+                        EnableControls(true);
+                        return;
                     }
 
                 }
                 else
                 {
                     MessageBox.Show("请输入用户名与密码。");
+                    EnableControls(true);
+                    return;
                 }
 
                 if (regStatus.Result)
@@ -62,6 +71,10 @@ namespace ATGate
             }
         }
 
+        /// <summary>
+        /// 开关输入框
+        /// </summary>
+        /// <param name="enable">真/假</param>
         private void EnableControls(bool enable) {
             if (enable)
             {

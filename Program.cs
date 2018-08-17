@@ -56,6 +56,10 @@ namespace ATGate
             }
         }
 
+        /// <summary>
+        /// 检查启动条件
+        /// </summary>
+        /// <returns>真/假</returns>
         private static bool CheckPreRequisite()
         {
             //check if in game file
@@ -77,6 +81,9 @@ namespace ATGate
             return false;
         }
 
+        /// <summary>
+        /// 初始程序
+        /// </summary>
         public static void InitilizeProgram()
         {
             Application.ThreadException += ApplicationThreadException;
@@ -87,6 +94,10 @@ namespace ATGate
 
         }
 
+        /// <summary>
+        /// 启动QQ验证
+        /// </summary>
+        /// <returns>真/假</returns>
         public static bool StartVerification()
         {
 
@@ -115,7 +126,7 @@ namespace ATGate
 
         //    }
         //}
-
+        
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
             ReportCrash((Exception)unhandledExceptionEventArgs.ExceptionObject);

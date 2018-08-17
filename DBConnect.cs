@@ -19,7 +19,10 @@ namespace ATGate
             connection = new MySqlConnection(connectionString);
         }
 
-        //open connection to database
+        /// <summary>
+        /// 打开数据库连接
+        /// </summary>
+        /// <returns>真/假</returns>
         private bool OpenConnection()
         {
             try
@@ -47,9 +50,12 @@ namespace ATGate
             }
             return false;
         }
-    
 
-        //Close connection
+
+        /// <summary>
+        /// 关闭数据库连接
+        /// </summary>
+        /// <returns>真/假</returns>
         private bool CloseConnection()
         {
             try
@@ -65,7 +71,11 @@ namespace ATGate
             }
         }
 
-        //Insert statement
+        /// <summary>
+        /// 写入数据
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>数字</returns>
         public int Insert(string value)
         {
             //Open connection
@@ -82,6 +92,10 @@ namespace ATGate
                 {
                     switch (ex.Number)
                     {
+                        case 0:
+                            MessageBox.Show("数据库未连接，请联系管理员。QQ:" + Properties.Resources.admin_qq);
+                            break;
+
                         case 1062:
                             MessageBox.Show("用户名已注册！");
                             break;
@@ -99,6 +113,12 @@ namespace ATGate
             }
         }
 
+        /// <summary>
+        /// 写入数据
+        /// 无错误提示
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>数字</returns>
         public int InsertNoException(string value)
         {
             //Open connection
@@ -124,7 +144,11 @@ namespace ATGate
             }
         }
 
-        //Select statement
+        /// <summary>
+        /// 读取数据
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns>数据表</returns>
         public DataTable Select(string query)
         {
             DataTable dt = new DataTable();

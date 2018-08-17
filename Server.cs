@@ -5,6 +5,9 @@ using System.Text;
 
 namespace ATGate
 {
+    /// <summary>
+    /// 服务器对象
+    /// </summary>
     public class Server
     {
         private string name;
