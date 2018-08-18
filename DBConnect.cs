@@ -90,6 +90,7 @@ namespace ATGate
                 }
                 catch (MySqlException ex)
                 {
+                    Console.WriteLine(ex);
                     switch (ex.Number)
                     {
                         case 0:

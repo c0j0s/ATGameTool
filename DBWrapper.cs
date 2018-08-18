@@ -76,7 +76,10 @@ namespace ATGate
         {
             string encytPass, checksum;
             string privilege = "0";
-            String timeStamp = DateTime.Now.ToString();
+            String timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss"); ;
+
+            string gold = (Properties.Resources.gold_amt.Equals("")) ? "0" : Properties.Resources.gold_amt;
+            string silver = (Properties.Resources.silver_amt.Equals("")) ? "0" : Properties.Resources.silver_amt;
 
             Tuple<string,string> encrypt = EncryptPassword(account,password);
             encytPass = encrypt.Item1;
@@ -86,14 +89,14 @@ namespace ATGate
                 "INSERT INTO account " +
                 " VALUES " +
                 "('"+ account +"', '', '', '', '', " +
-                "'"+ encytPass + "', '', '0', '', '"+ Properties.Resources.gold_amt +"', " +
-                "'"+ Properties.Resources.silver_amt +"', '0', '', '', '', " +
+                "'"+ encytPass + "', '', '0', '', '"+ gold +"', " +
+                "'"+ silver + "', '0', '', '', '', " +
                 "'', '', '', '', '', " +
                 "'0', '', '', '"+ macAddr +"', '"+ privilege +"', " +
                 "'', '', '', '', '1', " +
                 "'"+ checksum +"', '', '', '', '', " +
                 "'', '', '', '0', '', " +
-                "'0', '0', '', '', '', " +
+                "'0', '0', '', '0', '', " +
                 "'"+ timeStamp + "', '');COMMIT;";
             Console.WriteLine(statement);
             if (db.Insert(statement) != 0)

@@ -136,11 +136,11 @@
     <comment>崩溃报告电邮</comment>
   </data>
   <data name="db_passwd" xml:space="preserve">
-    <value>launcherlogin</value>
+    <value>1234</value>
     <comment>数据库密码</comment>
   </data>
   <data name="db_uid" xml:space="preserve">
-    <value>launcher</value>
+    <value>root</value>
     <comment>数据库账号</comment>
   </data>
   <data name="dotNet_update_link" xml:space="preserve">

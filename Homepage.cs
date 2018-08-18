@@ -17,7 +17,8 @@ namespace ATGate
         /// 服务器列表
         /// </summary>
         private List<Server> serverList = new List<Server> {
-             new Server("问道一区","115.47.142.65"),
+             new Server("问道一区","192.168.1.246"),
+             new Server("问道一区","192.168.1.45")
         };
 
         public Homepage()

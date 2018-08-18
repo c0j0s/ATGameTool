@@ -107,7 +107,7 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to launcherlogin.
+        ///   Looks up a localized string similar to 1234.
         /// </summary>
         internal static string db_passwd {
             get {
@@ -116,7 +116,7 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to launcher.
+        ///   Looks up a localized string similar to root.
         /// </summary>
         internal static string db_uid {
             get {
