@@ -112,6 +112,12 @@ namespace ATGate
                 Console.WriteLine("reply.RoundtripTime: " + reply.RoundtripTime);
                 server_status = reply.Status == IPStatus.Success;
                 Console.WriteLine("Server online? " + server_status);
+
+                if (Properties.Resources.skip_ping.Equals("1"))
+                {
+                    server_status = true;
+                }
+
                 return new Tuple<bool, string>(server_status, reply.RoundtripTime.ToString());
             }
             catch (PingException)
@@ -147,7 +153,7 @@ namespace ATGate
         {
 
             if (MessageBox.Show(
-                    "访问" + Properties.Resources.dotNet_update_link + Environment.NewLine + "下载更新 .Net 架构后重试。", "请更新 .Net 架构", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk
+                    "访问 " + Properties.Resources.dotNet_update_link + Environment.NewLine + " 下载更新 .Net 4.0 架构后重试。", "请更新 .Net 4.0 架构", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk
                 ) == DialogResult.Yes)
             {
                 Process.Start(Properties.Resources.dotNet_update_link);

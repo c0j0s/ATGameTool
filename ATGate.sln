@@ -8,19 +8,43 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 		无验证|Any CPU = 无验证|Any CPU
+		无验证|x64 = 无验证|x64
+		无验证|x86 = 无验证|x86
 		有验证|Any CPU = 有验证|Any CPU
+		有验证|x64 = 有验证|x64
+		有验证|x86 = 有验证|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.Debug|x64.Build.0 = Debug|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.Debug|x86.Build.0 = Debug|Any CPU
 		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.Release|x64.ActiveCfg = Release|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.Release|x64.Build.0 = Release|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.Release|x86.ActiveCfg = Release|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.Release|x86.Build.0 = Release|Any CPU
 		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.无验证|Any CPU.ActiveCfg = 无验证|Any CPU
 		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.无验证|Any CPU.Build.0 = 无验证|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.无验证|x64.ActiveCfg = 无验证|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.无验证|x64.Build.0 = 无验证|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.无验证|x86.ActiveCfg = 无验证|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.无验证|x86.Build.0 = 无验证|Any CPU
 		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.有验证|Any CPU.ActiveCfg = 有验证|Any CPU
 		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.有验证|Any CPU.Build.0 = 有验证|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.有验证|x64.ActiveCfg = 有验证|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.有验证|x64.Build.0 = 有验证|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.有验证|x86.ActiveCfg = 有验证|Any CPU
+		{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}.有验证|x86.Build.0 = 有验证|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

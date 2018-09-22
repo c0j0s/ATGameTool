@@ -36,7 +36,7 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 // MajorVersion.ClientVersion.NeedVerify?.BuildVersion:
-[assembly: AssemblyVersion("1.3.0.000")]
-[assembly: AssemblyFileVersion("1.3.0.000")]
+[assembly: AssemblyVersion("1.3.2.000")]
+[assembly: AssemblyFileVersion("1.3.2.000")]
 [assembly: NeutralResourcesLanguage("zh-CN")]
 

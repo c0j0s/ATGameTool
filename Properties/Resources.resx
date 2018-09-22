@@ -124,12 +124,21 @@
   <data name="icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="server_offline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\server_offline.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="server_online" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\server_online.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="admin_qq" xml:space="preserve">
     <value>987884557</value>
     <comment>管理员QQ</comment>
   </data>
   <data name="asktao_des" xml:space="preserve">
     <value>des:1B8E503A3BEFF909F50D908D6D53EEC26F10C662A39AC98425BFA4218DDBE81C4C196C772872AD4D4FA5C505CAC3E8D3948F59491F059B19D31CBC09FD257696D5CE934F044323E501C14D98F424DAD7233839407A1872FB</value>
+  </data>
+  <data name="collect_data" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="crash_report_email" xml:space="preserve">
     <value>1097808560@qq.com</value>
@@ -144,42 +153,37 @@
     <comment>数据库账号</comment>
   </data>
   <data name="dotNet_update_link" xml:space="preserve">
-    <value>https://www.microsoft.com/zh-CN/download/details.aspx?id=29053</value>
+    <value>https://www.microsoft.com/zh-cn/download/details.aspx?id=28936</value>
     <comment>.Net下载网站</comment>
   </data>
   <data name="get_ip_link" xml:space="preserve">
     <value>http://icanhazip.com</value>
     <comment>获取IP地址网站</comment>
   </data>
-  <data name="qq_group" xml:space="preserve">
-    <value>649967463</value>
-    <comment>QQ群，用于验证</comment>
-  </data>
-  <data name="server_ip" xml:space="preserve">
-    <value>112.74.183.167</value>
-  </data>
-  <data name="collect_data" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="server_name" xml:space="preserve">
-    <value>问道一区</value>
-  </data>
-  <data name="server_offline" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\src\server_offline.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="server_online" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\src\server_online.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="gold_amt" xml:space="preserve">
     <value>1000000000</value>
     <comment>初始金</comment>
+  </data>
+  <data name="qq_group" xml:space="preserve">
+    <value>649967463</value>
+    <comment>QQ群，用于验证</comment>
   </data>
   <data name="registerLimit" xml:space="preserve">
     <value>5</value>
     <comment>注册限制数</comment>
   </data>
+  <data name="server_ip" xml:space="preserve">
+    <value>112.74.183.167</value>
+  </data>
+  <data name="server_name" xml:space="preserve">
+    <value>问道一区</value>
+  </data>
   <data name="silver_amt" xml:space="preserve">
-    <value />
+    <value>0</value>
     <comment>初始银</comment>
+  </data>
+  <data name="skip_ping" xml:space="preserve">
+    <value>1</value>
+    <comment>跳过Ping检测？1：跳过，0：不跳</comment>
   </data>
 </root>

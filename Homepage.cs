@@ -6,6 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/// <summary>
+/// 参数修改文件：
+/// ATGate -> Properties -> Resources.rex
+/// </summary>
 namespace ATGate
 {
     public partial class Homepage : Form
@@ -15,10 +19,12 @@ namespace ATGate
 
         /// <summary>
         /// 服务器列表
+        /// 
+        /// 格式如下：
+        /// new Server("问道一区","117.50.75.135")
         /// </summary>
         private List<Server> serverList = new List<Server> {
-             new Server("问道一区","192.168.1.246"),
-             new Server("问道一区","192.168.1.45")
+            new Server("问道一区","117.50.75.135")
         };
 
         public Homepage()
@@ -99,6 +105,8 @@ namespace ATGate
                 selectedServer = lv_serverlist.SelectedIndices[0];
 
                 int index = selectedServer;
+                lv_serverlist.Items[index].SubItems[1].Text = "...";
+                
                 await Task.Factory.StartNew(() =>
                 {
                     Tuple<bool, string> tuple = ATGateUtil.CheckServerStatus(serverList[index].Ip);
@@ -186,13 +194,9 @@ namespace ATGate
                 }
 
             }
-            catch (System.IO.FileLoadException) {
-                ATGateUtil.HandleDotNetException();
-            }
             catch (Exception)
             {
-                MessageBox.Show("启动失败，请重试。", "游戏启动失败");
-                return;
+                ATGateUtil.HandleDotNetException();
             }
         }
 

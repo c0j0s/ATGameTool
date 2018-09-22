@@ -125,7 +125,7 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.microsoft.com/zh-CN/download/details.aspx?id=29053.
+        ///   Looks up a localized string similar to https://www.microsoft.com/zh-cn/download/details.aspx?id=28936.
         /// </summary>
         internal static string dotNet_update_link {
             get {
@@ -218,11 +218,20 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to 0.
         /// </summary>
         internal static string silver_amt {
             get {
                 return ResourceManager.GetString("silver_amt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1.
+        /// </summary>
+        internal static string skip_ping {
+            get {
+                return ResourceManager.GetString("skip_ping", resourceCulture);
             }
         }
     }
