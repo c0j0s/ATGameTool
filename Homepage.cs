@@ -24,7 +24,7 @@ namespace ATGate
         /// new Server("问道一区","117.50.75.135")
         /// </summary>
         private List<Server> serverList = new List<Server> {
-            new Server("问道一区","117.50.75.135")
+            new Server("问道一区","120.77.45.180","2000")
         };
 
         public Homepage()
