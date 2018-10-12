@@ -101,7 +101,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = global::ATGate.Properties.Resources.background;
+            this.pictureBox1.BackgroundImage = global::ATGate.Properties.Resources.BG;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";

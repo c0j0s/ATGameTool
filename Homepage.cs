@@ -45,7 +45,7 @@ namespace ATGate
 
             serverRefreashBtn.Visible = true;
             serverRefreashBtn.Text = "更新状态";
-            serverRefreashBtn.Font = new Font(serverRefreashBtn.Font.FontFamily, 9);
+            serverRefreashBtn.Font = new Font("KaiTi", 9);
             serverRefreashBtn.Click += UpdateServerStatus;
             lv_serverlist.Controls.Add(serverRefreashBtn);
             serverRefreashBtn.Size = new Size(lv_serverlist.Items[0].SubItems[2].Bounds.Width,
@@ -253,6 +253,31 @@ namespace ATGate
                 return false;
             }
             return true;
+        }
+
+        private void btn_close_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        private void Window_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
         }
     }
 }
