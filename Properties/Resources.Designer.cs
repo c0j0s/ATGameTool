@@ -145,6 +145,16 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap divider {
+            get {
+                object obj = ResourceManager.GetObject("divider", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://www.microsoft.com/zh-cn/download/details.aspx?id=28936.
         /// </summary>
         internal static string dotNet_update_link {

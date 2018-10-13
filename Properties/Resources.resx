@@ -117,69 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Title_District" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Title_District.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="close_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\close_btn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="gold_amt" xml:space="preserve">
-    <value>1000000000</value>
-    <comment>初始金</comment>
+  <data name="server_ip" xml:space="preserve">
+    <value>112.74.183.167</value>
   </data>
   <data name="dotNet_update_link" xml:space="preserve">
     <value>https://www.microsoft.com/zh-cn/download/details.aspx?id=28936</value>
     <comment>.Net下载网站</comment>
   </data>
-  <data name="server_name" xml:space="preserve">
-    <value>问道一区</value>
-  </data>
-  <data name="silver_amt" xml:space="preserve">
-    <value>0</value>
-    <comment>初始银</comment>
-  </data>
-  <data name="icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="startgame_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\startgame_btn1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="db_passwd" xml:space="preserve">
-    <value>1234</value>
-    <comment>数据库密码</comment>
-  </data>
-  <data name="asktao_des" xml:space="preserve">
-    <value>des:1B8E503A3BEFF909F50D908D6D53EEC26F10C662A39AC98425BFA4218DDBE81C4C196C772872AD4D4FA5C505CAC3E8D3948F59491F059B19D31CBC09FD257696D5CE934F044323E501C14D98F424DAD7233839407A1872FB</value>
-  </data>
-  <data name="qq_group" xml:space="preserve">
-    <value>649967463</value>
-    <comment>QQ群，用于验证</comment>
-  </data>
-  <data name="registerLimit" xml:space="preserve">
-    <value>5</value>
-    <comment>注册限制数</comment>
-  </data>
-  <data name="BG" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="admin_qq" xml:space="preserve">
-    <value>987884557</value>
-    <comment>管理员QQ</comment>
-  </data>
-  <data name="register_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\register_btn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="crash_report_email" xml:space="preserve">
-    <value>1097808560@qq.com</value>
-    <comment>崩溃报告电邮</comment>
-  </data>
-  <data name="collect_data" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="min_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\min_btn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="controls_bg" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\controls_bg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -187,28 +132,86 @@
     <value>http://icanhazip.com</value>
     <comment>获取IP地址网站</comment>
   </data>
-  <data name="server_ip" xml:space="preserve">
-    <value>112.74.183.167</value>
-  </data>
-  <data name="skip_ping" xml:space="preserve">
-    <value>0</value>
-    <comment>跳过Ping检测？1：跳过，0：不跳</comment>
-  </data>
-  <data name="table_bg" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\table_bg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Title_District" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Title_District.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="db_uid" xml:space="preserve">
     <value>root</value>
     <comment>数据库账号</comment>
   </data>
+  <data name="text_delay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text_delay.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="asktao_des" xml:space="preserve">
+    <value>des:1B8E503A3BEFF909F50D908D6D53EEC26F10C662A39AC98425BFA4218DDBE81C4C196C772872AD4D4FA5C505CAC3E8D3948F59491F059B19D31CBC09FD257696D5CE934F044323E501C14D98F424DAD7233839407A1872FB</value>
+  </data>
+  <data name="collect_data" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="startgame_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\startgame_btn1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="silver_amt" xml:space="preserve">
+    <value>0</value>
+    <comment>初始银</comment>
+  </data>
+  <data name="registerLimit" xml:space="preserve">
+    <value>5</value>
+    <comment>注册限制数</comment>
+  </data>
+  <data name="server_name" xml:space="preserve">
+    <value>问道一区</value>
+  </data>
+  <data name="crash_report_email" xml:space="preserve">
+    <value>1097808560@qq.com</value>
+    <comment>崩溃报告电邮</comment>
+  </data>
+  <data name="min_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\min_btn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="admin_qq" xml:space="preserve">
+    <value>987884557</value>
+    <comment>管理员QQ</comment>
+  </data>
   <data name="text_notification" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text_notification.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="close_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\close_btn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="skip_ping" xml:space="preserve">
+    <value>0</value>
+    <comment>跳过Ping检测？1：跳过，0：不跳</comment>
+  </data>
+  <data name="register_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\register_btn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="db_passwd" xml:space="preserve">
+    <value>1234</value>
+    <comment>数据库密码</comment>
+  </data>
+  <data name="table_bg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\table_bg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="qq_group" xml:space="preserve">
+    <value>649967463</value>
+    <comment>QQ群，用于验证</comment>
   </data>
   <data name="notification_url" xml:space="preserve">
     <value>https://www.dropbox.com/s/2eqijh1hq05o7bw/%E5%85%AC%E5%91%8A.txt?dl=1</value>
     <comment>公告链接</comment>
   </data>
-  <data name="text_delay" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text_delay.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="gold_amt" xml:space="preserve">
+    <value>1000000000</value>
+    <comment>初始金</comment>
+  </data>
+  <data name="BG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="divider" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\divider.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -47,11 +47,13 @@ namespace ATGate
             this.pb_title_notification = new System.Windows.Forms.PictureBox();
             this.lb_notification = new System.Windows.Forms.Label();
             this.pb_text_delay = new System.Windows.Forms.PictureBox();
+            this.pb_divider = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_title_disct)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ctrl_bg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_title_notification)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_text_delay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_divider)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_start_game
@@ -115,14 +117,14 @@ namespace ATGate
             this.lb_startGameStatus.BackColor = System.Drawing.SystemColors.Highlight;
             this.lb_startGameStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lb_startGameStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lb_startGameStatus.Font = new System.Drawing.Font("KaiTi", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_startGameStatus.Font = new System.Drawing.Font("KaiTi", 15.75F);
             this.lb_startGameStatus.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lb_startGameStatus.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lb_startGameStatus.Location = new System.Drawing.Point(0, 105);
             this.lb_startGameStatus.Name = "lb_startGameStatus";
             this.lb_startGameStatus.Size = new System.Drawing.Size(370, 47);
             this.lb_startGameStatus.TabIndex = 9;
-            this.lb_startGameStatus.Text = "努力启动游戏中。。。";
+            this.lb_startGameStatus.Text = "加载游戏中，先喝口水吧。。。";
             this.lb_startGameStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lb_startGameStatus.UseWaitCursor = true;
             this.lb_startGameStatus.Visible = false;
@@ -254,7 +256,7 @@ namespace ATGate
             this.pb_title_notification.BackColor = System.Drawing.Color.Transparent;
             this.pb_title_notification.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.pb_title_notification.Image = global::ATGate.Properties.Resources.text_notification;
-            this.pb_title_notification.Location = new System.Drawing.Point(564, 122);
+            this.pb_title_notification.Location = new System.Drawing.Point(571, 123);
             this.pb_title_notification.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pb_title_notification.Name = "pb_title_notification";
             this.pb_title_notification.Size = new System.Drawing.Size(90, 46);
@@ -266,10 +268,10 @@ namespace ATGate
             // 
             this.lb_notification.AutoSize = true;
             this.lb_notification.BackColor = System.Drawing.Color.Transparent;
-            this.lb_notification.Font = new System.Drawing.Font("KaiTi", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lb_notification.Location = new System.Drawing.Point(560, 170);
+            this.lb_notification.Font = new System.Drawing.Font("KaiTi", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lb_notification.Location = new System.Drawing.Point(567, 180);
             this.lb_notification.Name = "lb_notification";
-            this.lb_notification.Size = new System.Drawing.Size(39, 20);
+            this.lb_notification.Size = new System.Drawing.Size(46, 21);
             this.lb_notification.TabIndex = 17;
             this.lb_notification.Text = "...";
             this.lb_notification.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AllowMoveWindow_MouseDown);
@@ -288,6 +290,17 @@ namespace ATGate
             this.pb_text_delay.TabStop = false;
             this.pb_text_delay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AllowMoveWindow_MouseDown);
             // 
+            // pb_divider
+            // 
+            this.pb_divider.BackColor = System.Drawing.Color.Transparent;
+            this.pb_divider.Image = global::ATGate.Properties.Resources.divider;
+            this.pb_divider.Location = new System.Drawing.Point(553, 123);
+            this.pb_divider.Name = "pb_divider";
+            this.pb_divider.Size = new System.Drawing.Size(10, 271);
+            this.pb_divider.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pb_divider.TabIndex = 19;
+            this.pb_divider.TabStop = false;
+            // 
             // Homepage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -296,6 +309,7 @@ namespace ATGate
             this.BackgroundImage = global::ATGate.Properties.Resources.BG;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(952, 539);
+            this.Controls.Add(this.pb_divider);
             this.Controls.Add(this.pb_text_delay);
             this.Controls.Add(this.lb_notification);
             this.Controls.Add(this.pb_title_notification);
@@ -326,6 +340,7 @@ namespace ATGate
             ((System.ComponentModel.ISupportInitialize)(this.pb_ctrl_bg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_title_notification)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_text_delay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_divider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -348,6 +363,7 @@ namespace ATGate
         private System.Windows.Forms.PictureBox pb_title_notification;
         private System.Windows.Forms.Label lb_notification;
         private System.Windows.Forms.PictureBox pb_text_delay;
+        private System.Windows.Forms.PictureBox pb_divider;
     }
 }
 
