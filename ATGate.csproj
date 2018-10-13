@@ -55,8 +55,7 @@
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>ACC61CDADE9088246F9D0E170F1729598AFC19DC</ManifestCertificateThumbprint>
@@ -101,6 +100,7 @@
     <ErrorReport>send</ErrorReport>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>packages\Costura.Fody.1.6.2\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
@@ -267,19 +267,7 @@
     <None Include="Resources\Title_District.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BG.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Close.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="src\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Button.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\table_bg.png" />
@@ -288,10 +276,31 @@
     <None Include="Resources\register_btn.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\controls_bg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close_btn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\min_btn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BG.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\startgame_btn.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\startgame_btn1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text_notification.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text_delay.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

@@ -1,7 +1,11 @@
-﻿using System;
+﻿using ATGate.Properties;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
+using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -24,7 +28,8 @@ namespace ATGate
         /// new Server("问道一区","117.50.75.135")
         /// </summary>
         private List<Server> serverList = new List<Server> {
-            new Server("问道一区","120.77.45.180","2000")
+            //最好不要超过5个
+            new Server("问道一区","120.77.45.180"),
         };
 
         public Homepage()
@@ -43,17 +48,21 @@ namespace ATGate
 
             lv_serverlist.Items.AddRange(lvs);
 
-            serverRefreashBtn.Visible = true;
+
             serverRefreashBtn.Text = "更新状态";
-            serverRefreashBtn.Font = new Font("KaiTi", 9);
+            serverRefreashBtn.Font = new Font("KaiTi", 12);
+            serverRefreashBtn.FlatStyle = FlatStyle.Flat;
+            serverRefreashBtn.BackColor = Color.Transparent;
+            serverRefreashBtn.FlatAppearance.BorderSize = 0;
             serverRefreashBtn.Click += UpdateServerStatus;
             lv_serverlist.Controls.Add(serverRefreashBtn);
-            serverRefreashBtn.Size = new Size(lv_serverlist.Items[0].SubItems[2].Bounds.Width,
-            lv_serverlist.Items[0].SubItems[2].Bounds.Height);
+            serverRefreashBtn.Visible = false;
+            serverRefreashBtn.Size = new Size(lv_serverlist.Items[0].SubItems[2].Bounds.Width, lv_serverlist.Items[0].SubItems[2].Bounds.Height);
             lv_serverlist.Items[0].Selected = true;
             lv_serverlist.Select();
 
             GetInitServerStatus();
+            lb_notification.Text = retrieveNotifications();
         }
 
         /// <summary>
@@ -92,6 +101,9 @@ namespace ATGate
                 selectedServer = lv_serverlist.SelectedItems[0].Index;
                 Console.WriteLine(selectedServer);
             }
+            else {
+                serverRefreashBtn.Visible = false;
+            }
         }
 
         /// <summary>
@@ -129,7 +141,8 @@ namespace ATGate
             {
                 ATGateUtil.HandleDotNetException();
             }
-            catch (Exception) {
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
                 MessageBox.Show("更新服务器状态失败，请重试。", "更新服务器状态");
             }
         }
@@ -241,6 +254,7 @@ namespace ATGate
             }
         }
 
+
         /// <summary>
         /// 检查服务器是否在线
         /// </summary>
@@ -255,13 +269,31 @@ namespace ATGate
             return true;
         }
 
-        private void btn_close_Click(object sender, EventArgs e)
-        {
-            Environment.Exit(0);
+        private string retrieveNotifications() {
+
+            string notification = "";
+            try
+            {
+                var webRequest = (HttpWebRequest)HttpWebRequest.Create(Properties.Resources.notification_url);
+                using (var response = webRequest.GetResponse())
+                using (var content = response.GetResponseStream())
+                using (var reader = new StreamReader(content))
+                {
+                    notification = reader.ReadToEnd();
+                }
+                Console.WriteLine("no: "+notification);
+                return notification;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("no: " + ex.Message);
+                return "";
+            }
+            
         }
 
         /// <summary>
-        /// 
+        /// 窗口控制
         /// </summary>
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -271,13 +303,23 @@ namespace ATGate
         [System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        private void Window_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void AllowMoveWindow_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 ReleaseCapture();
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
+        }
+
+        private void btn_close_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void min_btn_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }

@@ -91,9 +91,9 @@ namespace ATGate.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Close {
+        internal static System.Drawing.Bitmap close_btn {
             get {
-                object obj = ResourceManager.GetObject("Close", resourceCulture);
+                object obj = ResourceManager.GetObject("close_btn", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -104,6 +104,16 @@ namespace ATGate.Properties {
         internal static string collect_data {
             get {
                 return ResourceManager.GetString("collect_data", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap controls_bg {
+            get {
+                object obj = ResourceManager.GetObject("controls_bg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -172,6 +182,25 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap min_btn {
+            get {
+                object obj = ResourceManager.GetObject("min_btn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.dropbox.com/s/2eqijh1hq05o7bw/%E5%85%AC%E5%91%8A.txt?dl=1.
+        /// </summary>
+        internal static string notification_url {
+            get {
+                return ResourceManager.GetString("notification_url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 649967463.
         /// </summary>
         internal static string qq_group {
@@ -227,7 +256,7 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1.
+        ///   Looks up a localized string similar to 0.
         /// </summary>
         internal static string skip_ping {
             get {
@@ -251,6 +280,26 @@ namespace ATGate.Properties {
         internal static System.Drawing.Bitmap table_bg {
             get {
                 object obj = ResourceManager.GetObject("table_bg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap text_delay {
+            get {
+                object obj = ResourceManager.GetObject("text_delay", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap text_notification {
+            get {
+                object obj = ResourceManager.GetObject("text_notification", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
