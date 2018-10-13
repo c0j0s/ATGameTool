@@ -266,9 +266,7 @@
   <ItemGroup>
     <None Include="Resources\Title_District.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\table_bg.png" />
   </ItemGroup>

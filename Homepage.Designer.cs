@@ -260,6 +260,7 @@ namespace ATGate
             this.pb_title_notification.Size = new System.Drawing.Size(90, 46);
             this.pb_title_notification.TabIndex = 16;
             this.pb_title_notification.TabStop = false;
+            this.pb_title_notification.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AllowMoveWindow_MouseDown);
             // 
             // lb_notification
             // 
@@ -271,6 +272,7 @@ namespace ATGate
             this.lb_notification.Size = new System.Drawing.Size(39, 20);
             this.lb_notification.TabIndex = 17;
             this.lb_notification.Text = "...";
+            this.lb_notification.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AllowMoveWindow_MouseDown);
             // 
             // pb_text_delay
             // 
@@ -284,6 +286,7 @@ namespace ATGate
             this.pb_text_delay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb_text_delay.TabIndex = 18;
             this.pb_text_delay.TabStop = false;
+            this.pb_text_delay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AllowMoveWindow_MouseDown);
             // 
             // Homepage
             // 

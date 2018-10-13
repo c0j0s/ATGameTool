@@ -1,11 +1,8 @@
-﻿using ATGate.Properties;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,7 +22,7 @@ namespace ATGate
         /// 服务器列表
         /// 
         /// 格式如下：
-        /// new Server("问道一区","117.50.75.135")
+        /// new Server("问道一区","0.0.0.0")
         /// </summary>
         private List<Server> serverList = new List<Server> {
             //最好不要超过5个
@@ -269,6 +266,10 @@ namespace ATGate
             return true;
         }
 
+        /// <summary>
+        /// 获取公告
+        /// </summary>
+        /// <returns></returns>
         private string retrieveNotifications() {
 
             string notification = "";
