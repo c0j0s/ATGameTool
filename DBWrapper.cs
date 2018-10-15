@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +10,7 @@ namespace ATGate
     class DBWrapper
     {
         private DBConnect db;
+        private string server_ip = "";
 
         public DBWrapper(string server_ip, string schema) {
             if (schema.Equals("default"))
@@ -21,6 +21,7 @@ namespace ATGate
             {
                 db = new DBConnect(server_ip,"launcher");
             }
+            this.server_ip = server_ip;
         }
 
         /// <summary>
@@ -30,16 +31,23 @@ namespace ATGate
         /// <returns>真/假</returns>
         public bool CheckIfMacRegisterLimitExceeds(string macAddr)
         {
-            int registerLimit = Int32.Parse((Properties.Resources.registerLimit.Equals(""))? "5": Properties.Resources.registerLimit);
+            try
+            {
+                int registerLimit = Int32.Parse((Properties.Resources.registerLimit.Equals("")) ? "5" : Properties.Resources.registerLimit);
 
-            DataTable dt = db.Select("SELECT first_login_mac from account where first_login_mac = \"" + macAddr + "\";");
-            if (dt.Rows.Count >= registerLimit)
-            {
-                return true;
+                DataTable dt = db.Select("SELECT first_login_mac from account where first_login_mac = \"" + macAddr + "\";");
+                if (dt.Rows.Count >= registerLimit)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch (Exception)
             {
-                return false;
+                throw new Exception();
             }
         }
 
@@ -47,21 +55,26 @@ namespace ATGate
         {
             bool regStatus = false;
             var macAddr = ATGateUtil.GetMacAddr();
-
-            if (!CheckIfMacRegisterLimitExceeds(macAddr))
+            try
             {
-                if (CreateAccount(username, password, macAddr))
+                if (!CheckIfMacRegisterLimitExceeds(macAddr))
                 {
-                    MessageBox.Show("注册成功！");
-                    //DBWrapper adw = new DBWrapper("launcher");
-                    //await Task.Factory.StartNew(() => adw.RecordGameAccountCreated(username));
-                    regStatus = true;
+                    if (CreateAccount(username, password, macAddr))
+                    {
+                        MessageBox.Show("注册成功！");
+                        regStatus = true;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("[DW1]\n该电脑已超过注册数限制，请联系管理员。QQ:" + Properties.Resources.tech_qq + " \nServer: " + server_ip + "\nPC: " + macAddr, "超过注册数限制");
                 }
             }
-            else
+            catch (Exception)
             {
-                MessageBox.Show("该电脑已超过注册数限制，请联系管理员。QQ:1097808560");
+                Console.WriteLine("数据库未连接 Server: " + server_ip);
             }
+
             return regStatus;
         }
 
@@ -141,98 +154,5 @@ namespace ATGate
 
             return encrypt;
         }
-
-        //public void CreateAccountRecord(string timeTaken, int loginSuccess, string ipAddr, string macAddr, string launcherVersion) {
-
-        //    string uuid = Guid.NewGuid().ToString().Replace("-", "");
-        //    string statement = "INSERT into account values('"+ Program.qq +"','"+ DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "');";
-        //    string loginLogStatement = "INSERT into login_log values('"+ uuid +"'," +
-        //                                                            "'" + Program.qq + "'," + 
-        //                                                            "'" + timeTaken +"'," +
-        //                                                            "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',"+ 
-        //                                                            "'" + loginSuccess + "'," +
-        //                                                            "'" + launcherVersion + "'," +
-        //                                                            "'" + ipAddr + "'," +
-        //                                                            "'" + macAddr + "'" +
-        //                                                            ");";
-        //    Console.WriteLine(statement);
-        //    Console.WriteLine(loginLogStatement);
-        //    db.InsertNoException(loginLogStatement);
-        //    db.InsertNoException(statement);
-            
-        //}
-
-        //public bool UpdateAccountLog(string ipAddr, string macAddr, string launcherVersion)
-        //{
-        //    string uuid = Guid.NewGuid().ToString().Replace("-", "");
-        //    string statement = "INSERT into log values(" +
-        //                        "'" + uuid + "'," +
-        //                        "'" + Program.qq + "'," +
-        //                        "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
-        //                        "'"+ launcherVersion +"'," +
-        //                        "'"+ ipAddr +"'," +
-        //                        "'"+ macAddr +"'" +
-        //                        ");"; 
-
-        //    Console.WriteLine(statement);
-
-        //    if (db.InsertNoException(statement) != 0)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-
-        //public bool RecordGameAccountCreated(string account)
-        //{
-        //    string uuid = Guid.NewGuid().ToString().Replace("-", "");
-        //    string statement = "INSERT into game_account_log values(" +
-        //                        "'" + uuid + "'," +
-        //                        "'" + Program.qq + "'," +
-        //                        "'" + account + "'," +
-        //                        "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-        //                        ")"; ;
-
-        //    Console.WriteLine(statement);
-
-        //    if (db.InsertNoException(statement) != 0)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-
-        //public bool SentHandleExceptionLog(string ipAddr, string macAddr, string launcherVersion,string message,string osVersion) {
-        //    string uuid = Guid.NewGuid().ToString().Replace("-", "");
-        //    string statement = "INSERT into launcher_exception_log values(" +
-        //            "'" + uuid + "'," +
-        //            "'" + Program.qq + "'," +
-        //            "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
-        //            "'" + launcherVersion + "'," +
-        //            "'" + ipAddr + "'," +
-        //            "'" + macAddr + "'," +
-        //            "'" + message + "'," +
-        //            "'" + osVersion + "'" +
-        //            ")"; ;
-
-
-        //    Console.WriteLine(statement);
-
-        //    if (db.InsertNoException(statement) != 0)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-
     }
 }

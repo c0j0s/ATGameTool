@@ -62,8 +62,14 @@ namespace ATGate
         /// <returns>真/假</returns>
         private static bool CheckPreRequisite()
         {
+#if DEBUG
+            string gameFile = @"C:\Users\cjuns\Downloads\逍遥问道资源\问道私服架设工具\3 - 游戏本体 1.6\asktao.mod";
+#else
+            string gameFile = "asktao.mod"";
+#endif
+
             //check if in game file
-            if (!File.Exists("asktao.mod"))
+            if (!File.Exists(gameFile))
             {
                 ATGateUtil.HandleGameNotFound();
             }

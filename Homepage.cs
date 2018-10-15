@@ -26,7 +26,7 @@ namespace ATGate
         /// </summary>
         private List<Server> serverList = new List<Server> {
             //最好不要超过5个
-            new Server("问道一区","120.77.45.180"),
+            new Server("问道一区","192.168.1.145"),
         };
 
         public Homepage()
@@ -154,7 +154,7 @@ namespace ATGate
             try
             {
 #if DEBUG
-                string absPath = @"C:\Users\User\Desktop\微端1.6\asktao.mod";
+                string absPath = @"C:\Users\cjuns\Downloads\逍遥问道资源\问道私服架设工具\3 - 游戏本体 1.6\asktao.mod";
 #else
                 string absPath = @Directory.GetCurrentDirectory() + "/asktao.mod";
 #endif
@@ -176,7 +176,8 @@ namespace ATGate
                     bool status = false;
                     await Task.Factory.StartNew(() =>
                     {
-                        status = HandleStartGame.StartProcessByCmd(server);
+                        //status = HandleStartGame.StartProcessByCmd(server);
+                        status = HandleStartGame.StartProcessSimplify(absPath, server.CmdString);
                     });
 
                     if (status)

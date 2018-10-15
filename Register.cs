@@ -30,9 +30,9 @@ namespace ATGate
                 string username = tb_username.Text;
                 string password = tb_password.Text;
 
-                if (!username.Equals("") && !password.Equals("")) //field not empty
+                if (!username.Equals("") && !password.Equals("")) //确保用户名和密码必填
                 {
-                    if (password.Length > 3) //password length > 3
+                    if (password.Length > 3) //确保密码长度 > 3
                     {
                         DBWrapper dw = new DBWrapper(server_ip, "default");
                         regStatus = await Task.Factory.StartNew(() => dw.CreateAccountWithMacVerificationAsync(username, password));
@@ -100,7 +100,6 @@ namespace ATGate
             {
                 if (Regex.IsMatch(e.KeyChar.ToString(), @"[^a-z^A-Z^0-9]"))
                 {
-                    // Stop the character from being entered into the control since it is illegal.
                     e.Handled = true;
                 }
             }

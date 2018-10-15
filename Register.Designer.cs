@@ -101,7 +101,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(182, 13);
             this.label3.TabIndex = 5;
-            this.label3.Text = "一台电脑不可注册超过5个账号";
+            this.label3.Text = "一台电脑不可注册超过"+Properties.Resources.registerLimit+"个账号";
             // 
             // Register
             // 
