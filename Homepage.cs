@@ -59,7 +59,14 @@ namespace ATGate
             lv_serverlist.Select();
 
             GetInitServerStatus();
-            lb_notification.Text = retrieveNotifications();
+
+            if (!Properties.Resources.noticeboard.Equals(""))
+            {
+                lb_notification.Visible = true;
+                lb_notification.Text = Properties.Resources.noticeboard;
+                pb_title_notification.Visible = true;
+
+            }
         }
 
         /// <summary>
@@ -109,11 +116,12 @@ namespace ATGate
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void UpdateServerStatus(object sender, EventArgs e) {
+            int index = 0;
             try
             {
                 selectedServer = lv_serverlist.SelectedIndices[0];
 
-                int index = selectedServer;
+                index = selectedServer;
                 lv_serverlist.Items[index].SubItems[1].Text = "...";
                 
                 await Task.Factory.StartNew(() =>
@@ -140,7 +148,7 @@ namespace ATGate
             }
             catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                MessageBox.Show("更新服务器状态失败，请重试。", "更新服务器状态");
+                MessageBox.Show("[HP1]\n更新服务器状态失败，请重试。QQ:" + Properties.Resources.tech_qq + " \nServer: " + serverList[index].Ip, "更新服务器状态");
             }
         }
 
@@ -154,12 +162,11 @@ namespace ATGate
             try
             {
 #if DEBUG
-                string absPath = @"C:\Users\cjuns\Downloads\逍遥问道资源\问道私服架设工具\3 - 游戏本体 1.6\asktao.mod";
+                string absPath = @"asktao.mod";
 #else
                 string absPath = @Directory.GetCurrentDirectory() + "/asktao.mod";
 #endif
-                string CommandLine = Properties.Resources.asktao_des;
-
+                
                 if (!CheckServerStatus())
                 {
                     return;

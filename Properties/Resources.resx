@@ -201,7 +201,7 @@
     <comment>QQ群，用于验证</comment>
   </data>
   <data name="notification_url" xml:space="preserve">
-    <value>https://www.dropbox.com/s/2eqijh1hq05o7bw/%E5%85%AC%E5%91%8A.txt?dl=1</value>
+    <value />
     <comment>公告链接</comment>
   </data>
   <data name="gold_amt" xml:space="preserve">
@@ -219,5 +219,9 @@
   </data>
   <data name="tech_qq" xml:space="preserve">
     <value>1097808560</value>
+  </data>
+  <data name="noticeboard" xml:space="preserve">
+    <value />
+    <comment>公告</comment>
   </data>
 </root>

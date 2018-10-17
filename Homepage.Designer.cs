@@ -58,7 +58,7 @@ namespace ATGate
             // 
             this.btn_start_game.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btn_start_game.BackColor = System.Drawing.Color.Transparent;
-            this.btn_start_game.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(0,255,255,255);
+            this.btn_start_game.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.btn_start_game.FlatAppearance.BorderSize = 0;
             this.btn_start_game.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btn_start_game.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
@@ -253,6 +253,7 @@ namespace ATGate
             this.pb_title_notification.Size = new System.Drawing.Size(90, 46);
             this.pb_title_notification.TabIndex = 16;
             this.pb_title_notification.TabStop = false;
+            this.pb_title_notification.Visible = false;
             this.pb_title_notification.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AllowMoveWindow_MouseDown);
             // 
             // lb_notification
@@ -265,6 +266,7 @@ namespace ATGate
             this.lb_notification.Size = new System.Drawing.Size(46, 21);
             this.lb_notification.TabIndex = 17;
             this.lb_notification.Text = "...";
+            this.lb_notification.Visible = false;
             this.lb_notification.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AllowMoveWindow_MouseDown);
             // 
             // pb_text_delay

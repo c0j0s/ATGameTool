@@ -202,7 +202,16 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.dropbox.com/s/2eqijh1hq05o7bw/%E5%85%AC%E5%91%8A.txt?dl=1.
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string noticeboard {
+            get {
+                return ResourceManager.GetString("noticeboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string notification_url {
             get {
