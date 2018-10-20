@@ -40,6 +40,7 @@ namespace ATGate
                                 Environment.Exit(0);
                             }
 #else
+                            
                             Application.Run(new Homepage());
 #endif
                         }
@@ -94,6 +95,7 @@ namespace ATGate
         {
             Application.ThreadException += ApplicationThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -119,7 +121,6 @@ namespace ATGate
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
             ReportCrash((Exception)unhandledExceptionEventArgs.ExceptionObject);
-            Environment.Exit(0);
         }
 
         private static void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
@@ -129,8 +130,15 @@ namespace ATGate
 
         public static void ReportCrash(Exception exception, string developerMessage = "")
         {
-            var reportCrash = new ReportCrash(Properties.Resources.crash_report_email);
-            reportCrash.Send(exception);
+            if (exception.GetType().Equals(new FileLoadException().GetType()))
+            {
+                ATGateUtil.HandleDotNetException();
+            }
+            else {
+                var reportCrash = new ReportCrash(Properties.Resources.crash_report_email);
+                reportCrash.Send(exception);
+                Environment.Exit(0);
+            }
         }
 
     }
