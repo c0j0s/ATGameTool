@@ -9,12 +9,12 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("问道登入器")]
-[assembly: AssemblyDescription("A Custom Luancher for AskTao")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("CJS")]
+[assembly: AssemblyCompany("COJOS")]
 [assembly: AssemblyProduct("问道登入器")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
-[assembly: AssemblyTrademark("CJS")]
+[assembly: AssemblyCopyright("Copyright ©  COJOS 2018")]
+[assembly: AssemblyTrademark("COJOS")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -36,7 +36,7 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 // MajorVersion.ClientVersion.NeedVerify?.BuildVersion:
-[assembly: AssemblyVersion("1.5.0.000")]
-[assembly: AssemblyFileVersion("1.5.0.000")]
+[assembly: AssemblyVersion("1.5.1.100")]
+[assembly: AssemblyFileVersion("1.5.1.100")]
 [assembly: NeutralResourcesLanguage("zh-CN")]
 

@@ -26,7 +26,7 @@ namespace ATGate
         /// </summary>
         private List<Server> serverList = new List<Server> {
             //最好不要超过5个
-            new Server("问道一区","192.168.1.145"),
+            new Server("问道一区","192.168.1.146"),
         };
 
         public Homepage()
@@ -245,8 +245,10 @@ namespace ATGate
                 }
                 Console.WriteLine("Register server " + selectedServer);
                 Server server = serverList[selectedServer];
-                Register register = new Register(server);
-                register.Text = server.Name + " - 注册账号";
+                Register register = new Register(server)
+                {
+                    Text = server.Name + " - 注册账号"
+                };
                 register.ShowDialog(this);
             }
             catch (System.IO.FileLoadException) {
@@ -278,7 +280,7 @@ namespace ATGate
         /// 获取公告
         /// </summary>
         /// <returns></returns>
-        private string retrieveNotifications() {
+        private string RetrieveNotifications() {
 
             string notification = "";
             try
@@ -321,12 +323,12 @@ namespace ATGate
             }
         }
 
-        private void btn_close_Click(object sender, EventArgs e)
+        private void Btn_close_Click(object sender, EventArgs e)
         {
             Environment.Exit(0);
         }
 
-        private void min_btn_Click(object sender, EventArgs e)
+        private void Min_btn_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
         }

@@ -23,7 +23,7 @@ namespace ATGate
                 {
                     if (!createdNew)
                     {
-                        MessageBox.Show("启动器已运行", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        MessageBox.Show("[P1]\n启动器已运行", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         return;
                     }
                     else
@@ -63,7 +63,7 @@ namespace ATGate
         private static bool CheckPreRequisite()
         {
 #if DEBUG
-            string gameFile = @"C:\Users\cjuns\Downloads\逍遥问道资源\问道私服架设工具\3 - 游戏本体 1.6\asktao.mod";
+            string gameFile = @"asktao.mod";
 #else
             string gameFile = "asktao.mod";
 #endif
@@ -94,7 +94,6 @@ namespace ATGate
         {
             Application.ThreadException += ApplicationThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
-            Application.ApplicationExit += ApplicationExitHandler;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -113,26 +112,10 @@ namespace ATGate
             Application.Run(qLogon);
 
             watch.Stop();
-            //CreateAccountRecordAsync(watch.ElapsedMilliseconds.ToString(), qLogon.verifiedStatus ? 1 : 0);
 
             return qLogon.verifiedStatus;
         }
 
-        //private static async Task CreateAccountRecordAsync(string timeTaken, int loginSuccess)
-        //{
-        //    try
-        //    {
-        //        Console.WriteLine("Login Time:" + timeTaken + " " + loginSuccess);
-        //        DBWrapper adw = new DBWrapper("launcher");
-        //        await Task.Factory.StartNew(() => adw.CreateAccountRecord(timeTaken, loginSuccess, ATGateUtil.GetIpAddr(), ATGateUtil.GetMacAddr(), Application.ProductVersion));
-
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //    }
-        //}
-        
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
             ReportCrash((Exception)unhandledExceptionEventArgs.ExceptionObject);
@@ -150,11 +133,6 @@ namespace ATGate
             reportCrash.Send(exception);
         }
 
-        private static void ApplicationExitHandler(object sender, EventArgs e)
-        {
-            //run all jobs
-            //Commit database
-        }
     }
 
 }

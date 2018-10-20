@@ -194,7 +194,7 @@ namespace ATGate
             this.btn_close.TabIndex = 12;
             this.btn_close.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btn_close.UseVisualStyleBackColor = false;
-            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
+            this.btn_close.Click += new System.EventHandler(this.Btn_close_Click);
             // 
             // pb_title_disct
             // 
@@ -228,7 +228,7 @@ namespace ATGate
             this.min_btn.TabIndex = 14;
             this.min_btn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.min_btn.UseVisualStyleBackColor = false;
-            this.min_btn.Click += new System.EventHandler(this.min_btn_Click);
+            this.min_btn.Click += new System.EventHandler(this.Min_btn_Click);
             // 
             // pb_ctrl_bg
             // 

@@ -48,7 +48,7 @@ namespace ATGate
             get
             {
               
-                return "A Custom Launcher for Asktao Game. "  + Environment.NewLine + Environment.NewLine + "管理员:" + Environment.NewLine + Properties.Resources.admin_qq + Environment.NewLine +  Environment.NewLine +  "QQ群: " + Properties.Resources.qq_group;
+                return "管理员QQ:" + Properties.Resources.admin_qq + Environment.NewLine +    "QQ群: " + Properties.Resources.qq_group;
             }
         }
 
@@ -78,5 +78,6 @@ namespace ATGate
             }
         }
         #endregion
+
     }
 }
