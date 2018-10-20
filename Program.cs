@@ -1,3 +1,4 @@
+using ShellProgressBar;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,199 +10,405 @@ namespace ATDBMerger
 {
     class Program
     {
+        //Folder and files
+        static string outputPath = "./2 - 出口";
+        static string inputFolder = "./1 - 进口";
+        static string inputFolderA = "./1 - 进口/本体";
+        static string inputFolderB = "./1 - 进口/合并";
+        static string isolationPath = outputPath + "/隔离";
+
+        static string aAdb = inputFolder + "/1/dl_adb_all.sql";
+        static string aDdb = inputFolder + "/1/dl_ddb_1.sql";
+        static string bAdb = inputFolder + "/2/dl_adb_all.sql";
+        static string bDdb = inputFolder + "/2/dl_ddb_1.sql";
+
+        //SQL Values
+        static List<KeyValuePair<string, string>> aAccount;
+        static List<KeyValuePair<string, string>> aData;
+        static List<KeyValuePair<string, string>> bAccount;
+        static List<KeyValuePair<string, string>> bBasic_char_info;
+        static List<KeyValuePair<string, string>> bData;
+        static List<KeyValuePair<string, string>> bGid_info;
+        static List<KeyValuePair<string, string>> bProperty_recall;
+
+        static List<string> ConflictAccounts = new List<string>();
+        static List<List<KeyValuePair<string, string>>> ConflictAccountData = new List<List<KeyValuePair<string, string>>>();
+
+        //Values
+        static string oldDistrict = "";
+        static string newDistrict = "";
+        static int maxGid_info = 0;
+        static int maxProperty_recall = 0;
+        static string allDataText = "";
+
         static void Main(string[] args)
         {
-            // The code provided will print ‘Hello World’ to the console.
-            // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
-            Console.WriteLine("合区程序：任意键开始");
+            //Opening
+            Opening();
+
+            //Read All Values
+            ReadValues();
+
+            //ExtractDatabase
+            Console.WriteLine("\n开始读取SQL文件");
+            ExtractDatabase();
+
+            //Check for account conflicts
+            Console.WriteLine("\n【任意键开始检测账号冲突】");
+            Console.ReadKey();
+            CheckForAccountConflicts();
+
+            Console.WriteLine("\n【任意键开始生成合区数据】");
+            Console.ReadKey();
+            GenerateCombinedData();
+
+            Console.WriteLine("\n【任意键开始生成合区文件】");
+            Console.ReadKey();
+            GenerateCombinedSQLFiles();
+            
+            Ending();
+
+        }
+
+        /// <summary>
+        /// Opening and closing task
+        /// </summary>
+        private static void Opening()
+        {
+            Console.WriteLine("【合区程序：任意键开始】");
             Console.ReadKey();
 
-            // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
+            string[] container = {inputFolder,outputPath, isolationPath, inputFolderA, inputFolderB };
+            FolderUtil.CreateContainerFolders(container);
 
-            //Output Folders
-            CreateContainerFolders();
+            Console.WriteLine("\n已创建文件夹，把一下SQL文件放入相应的文件夹内");
+            Console.WriteLine("     ./1 - 进口/1/dl_adb_all.sql");
+            Console.WriteLine("     ./1 - 进口/2/dl_adb_all.sql");
+            Console.WriteLine("     ./1 - 进口/2/dl_ddb_1.sql");
+            Console.WriteLine("     确保SQL文件编码为GB2312！");
 
-            Console.WriteLine("\n已创建文件夹，把SQL文件放入相应的文件夹内");
-
-            Console.WriteLine("完成后任意键继续");
-            Console.ReadKey();
-
-            ReadFirstDatabase();
-            ReadSecondDatabase();
-            
-            Console.WriteLine("\n读取账号表格中");
-            ReadAndCheckAccountTable();
-            
-            GetLastIDs();
-
-            CleanUp();
-
-            Console.WriteLine("\n完成，任意键退出");
+            Console.WriteLine("【完成后任意键继续：】");
             Console.ReadKey();
         }
 
-        private static void CreateContainerFolders() {
-            List<string> foldersToCreate = new List<string> {
-                "./1 - 进口",
-                "./2 - 出口",
-                "./2 - 出口/隔离",
-                "./tmp",
-                "./1 - 进口/1",
-                "./1 - 进口/2",
-            };
 
-            foreach(string folder in foldersToCreate){
-                if (!Directory.Exists(folder))
+        private static void Ending()
+        {
+            Console.WriteLine("\n【完成，任意键退出】");
+            Console.ReadKey();
+        }
+
+        /// <summary>
+        /// Read All Values
+        /// </summary>
+        private static void ReadValues()
+        {
+            Console.WriteLine("\n输入以下信息");
+            Console.Write("     一号区名字 [默认-问道一区]：");
+            newDistrict = Console.ReadLine();
+
+            if (newDistrict.Equals(""))
+            {
+                newDistrict = "问道一区";
+            }
+
+            Console.Write("     二号区名字 [默认-问道二区]：");
+            oldDistrict = Console.ReadLine();
+
+            if (oldDistrict.Equals(""))
+            {
+                oldDistrict = "问道二区";
+            }
+
+
+            Console.WriteLine("\n输入数据库一里以下表格的最后一项识别号码");
+            string input = "";
+            do
+            {
+                Console.Write("     gid_info表: ");
+                input = Console.ReadLine();
+
+            } while (input.Equals(""));
+            maxGid_info = Int32.Parse(input);
+
+            do
+            {
+                Console.Write("     property_recall表: ");
+                input = Console.ReadLine();
+
+            } while (input.Equals(""));
+            maxProperty_recall = Int32.Parse(input);
+            
+        }
+
+        /// <summary>
+        /// Read All SQL Files
+        /// </summary>
+        private static void ExtractDatabase()
+        {
+            const int totalTicks = 5;
+            var options = new ProgressBarOptions
+            {
+                ProgressCharacter = '─',
+                ProgressBarOnBottom = true
+            };
+            using (var pbar = new ProgressBar(totalTicks, "读取SQL文件", options))
+            {
+                
+                pbar.Tick(aAdb);
+                aAccount = SQLUtil.OpenSqlFile(aAdb, "account");
+
+                
+                pbar.Tick(bDdb);
+                aData = SQLUtil.OpenSqlFile(aDdb, "data");
+
+                
+                pbar.Tick(bAdb);
+                bAccount = SQLUtil.OpenSqlFile(bAdb, "account");
+
+                
+                pbar.Tick(bDdb);
+                bBasic_char_info = SQLUtil.OpenSqlFile(bDdb, "basic_char_info");
+                bData = SQLUtil.OpenSqlFile(bDdb, "data");
+                bGid_info = SQLUtil.OpenSqlFile(bDdb, "gid_info");
+                bProperty_recall = SQLUtil.OpenSqlFile(bDdb, "property_recall");
+
+                pbar.Tick("读取完成");
+            }
+
+        }
+
+
+
+        /// <summary>
+        /// Check for account conflicts
+        /// </summary>
+        private static void CheckForAccountConflicts()
+        {
+            Console.WriteLine("以下账号有冲突：");
+            foreach (KeyValuePair<string,string> account in bAccount)
+            {
+                var result = aAccount.Where(kvp => SQLUtil.GetInsertId(kvp.Value) == SQLUtil.GetInsertId(account.Value));
+                foreach (KeyValuePair<string, string> item in result)
                 {
-                    Directory.CreateDirectory(folder);
+                    string accountId = SQLUtil.GetInsertId(item.Value);
+                    ConflictAccounts.Add(accountId);
+                    Console.WriteLine("      " + accountId);
                 }
             }
-        }
 
-        private static void ReadFirstDatabase()
-        {
-            string adb = "./1 - 进口/1/dl_adb_all.sql";
+            Console.Write("\n选项【1 - 隔离【默认】】【2 - 不处理】: ");
 
-            if (File.Exists(adb))
+            if (Console.ReadLine() == "2")
             {
-                SplitDatabaseTables(adb);
+                Console.WriteLine("已选择不处理");
+                return;
             }
             else
             {
-                //ERROR
-                Console.WriteLine("\n未找到文件，拜拜");
-                Console.ReadKey();
-                Environment.Exit(0);
+                Console.WriteLine("已选择隔离");
+                IsolateAccountData();
+                return;
             }
         }
 
-        private static void ReadSecondDatabase()
+        private static void IsolateAccountData()
         {
-            string adb = "./1 - 进口/2/dl_adb_all.sql";
-            string ddb = "./1 - 进口/2/dl_ddb_1.sql";
-
-            if (File.Exists(adb) && File.Exists(ddb))
+            //Console.WriteLine(bAccount.Count);
+            //Console.WriteLine(bData.Count);
+            int totalTicks = ConflictAccounts.Count;
+            var options = new ProgressBarOptions
             {
-                SplitDatabaseTables(adb, ddb);
-            }
-            else {
-                //ERROR
-                Console.WriteLine("\n未找到文件，拜拜");
-                Console.ReadKey();
-                Environment.Exit(0);
-            }
-        }
-
-        private static void SplitDatabaseTables(string adb)
-        {
-            List<string> adbTables = new List<string> {
-                "account"
+                ProgressCharacter = '─',
+                ProgressBarOnBottom = true
             };
-
-            string outputPath = "./tmp/atables";
-            List<KeyValuePair<string, string>> atables = ReadSQLFiles(adb, adbTables);
-
-
-            if (!Directory.Exists(outputPath))
+            using (var pbar = new ProgressBar(totalTicks, "开始隔离", options))
             {
-                Directory.CreateDirectory(outputPath);
-            }
-
-
-            foreach (var item in adbTables)
-            {
-                WriteSplitedTableToFiles(outputPath, item, atables);
-            }
-        }
-
-        private static void SplitDatabaseTables(string adb, string ddb)
-        {
-            List<string> adbTables = new List<string> {
-                "account"
-            };
-            List<string> ddbTables = new List<string> {
-                "basic_char_info",
-                "data",
-                "gid_info",
-                "property_recall",
-            };
-
-            string outputPath = "./tmp/btables";
-            List<KeyValuePair<string, string>> atables = ReadSQLFiles(adb, adbTables);
-            List<KeyValuePair<string, string>> dtables = ReadSQLFiles(ddb, ddbTables);
-
-
-            if (!Directory.Exists(outputPath))
-            {
-                Directory.CreateDirectory(outputPath);
-            }
-
-
-            foreach (var item in adbTables)
-            {
-                WriteSplitedTableToFiles(outputPath, item, atables);
-            }
-
-            foreach (var item in ddbTables)
-            {
-                WriteSplitedTableToFiles(outputPath, item, dtables);
-            }
-        }
-
-        private static List<KeyValuePair<string, string>> ReadSQLFiles(string sqlPath, List<string> tablesNames)
-        {
-            List<KeyValuePair<string, string>> List = new List<KeyValuePair<string, string>>();
                 
-            using (StreamReader inputReader = new StreamReader(sqlPath, Encoding.GetEncoding("gb2312")))
-            {
-                while (!inputReader.EndOfStream)
+                foreach (string account in ConflictAccounts)
                 {
-                    var line = inputReader.ReadLine();
+                    
+                    pbar.Tick("隔离" + account);
+                    IEnumerable<KeyValuePair<string, string>> accountInfo = bAccount.Where(kvp => kvp.Value.Contains("'" + account + "'"));
+                    IEnumerable<KeyValuePair<string, string>> accountData = bData.Where(kvp => kvp.Value.Contains("'login', '" + account + "'"));
 
-                    foreach (var item in tablesNames)
-                    {
-                        if (MatchLines(line, item))
-                        {
-                            List.Add(new KeyValuePair<string, string>(item,line));
-                        }
-                    }
+                    ConflictAccountData.Add(accountInfo.ToList());
+                    ConflictAccountData.Add(accountData.ToList());
+                    
+                    IEnumerable<KeyValuePair<string, string>> accountCleanInfo = bAccount.Where(kvp => !kvp.Value.Contains("'" + account + "'"));
+                    IEnumerable<KeyValuePair<string, string>> accountCleanData = bData.Where(kvp => !kvp.Value.Contains("'login', '" + account + "'"));
+
+                    bAccount = accountCleanInfo.ToList();
+                    bData = accountCleanData.ToList();
+
                 }
-                return List;
+                pbar.Tick("完成隔离");
             }
         }
 
-        private static bool MatchLines(String line,String tableName) {
-            if (line.StartsWith("INSERT INTO `" + tableName + "` VALUES"))
-            {
-                try
-                {
-                    return true;
-                }
-                catch (FormatException) { }
-                catch (OverflowException) { }
-            }
-            return false;
-        }
-
-
-        private static void WriteSplitedTableToFiles(string outputPath, string item, List<KeyValuePair<string, string>> dicts)
+        private static void GenerateCombinedData()
         {
-            string file = outputPath + "/" + item + ".sql";
-            Console.WriteLine("Writing to " + file);
+            int totalTicks = 0;
+            var options = new ProgressBarOptions
+            {
+                ProgressCharacter = '─',
+                ProgressBarOnBottom = true
+            };
+
+            List<KeyValuePair<string, string>> temp_bBasic_char_info = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> temp_bGid_info = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> temp_bProperty_recall = new List<KeyValuePair<string, string>>();
+
+            /*
+             * gid_info
+             */
+            if (maxGid_info > 0)
+            {
+                totalTicks = bGid_info.Count;
+                using (var pbar = new ProgressBar(totalTicks, "处理 gid_info", options))
+                {
+                    foreach (KeyValuePair<string, string> item in bGid_info)
+                    {
+                        string oldId = SQLUtil.GetInsertId(item.Value);
+                        int id = Int32.Parse(oldId) + maxGid_info;
+                        pbar.Tick(oldId + " -> " + id);
+                        temp_bGid_info.Add(new KeyValuePair<string, string>(item.Key, item.Value.Replace("'" + oldId + "'", "'" + id + "'")));
+                    }
+                    bGid_info = temp_bGid_info;
+                }
+            }
+            /*
+             * property_recall
+             */
+            if (maxProperty_recall > 0)
+            {
+                totalTicks = bProperty_recall.Count;
+                using (var pbar = new ProgressBar(totalTicks, "处理 property_recall", options))
+                {
+                    
+                    foreach (KeyValuePair<string, string> item in bProperty_recall)
+                    {
+                        string oldId = SQLUtil.GetInsertId(item.Value);
+                        int id = Int32.Parse(oldId) + maxProperty_recall;
+                        pbar.Tick(oldId + " -> " + id);
+                        temp_bProperty_recall.Add(new KeyValuePair<string, string>(item.Key, item.Value.Replace("'" + oldId + "'", "'" + id + "'")));
+                    }
+
+                    bProperty_recall = temp_bProperty_recall;
+                }
+            }
+
+            /*
+             * basic_char_info
+             */
+            List<KeyValuePair<string, string>> hexPairToReplace = new List<KeyValuePair<string, string>>();
+
+            totalTicks = bBasic_char_info.Count;
+            using (var pbar = new ProgressBar(totalTicks, "处理 basic_char_info", options))
+            {
+
+                foreach (KeyValuePair<string, string> item in bBasic_char_info)
+                {
+                    string oldHexId = SQLUtil.GetInsertId(item.Value);
+                    int oldId = int.Parse(oldHexId, System.Globalization.NumberStyles.HexNumber);
+                    int id = oldId + maxGid_info;
+                    string newIdHex = id.ToString("X").PadLeft(16, '0');
+
+                    pbar.Tick(oldHexId + " -> " + newIdHex);
+                    hexPairToReplace.Add(new KeyValuePair<string, string>(oldHexId, newIdHex));
+                    temp_bBasic_char_info.Add(new KeyValuePair<string, string>(item.Key, item.Value.Replace("'" + oldHexId + "'", "'" + newIdHex + "'")));
+                }
+                bBasic_char_info = temp_bBasic_char_info;
+            }
+            /*
+             * data
+             */
+            
+            Console.WriteLine("\n处理 data冲突: ");
+            List<string> aDataValues = new List<string>();
+            foreach (KeyValuePair<string,string> item in aData)
+            {
+                aDataValues.Add(item.Value);
+            }
+            List<KeyValuePair<string, string>> AllMatchedLines = new List<KeyValuePair<string, string>>();
+            totalTicks = aDataValues.Count;
+            using (var pbar = new ProgressBar(totalTicks, "检测Data冲突", options))
+            {
+                foreach (string statement in aDataValues)
+                {
+                    //match primary keys and extract matching line
+                    pbar.Tick();
+                    IEnumerable<KeyValuePair<string, string>> MatchItems = bData.Where(kvp => SQLUtil.DataKeyDuplicate(kvp.Value, statement));
+                    AllMatchedLines.AddRange(MatchItems);
+                }
+            }
+            
+            totalTicks = AllMatchedLines.Count;
+            using (var pbar = new ProgressBar(totalTicks, "移除Data冲突", options))
+            {
+                foreach (KeyValuePair<string, string> item in AllMatchedLines)
+                {
+                    pbar.Tick("移除: " + item.Value);
+                    bData.Remove(item);
+                }
+            }
+
+            Console.WriteLine("\n处理 data: ");
+            foreach (KeyValuePair<string, string> item in bData)
+            {
+                allDataText += item.Value + "\n";
+            }
+
+            totalTicks = hexPairToReplace.Count;
+            using (var pbar = new ProgressBar(totalTicks, "处理 data ID", options))
+            {
+                foreach (KeyValuePair<string, string> pair in hexPairToReplace)
+                {
+                    pbar.Tick(pair.Key + " -> " + pair.Value);
+                    allDataText = allDataText.Replace(pair.Key, pair.Value);
+                }
+            }
+
+            if (!oldDistrict.Equals(newDistrict))
+            {
+                Console.WriteLine("\n处理 data 分区名: ");
+                allDataText = allDataText.Replace(oldDistrict, newDistrict);
+                
+            }
+
+            Console.WriteLine("处理完成");
+        }
+
+        private static void GenerateCombinedSQLFiles()
+        {
+            Console.WriteLine("...");
+            WriteToSQLFile(outputPath,bAccount);
+            WriteToSQLFile(outputPath, allDataText);
+            WriteToSQLFile(outputPath, bGid_info);
+            WriteToSQLFile(outputPath, bBasic_char_info);
+            WriteToSQLFile(outputPath, bProperty_recall);
+
+            foreach (List<KeyValuePair<string, string>> item in ConflictAccountData)
+            {
+                WriteToSQLFile(isolationPath, item);
+            }
+
+            Console.WriteLine("生成完成");
+        }
+
+        private static void WriteToSQLFile(string path, List<KeyValuePair<string, string>> item)
+        {
             try
             {
-                
+                string file = path + "/" + item[0].Key + ".sql";
+                Console.WriteLine("Writing to " + file);
                 FileStream fcreate = File.Open(file, FileMode.Create);
-                StreamWriter sw = new StreamWriter(fcreate,Encoding.GetEncoding("gb2312"));
+                StreamWriter sw = new StreamWriter(fcreate, Encoding.GetEncoding("gb2312"));
 
-                foreach (KeyValuePair<string, string> kvp in dicts)
+                foreach (KeyValuePair<string, string> pair in item)
                 {
-                    if (item.Equals(kvp.Key))
-                    {
-                        sw.WriteLine(kvp.Value);
-                    }
+                    sw.WriteLine(pair.Value);
                 }
-
                 //Close the file
                 sw.Close();
             }
@@ -212,272 +419,22 @@ namespace ATDBMerger
 
         }
 
-        private static void DeleteDirectory(string target_dir)
+        private static void WriteToSQLFile(string path, string AllData)
         {
-            string[] files = Directory.GetFiles(target_dir);
-            string[] dirs = Directory.GetDirectories(target_dir);
-
-            foreach (string file in files)
+            try
             {
-                File.SetAttributes(file, FileAttributes.Normal);
-                File.Delete(file);
+                string file = path + "/data.sql";
+                Console.WriteLine("Writing to " + file);
+                FileStream fcreate = File.Open(file, FileMode.Create);
+                StreamWriter sw = new StreamWriter(fcreate, Encoding.GetEncoding("gb2312"));
+                sw.WriteLine(AllData);
+                sw.Close();
             }
-
-            foreach (string dir in dirs)
+            catch (Exception e)
             {
-                DeleteDirectory(dir);
+                Console.WriteLine("Exception: " + e.Message);
             }
 
-            Directory.Delete(target_dir, false);
-        }
-
-        /*
-         * 
-         */
-
-        private static void ReadAndCheckAccountTable() {
-            string db1account = "./tmp/atables/account.sql";
-            string db2account = "./tmp/btables/account.sql";
-
-            List<string> listOfAccountInA = new List<string>();
-            List<string> listOfConflicts = new List<string>();
-
-            using (StreamReader inputReader = new StreamReader(db1account, Encoding.GetEncoding("gb2312")))
-            {
-                while (!inputReader.EndOfStream)
-                {
-                    var line = inputReader.ReadLine();
-                    string account = line.Remove(0, 31).Split(',')[0].Replace("'", "");
-                    listOfAccountInA.Add(account);
-                }
-            }
-
-            using (StreamReader inputReader = new StreamReader(db2account, Encoding.GetEncoding("gb2312")))
-            {
-                while (!inputReader.EndOfStream)
-                {
-                    var line = inputReader.ReadLine();
-                    string account = line.Remove(0, 31).Split(',')[0].Replace("'", "");
-                    if (listOfAccountInA.Contains(account))
-                    {
-                        listOfConflicts.Add(account);
-                    }
-                }
-            }
-
-            Console.WriteLine("\n以下账号有冲突：");
-            foreach (var account in listOfConflicts)
-            {
-                Console.WriteLine("--" + account);
-            }
-            Console.WriteLine("\n选项：【1 - 不处理】【2 - 隔离】");
-
-            if(Console.ReadLine() == "2") {
-                Console.WriteLine("\n已选择隔离");
-                IsolateAccount(listOfConflicts);
-                return;
-            }
-            else {
-                Console.WriteLine("\n已选择不处理");
-                return;
-            }
-        }
-
-        private static void IsolateAccount(List<string> listOfConflicts) {
-            string accountFile = "./tmp/btables/account.sql";
-            string dataFile = "./tmp/btables/data.sql";
-            Console.WriteLine("\n隔离中： " );
-
-            string accountFileData = "";
-            string dataFileData = "";
-
-            string isoAccountFileData = "";
-            string isoDataFileData = "";
-
-            using (StreamReader inputReader = new StreamReader(accountFile, Encoding.GetEncoding("gb2312")))
-            {
-                Console.WriteLine("- 隔离account");
-                while (!inputReader.EndOfStream)
-                {
-                    var line = inputReader.ReadLine();
-                    foreach (string account in listOfConflicts)
-                    {
-                        if (!line.Contains(account))
-                        {
-                            accountFileData += line + Environment.NewLine ;
-                        }
-                        else
-                        {
-                            isoAccountFileData += line + Environment.NewLine;
-                        }
-                    }
-                }
-            }
-
-            using (StreamReader inputReader = new StreamReader(dataFile, Encoding.GetEncoding("gb2312")))
-            {
-
-                Console.WriteLine("- 隔离data");
-                Console.WriteLine("请稍等。。。。");
-                while (!inputReader.EndOfStream)
-                {
-                    var line = inputReader.ReadLine();
-                    foreach (string account in listOfConflicts)
-                    {
-                        if (!line.Contains(account))
-                        {
-                            dataFileData += line + Environment.NewLine;
-                        }
-                        else {
-                            isoDataFileData += line + Environment.NewLine;
-                        }
-                    }
-                }
-            }
-
-            Console.WriteLine("保存修改" );
-            File.WriteAllText(accountFile, accountFileData, Encoding.GetEncoding("gb2312"));
-            File.WriteAllText(dataFile, dataFileData, Encoding.GetEncoding("gb2312"));
-
-            if (!Directory.Exists("./tmp/iso"))
-            {
-                Directory.CreateDirectory("./tmp/iso");
-            }
-
-            Console.WriteLine("写入隔离区" );
-            File.WriteAllText(accountFile.Replace("btables","iso"), isoAccountFileData, Encoding.GetEncoding("gb2312"));
-            File.WriteAllText(dataFile.Replace("btables", "iso"), isoDataFileData, Encoding.GetEncoding("gb2312"));
-
-            Console.WriteLine("\n隔离完成");
-        }
-
-        /*
-         * 
-         */
-
-        private static void GetLastIDs()
-        {
-            Console.Write("\n输入一号区名字[默认-问道一区]：");
-            string newDistrict = Console.ReadLine();
-
-            if (newDistrict.Equals(""))
-            {
-                newDistrict = "问道一区";
-            }
-
-            Console.Write("\n输入二号区名字[默认-问道二区]：");
-            string oldDistrict = Console.ReadLine();
-
-            if (oldDistrict.Equals(""))
-            {
-                oldDistrict = "问道二区";
-            }
-
-            Console.WriteLine("\n输入数据库一里以下表格的最后一项识别号码");
-            Console.Write("gid_info表: ");
-            
-            int gid_info = Int32.Parse(Console.ReadLine());
-
-            Console.Write("property_recall表: ");
-            
-            int property_recall = Int32.Parse(Console.ReadLine());
-
-            Console.WriteLine("\n开始读取");
-            List<int> IdsToReplace = ReadGidInfo();
-            SearchAndReplace(gid_info, IdsToReplace, oldDistrict,newDistrict, property_recall);
-        }
-
-        private static List<int> ReadGidInfo()
-        {
-            string FilePath = "./tmp/btables/gid_info.sql";
-            List<int> IdsToReplace = new List<int>();
-
-            using (StreamReader inputReader = new StreamReader(FilePath, Encoding.GetEncoding("gb2312")))
-            {
-                while (!inputReader.EndOfStream)
-                {
-                    var line = inputReader.ReadLine();
-                    int id = Int32.Parse(line.Remove(0,31).Split(',')[0].Replace("'",""));
-                    IdsToReplace.Add(id);
-                }
-            }
-
-            return IdsToReplace;
-        }
-
-        private static void SearchAndReplace(int gid_info, List<int> idsToReplace, string oldDistrict, string newDistrict, int property_recall)
-        {
-            List<string> filesToLoop = new List<string> {
-                "./tmp/btables/basic_char_info.sql",
-                "./tmp/btables/data.sql",
-                "./tmp/btables/gid_info.sql",
-                "./tmp/btables/property_recall.sql",
-            };
-
-            if (!Directory.Exists("./tmp/replaced")) {
-                Directory.CreateDirectory("./tmp/replaced");
-            }
-
-            foreach (var file in filesToLoop)
-            {
-                if (file.Equals("./tmp/btables/property_recall.sql"))
-                {
-                    List<int> prIdstoReplace = new List<int>();
-                    using (StreamReader inputReader = new StreamReader(file, Encoding.GetEncoding("gb2312")))
-                    {
-                        while (!inputReader.EndOfStream)
-                        {
-                            var line = inputReader.ReadLine();
-                            int id = Int32.Parse(line.Remove(0, 38).Split(',')[0].Replace("'", ""));
-                            prIdstoReplace.Add(id);
-                        }
-                    }
-
-                    string prtext = File.ReadAllText(file, Encoding.GetEncoding("gb2312"));
-                    foreach (var id in prIdstoReplace)
-                    {
-                        prtext = prtext.Replace("'" + id + "'", "'" + (id + property_recall) + "'");
-                    }
-                    File.WriteAllText(file, prtext, Encoding.GetEncoding("gb2312"));
-                }
-
-                Console.WriteLine("\n读取中： " + file);
-                string text = File.ReadAllText(file, Encoding.GetEncoding("gb2312"));
-
-                foreach (var id in idsToReplace)
-                {
-                    int newId = gid_info + id;
-                    string newIdHex = newId.ToString("X").PadLeft(16, '0');
-                    string searchIDString = id.ToString("X").PadLeft(16, '0');
-                    Console.WriteLine("-- 替换中: " + id + " to [" + newId + "] [" + newIdHex + "]");
-
-                    if (file.Equals("./tmp/btables/gid_info.sql"))
-                    {
-                        text = text.Replace("'" + id + "'", "'" + newId + "'");
-                    } else {
-                        text = text.Replace(searchIDString, newIdHex);
-                    }
-
-                    text = text.Replace(oldDistrict, newDistrict);
-                    
-                }
-                File.WriteAllText(file.Replace("btables", "replaced"), text, Encoding.GetEncoding("gb2312"));
-                
-            }
-            
-        }
-
-        private static void CleanUp()
-        {
-            File.Copy("./tmp/btables/account.sql", "./2 - 出口/account.sql");
-            File.Copy("./tmp/replaced/basic_char_info.sql", "./2 - 出口/basic_char_info.sql");
-            File.Copy("./tmp/replaced/data.sql", "./2 - 出口/data.sql");
-            File.Copy("./tmp/replaced/gid_info.sql", "./2 - 出口/gid_info.sql");
-            File.Copy("./tmp/replaced/property_recall.sql", "./2 - 出口/property_recall.sql");
-            File.Copy("./tmp/iso/account.sql", "./2 - 出口/隔离/account.sql");
-            File.Copy("./tmp/iso/data.sql", "./2 - 出口/隔离/data.sql");
-
-            DeleteDirectory("./tmp");
         }
 
     }
