@@ -45,6 +45,13 @@ namespace ATGate
             get => "/C start asktao.mod " + this.name + ";" + this.ip + ";"+Port+";kbd:0;swictch:0;paroxy:0;flag:;uncheck";
             set => cmdString = value;
         }
+
+        public string CmdArgs
+        {
+            get => " " + this.name + ";" + this.ip + ";" + Port + ";kbd:0;swictch:0;paroxy:0;flag:;uncheck";
+            set => cmdString = value;
+        }
+
         public string Status { get => status; set => status = value; }
         public string Delay { get => delay+"ms"; set => delay = value; }
     }

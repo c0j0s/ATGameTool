@@ -47,6 +47,7 @@ namespace ATGate
             this.lb_notification = new System.Windows.Forms.Label();
             this.pb_text_delay = new System.Windows.Forms.PictureBox();
             this.pb_divider = new System.Windows.Forms.PictureBox();
+            this.cb_use_cp_mode = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pb_title_disct)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ctrl_bg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_title_notification)).BeginInit();
@@ -102,13 +103,13 @@ namespace ATGate
             this.btn_about.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(31)))), ((int)(((byte)(38)))));
             this.btn_about.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_about.ForeColor = System.Drawing.Color.White;
-            this.btn_about.Location = new System.Drawing.Point(897, 121);
+            this.btn_about.Location = new System.Drawing.Point(897, 114);
             this.btn_about.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_about.Name = "btn_about";
-            this.btn_about.Size = new System.Drawing.Size(19, 42);
+            this.btn_about.Size = new System.Drawing.Size(19, 68);
             this.btn_about.TabIndex = 7;
-            this.btn_about.Text = "关于";
-            this.btn_about.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_about.Text = "常见问题";
+            this.btn_about.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn_about.UseVisualStyleBackColor = false;
             this.btn_about.Click += new System.EventHandler(this.Btn_about_Click);
             // 
@@ -167,13 +168,13 @@ namespace ATGate
             // 
             this.延迟.Text = "延迟";
             this.延迟.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.延迟.Width = 70;
+            this.延迟.Width = 75;
             // 
             // 操作
             // 
             this.操作.Text = "操作";
             this.操作.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.操作.Width = 100;
+            this.操作.Width = 95;
             // 
             // btn_close
             // 
@@ -187,7 +188,7 @@ namespace ATGate
             this.btn_close.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(31)))), ((int)(((byte)(38)))));
             this.btn_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_close.ForeColor = System.Drawing.Color.Black;
-            this.btn_close.Location = new System.Drawing.Point(894, 62);
+            this.btn_close.Location = new System.Drawing.Point(894, 57);
             this.btn_close.Margin = new System.Windows.Forms.Padding(0);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(24, 28);
@@ -221,7 +222,7 @@ namespace ATGate
             this.min_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(31)))), ((int)(((byte)(38)))));
             this.min_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.min_btn.ForeColor = System.Drawing.Color.Black;
-            this.min_btn.Location = new System.Drawing.Point(894, 93);
+            this.min_btn.Location = new System.Drawing.Point(894, 87);
             this.min_btn.Margin = new System.Windows.Forms.Padding(0);
             this.min_btn.Name = "min_btn";
             this.min_btn.Size = new System.Drawing.Size(24, 25);
@@ -234,10 +235,10 @@ namespace ATGate
             // 
             this.pb_ctrl_bg.BackColor = System.Drawing.Color.Transparent;
             this.pb_ctrl_bg.BackgroundImage = global::ATGate.Properties.Resources.controls_bg;
-            this.pb_ctrl_bg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.pb_ctrl_bg.Location = new System.Drawing.Point(871, 35);
+            this.pb_ctrl_bg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_ctrl_bg.Location = new System.Drawing.Point(888, 40);
             this.pb_ctrl_bg.Name = "pb_ctrl_bg";
-            this.pb_ctrl_bg.Size = new System.Drawing.Size(70, 151);
+            this.pb_ctrl_bg.Size = new System.Drawing.Size(36, 160);
             this.pb_ctrl_bg.TabIndex = 15;
             this.pb_ctrl_bg.TabStop = false;
             this.pb_ctrl_bg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AllowMoveWindow_MouseDown);
@@ -294,6 +295,19 @@ namespace ATGate
             this.pb_divider.TabIndex = 19;
             this.pb_divider.TabStop = false;
             // 
+            // cb_use_cp_mode
+            // 
+            this.cb_use_cp_mode.AutoSize = true;
+            this.cb_use_cp_mode.BackColor = System.Drawing.Color.Transparent;
+            this.cb_use_cp_mode.FlatAppearance.BorderSize = 0;
+            this.cb_use_cp_mode.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_use_cp_mode.Location = new System.Drawing.Point(664, 476);
+            this.cb_use_cp_mode.Name = "cb_use_cp_mode";
+            this.cb_use_cp_mode.Size = new System.Drawing.Size(104, 16);
+            this.cb_use_cp_mode.TabIndex = 20;
+            this.cb_use_cp_mode.Text = "使用本地开启模式";
+            this.cb_use_cp_mode.UseVisualStyleBackColor = false;
+            // 
             // Homepage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -302,6 +316,7 @@ namespace ATGate
             this.BackgroundImage = global::ATGate.Properties.Resources.BG;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(952, 539);
+            this.Controls.Add(this.cb_use_cp_mode);
             this.Controls.Add(this.pb_text_delay);
             this.Controls.Add(this.pb_title_disct);
             this.Controls.Add(this.lv_serverlist);
@@ -356,6 +371,7 @@ namespace ATGate
         private System.Windows.Forms.Label lb_notification;
         private System.Windows.Forms.PictureBox pb_text_delay;
         private System.Windows.Forms.PictureBox pb_divider;
+        private System.Windows.Forms.CheckBox cb_use_cp_mode;
     }
 }
 

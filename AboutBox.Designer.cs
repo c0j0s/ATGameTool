@@ -81,7 +81,8 @@
             this.textBoxFAQ.TabIndex = 25;
             this.textBoxFAQ.TabStop = false;
             this.textBoxFAQ.Text = "1) 运行库问题\r\nSystem.IO.FileLoadException: Could not load file or assembly ...\r\n运行库问题" +
-    "，请下载安装最新.Net4.0更新包\r\n\r\n2) 注册限制\r\n请联系客服\r\n\r\n3) 服务器/数据库未连接\r\n请联系客服\r\n\r\n\r\n";
+    "，请下载安装最新.Net4.0更新包\r\n\r\n2) 注册限制\r\n请联系客服\r\n\r\n3) 服务器/数据库未连接\r\n请联系客服\r\n\r\n4) 游戏启动问题\r\n在主页勾选" +
+    " “本地模式” 后重试\r\n\r\n";
             // 
             // label1
             // 

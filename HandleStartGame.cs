@@ -15,6 +15,7 @@ namespace ATGate
         /// <returns>真/假</returns>
         public static bool StartProcessSimplify(string absPath, string cmd)
         {
+            Console.WriteLine(cmd);
             STARTUPINFO si = new STARTUPINFO();
             PROCESS_INFORMATION pi = new PROCESS_INFORMATION();
             bool status = CreateProcess(

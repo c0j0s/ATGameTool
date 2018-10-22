@@ -26,7 +26,7 @@ namespace ATGate
         /// </summary>
         private List<Server> serverList = new List<Server> {
             //最好不要超过5个
-            new Server("问道一区","192.168.1.146"),
+            new Server("问道一区","101.132.189.18"),
         };
 
         public Homepage()
@@ -180,19 +180,26 @@ namespace ATGate
                 }
                 else
                 {
+                    btn_start_game.Enabled = false;
+                    btn_register.Enabled = false;
+                    btn_about.Enabled = false;
+                    lb_startGameStatus.Visible = true;
+
                     bool status = false;
                     await Task.Factory.StartNew(() =>
                     {
-                        //status = HandleStartGame.StartProcessByCmd(server);
-                        status = HandleStartGame.StartProcessSimplify(absPath, server.CmdString);
+                        if (cb_use_cp_mode.Checked == false)
+                        {
+                            status = HandleStartGame.StartProcessByCmd(server);
+                        }
+                        else
+                        {
+                            status = HandleStartGame.StartProcessSimplify(absPath, server.CmdArgs);
+                        }
                     });
 
                     if (status)
                     {
-                        btn_start_game.Enabled = false;
-                        btn_register.Enabled = false;
-                        btn_about.Enabled = false;
-                        lb_startGameStatus.Visible = true;
 
                         await Task.Factory.StartNew(() =>
                         {
@@ -207,14 +214,19 @@ namespace ATGate
                         btn_register.Enabled = true;
                         btn_about.Enabled = true;
                         lb_startGameStatus.Visible = false;
+                        MessageBox.Show("游戏启动失败", "游戏启动失败");
                     }
 
                 }
 
             }
-            catch (Exception)
+            catch (FileLoadException)
             {
                 ATGateUtil.HandleDotNetException();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 
