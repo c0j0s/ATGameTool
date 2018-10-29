@@ -224,4 +224,12 @@
     <value />
     <comment>公告</comment>
   </data>
+  <data name="passwd_min" xml:space="preserve">
+    <value>3</value>
+    <comment>密码长度</comment>
+  </data>
+  <data name="allow_change_pass" xml:space="preserve">
+    <value>0</value>
+    <comment>允许修改密码？ 1：可，0：否</comment>
+  </data>
 </root>

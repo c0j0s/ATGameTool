@@ -36,7 +36,9 @@
             this.labelVersion = new System.Windows.Forms.Label();
             this.labelCopyright = new System.Windows.Forms.Label();
             this.label_des_info = new System.Windows.Forms.Label();
+            this.pb_highlight = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pb_divider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_highlight)).BeginInit();
             this.SuspendLayout();
             // 
             // textBoxDescription
@@ -50,7 +52,7 @@
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.ReadOnly = true;
-            this.textBoxDescription.Size = new System.Drawing.Size(233, 145);
+            this.textBoxDescription.Size = new System.Drawing.Size(176, 145);
             this.textBoxDescription.TabIndex = 23;
             this.textBoxDescription.TabStop = false;
             this.textBoxDescription.Text = "Description";
@@ -59,9 +61,9 @@
             // 
             this.pb_divider.BackColor = System.Drawing.Color.Transparent;
             this.pb_divider.Image = global::ATGate.Properties.Resources.divider;
-            this.pb_divider.Location = new System.Drawing.Point(256, 12);
+            this.pb_divider.Location = new System.Drawing.Point(199, -1);
             this.pb_divider.Name = "pb_divider";
-            this.pb_divider.Size = new System.Drawing.Size(10, 248);
+            this.pb_divider.Size = new System.Drawing.Size(10, 270);
             this.pb_divider.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb_divider.TabIndex = 24;
             this.pb_divider.TabStop = false;
@@ -72,23 +74,21 @@
             this.textBoxFAQ.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxFAQ.Font = new System.Drawing.Font("KaiTi", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.textBoxFAQ.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxFAQ.Location = new System.Drawing.Point(274, 39);
+            this.textBoxFAQ.Location = new System.Drawing.Point(218, 39);
             this.textBoxFAQ.Margin = new System.Windows.Forms.Padding(11, 6, 7, 6);
             this.textBoxFAQ.Multiline = true;
             this.textBoxFAQ.Name = "textBoxFAQ";
             this.textBoxFAQ.ReadOnly = true;
-            this.textBoxFAQ.Size = new System.Drawing.Size(445, 217);
+            this.textBoxFAQ.Size = new System.Drawing.Size(507, 250);
             this.textBoxFAQ.TabIndex = 25;
             this.textBoxFAQ.TabStop = false;
-            this.textBoxFAQ.Text = "1) 运行库问题\r\nSystem.IO.FileLoadException: Could not load file or assembly ...\r\n运行库问题" +
-    "，请下载安装最新.Net4.0更新包\r\n\r\n2) 注册限制\r\n请联系客服\r\n\r\n3) 服务器/数据库未连接\r\n请联系客服\r\n\r\n4) 游戏启动问题\r\n在主页勾选" +
-    " “本地模式” 后重试\r\n\r\n";
+            this.textBoxFAQ.Text = resources.GetString("textBoxFAQ.Text");
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("KaiTi", 15.75F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(445, 9);
+            this.label1.Location = new System.Drawing.Point(420, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(102, 21);
             this.label1.TabIndex = 27;
@@ -116,7 +116,7 @@
             // 
             this.labelCopyright.AutoSize = true;
             this.labelCopyright.ForeColor = System.Drawing.Color.DarkGray;
-            this.labelCopyright.Location = new System.Drawing.Point(12, 262);
+            this.labelCopyright.Location = new System.Drawing.Point(4, 267);
             this.labelCopyright.Name = "labelCopyright";
             this.labelCopyright.Padding = new System.Windows.Forms.Padding(3);
             this.labelCopyright.Size = new System.Drawing.Size(60, 27);
@@ -127,18 +127,31 @@
             // label_des_info
             // 
             this.label_des_info.AutoSize = true;
-            this.label_des_info.Location = new System.Drawing.Point(110, 75);
+            this.label_des_info.Location = new System.Drawing.Point(74, 77);
             this.label_des_info.Name = "label_des_info";
             this.label_des_info.Size = new System.Drawing.Size(54, 21);
             this.label_des_info.TabIndex = 31;
             this.label_des_info.Text = "详情";
+            // 
+            // pb_highlight
+            // 
+            this.pb_highlight.BackColor = System.Drawing.Color.Transparent;
+            this.pb_highlight.BackgroundImage = global::ATGate.Properties.Resources.min_btn;
+            this.pb_highlight.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_highlight.Location = new System.Drawing.Point(342, 200);
+            this.pb_highlight.Name = "pb_highlight";
+            this.pb_highlight.Size = new System.Drawing.Size(14, 14);
+            this.pb_highlight.TabIndex = 32;
+            this.pb_highlight.TabStop = false;
+            this.pb_highlight.Visible = false;
             // 
             // AboutBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(729, 299);
+            this.ClientSize = new System.Drawing.Size(734, 299);
+            this.Controls.Add(this.pb_highlight);
             this.Controls.Add(this.label_des_info);
             this.Controls.Add(this.labelCopyright);
             this.Controls.Add(this.labelVersion);
@@ -160,6 +173,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AboutBox";
             ((System.ComponentModel.ISupportInitialize)(this.pb_divider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_highlight)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,5 +189,6 @@
         private System.Windows.Forms.Label labelVersion;
         private System.Windows.Forms.Label labelCopyright;
         private System.Windows.Forms.Label label_des_info;
+        private System.Windows.Forms.PictureBox pb_highlight;
     }
 }

@@ -77,13 +77,13 @@ namespace ATGate
         /// </summary>
         /// <param name="value"></param>
         /// <returns>数字</returns>
-        public int Insert(string value)
+        public int Insert(string statement)
         {
             //Open connection
             if (OpenConnection())
             {
                 //Create Command
-                MySqlCommand cmd = new MySqlCommand(value, connection);
+                MySqlCommand cmd = new MySqlCommand(statement, connection);
                 int status = 0;
                 try
                 {
@@ -115,19 +115,53 @@ namespace ATGate
             }
         }
 
+        internal int Update(string statement)
+        {
+            if (OpenConnection())
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(statement, connection);
+                int status = 0;
+                try
+                {
+                    status = cmd.ExecuteNonQuery();
+                }
+                catch (MySqlException ex)
+                {
+                    Console.WriteLine(ex);
+                    switch (ex.Number)
+                    {
+                        case 0:
+                            MessageBox.Show("[DC8]\n数据库未连接，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip, "数据库未连接");
+                            break;
+                        default:
+                            Console.WriteLine(ex.Message);
+                            MessageBox.Show("[DC9]\n更改失败，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip, "更改失败");
+                            break;
+                    }
+                }
+                CloseConnection();
+                return status;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         /// <summary>
         /// 写入数据
         /// 无错误提示
         /// </summary>
         /// <param name="value"></param>
         /// <returns>数字</returns>
-        public int InsertNoException(string value)
+        public int InsertNoException(string statement)
         {
             //Open connection
             if (OpenConnection() == true)
             {
                 //Create Command
-                MySqlCommand cmd = new MySqlCommand(value, connection);
+                MySqlCommand cmd = new MySqlCommand(statement, connection);
                 int status = 0;
                 try
                 {

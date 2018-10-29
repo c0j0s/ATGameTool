@@ -9,12 +9,20 @@ namespace ATGate
     public partial class Register : Form
     {
         private string server_ip;
+        private bool allChangePass = true;
         Task<bool> regStatus;
 
         public Register(Server server)
         {
             InitializeComponent();
             server_ip = server.Ip;
+            if (Properties.Resources.allow_change_pass.Equals("0"))
+            {
+                allChangePass = false;
+                btn_change_pass.Visible = false;
+                tb_id_code.Enabled = false;
+                tb_id_code.Text = "不适用";
+            }
         }
 
         /// <summary>
@@ -30,13 +38,14 @@ namespace ATGate
 
                 string username = tb_username.Text;
                 string password = tb_password.Text;
+                string idCode = tb_id_code.Text;
 
-                if (!username.Equals("") && !password.Equals("")) //确保用户名和密码必填
+                if (!username.Equals("") && !password.Equals("") && !idCode.Equals("")) //确保用户名和密码必填
                 {
-                    if (password.Length > 3) //确保密码长度 > 3
+                    if (password.Length > int.Parse(Properties.Resources.passwd_min)) //确保密码长度 > 3
                     {
                         DBWrapper dw = new DBWrapper(server_ip, "default");
-                        regStatus = await Task.Factory.StartNew(() => dw.CreateAccountWithMacVerificationAsync(username, password));
+                        regStatus = await Task.Factory.StartNew(() => dw.CreateAccountWithMacVerificationAsync(username, password, idCode));
                     }
                     else
                     {
@@ -48,7 +57,7 @@ namespace ATGate
                 }
                 else
                 {
-                    MessageBox.Show("请输入用户名与密码。");
+                    MessageBox.Show("请输入用户名, 密码与验证码。");
                     EnableControls(true);
                     return;
                 }
@@ -72,6 +81,58 @@ namespace ATGate
             }
         }
 
+        private async void btn_change_pass_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                EnableControls(false);
+
+                string username = tb_username.Text;
+                string newPassword = tb_password.Text;
+                string idCode = tb_id_code.Text;
+
+                if (!username.Equals("") && !newPassword.Equals("") && !idCode.Equals("")) //确保用户名和密码必填
+                {
+                    if (newPassword.Length > int.Parse(Properties.Resources.passwd_min)) //确保密码长度 > 3
+                    {
+                        DBWrapper dw = new DBWrapper(server_ip, "default");
+                        regStatus = await Task.Factory.StartNew(() => dw.ResetAccountPasswordWithIdCode(username, newPassword, idCode));
+                    }
+                    else
+                    {
+                        MessageBox.Show("密码过短。");
+                        EnableControls(true);
+                        return;
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("请输入用户名, 新密码与验证码。");
+                    EnableControls(true);
+                    return;
+                }
+
+                if (regStatus.Result)
+                {
+                    this.Close();
+                }
+                else
+                {
+                    EnableControls(true);
+                }
+            }
+            catch (System.IO.FileLoadException)
+            {
+                ATGateUtil.HandleDotNetException();
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("无法更改请重试");
+                this.Close();
+            }
+        }
+
         /// <summary>
         /// 开关输入框
         /// </summary>
@@ -81,17 +142,19 @@ namespace ATGate
             {
                 btn_register.Enabled = true;
                 btn_register.UseWaitCursor = false;
+                btn_change_pass.Enabled = true;
                 tb_username.Enabled = true;
                 tb_password.Enabled = true;
-                btn_register.Text = "注册";
+                tb_id_code.Enabled = allChangePass;
             }
             else
             {
                 btn_register.Enabled = false;
                 btn_register.UseWaitCursor = true;
+                btn_change_pass.Enabled = false;
                 tb_username.Enabled = false;
                 tb_password.Enabled = false;
-                btn_register.Text = "注册中";
+                tb_id_code.Enabled = false;
             }
         }
 
@@ -130,5 +193,6 @@ namespace ATGate
             tt.Show(@"只允许字母,数字以及 + @ * / 等符号", (TextBox)sender, 0, 23, 3000);
         }
 
+        
     }
 }

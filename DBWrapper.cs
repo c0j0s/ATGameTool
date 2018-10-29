@@ -51,7 +51,7 @@ namespace ATGate
             }
         }
 
-        public async Task<bool> CreateAccountWithMacVerificationAsync(string username, string password)
+        public async Task<bool> CreateAccountWithMacVerificationAsync(string username, string password, string idCode)
         {
             bool regStatus = false;
             var macAddr = ATGateUtil.GetMacAddr();
@@ -59,7 +59,7 @@ namespace ATGate
             {
                 if (!CheckIfMacRegisterLimitExceeds(macAddr))
                 {
-                    if (CreateAccount(username, password, macAddr))
+                    if (CreateAccount(username, password, macAddr, idCode))
                     {
                         MessageBox.Show("注册成功！");
                         regStatus = true;
@@ -78,6 +78,36 @@ namespace ATGate
             return regStatus;
         }
 
+        
+        public async Task<bool> ResetAccountPasswordWithIdCode(string username, string newPassword, string idCode)
+        {
+            bool regStatus = false;
+            try
+            {
+                Tuple<string, string> encrypt = EncryptPassword(username, newPassword);
+                string encytPass = encrypt.Item1;
+                string checksum = encrypt.Item2;
+
+                string statement =
+                    "UPDATE account SET checksum='"+ checksum +", password='"+ encytPass +"' WHERE account='"+ username +"' AND memo='"+ idCode +"';COMMIT;";
+                Console.WriteLine(statement);
+                if (db.Update(statement) != 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("数据库未连接 Server: " + server_ip);
+            }
+
+            return regStatus;
+        }
+
         /// <summary>
         /// 注册账号
         /// </summary>
@@ -85,7 +115,7 @@ namespace ATGate
         /// <param name="password">密码</param>
         /// <param name="macAddr">MAC地址</param>
         /// <returns>真/假</returns>
-        public bool CreateAccount(string account, string password,string macAddr)
+        public bool CreateAccount(string account, string password,string macAddr, string idCode)
         {
             string encytPass, checksum;
             string privilege = "0";
@@ -110,7 +140,7 @@ namespace ATGate
                 "'"+ checksum +"', '', '', '', '', " +
                 "'', '', '', '0', '', " +
                 "'0', '0', '', '0', '', " +
-                "'"+ timeStamp + "', '');COMMIT;";
+                "'"+ timeStamp + "', '"+ idCode +"');COMMIT;";
             Console.WriteLine(statement);
             if (db.Insert(statement) != 0)
             {

@@ -70,6 +70,15 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0.
+        /// </summary>
+        internal static string allow_change_pass {
+            get {
+                return ResourceManager.GetString("allow_change_pass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to des:1B8E503A3BEFF909F50D908D6D53EEC26F10C662A39AC98425BFA4218DDBE81C4C196C772872AD4D4FA5C505CAC3E8D3948F59491F059B19D31CBC09FD257696D5CE934F044323E501C14D98F424DAD7233839407A1872FB.
         /// </summary>
         internal static string asktao_des {
@@ -216,6 +225,15 @@ namespace ATGate.Properties {
         internal static string notification_url {
             get {
                 return ResourceManager.GetString("notification_url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3.
+        /// </summary>
+        internal static string passwd_min {
+            get {
+                return ResourceManager.GetString("passwd_min", resourceCulture);
             }
         }
         

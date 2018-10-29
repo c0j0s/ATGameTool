@@ -26,12 +26,17 @@ namespace ATGate
         /// </summary>
         private List<Server> serverList = new List<Server> {
             //最好不要超过5个
-            new Server("问道一区","101.132.189.18"),
+            //new Server("问道一区","101.132.189.18"),
+            new Server("问道一区","192.168.200.3"),
         };
 
         public Homepage()
         {
             InitializeComponent();
+            if (System.Environment.OSVersion.Version.Major <= 5)
+            {
+                this.BackgroundImageLayout = ImageLayout.Stretch;
+            }
         }
 
         private void Homepage_Load(object sender, EventArgs e)
@@ -343,6 +348,12 @@ namespace ATGate
         private void Min_btn_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void lb_use_cp_mode_info_Click(object sender, EventArgs e)
+        {
+            AboutBox aboutBox = new AboutBox(true);
+            aboutBox.ShowDialog(this);
         }
     }
 }

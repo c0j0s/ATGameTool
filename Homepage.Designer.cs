@@ -48,6 +48,7 @@ namespace ATGate
             this.pb_text_delay = new System.Windows.Forms.PictureBox();
             this.pb_divider = new System.Windows.Forms.PictureBox();
             this.cb_use_cp_mode = new System.Windows.Forms.CheckBox();
+            this.lb_use_cp_mode_info = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pb_title_disct)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ctrl_bg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_title_notification)).BeginInit();
@@ -67,7 +68,7 @@ namespace ATGate
             this.btn_start_game.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_start_game.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btn_start_game.Image = ((System.Drawing.Image)(resources.GetObject("btn_start_game.Image")));
-            this.btn_start_game.Location = new System.Drawing.Point(291, 456);
+            this.btn_start_game.Location = new System.Drawing.Point(261, 430);
             this.btn_start_game.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_start_game.Name = "btn_start_game";
             this.btn_start_game.Size = new System.Drawing.Size(367, 64);
@@ -85,7 +86,7 @@ namespace ATGate
             this.btn_register.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_register.ForeColor = System.Drawing.Color.Black;
             this.btn_register.Image = global::ATGate.Properties.Resources.register_btn;
-            this.btn_register.Location = new System.Drawing.Point(65, 428);
+            this.btn_register.Location = new System.Drawing.Point(29, 402);
             this.btn_register.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_register.Name = "btn_register";
             this.btn_register.Size = new System.Drawing.Size(123, 92);
@@ -95,15 +96,15 @@ namespace ATGate
             // 
             // btn_about
             // 
-            this.btn_about.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_about.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_about.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(31)))), ((int)(((byte)(38)))));
-            this.btn_about.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(31)))), ((int)(((byte)(38)))));
+            this.btn_about.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.btn_about.FlatAppearance.BorderSize = 0;
             this.btn_about.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(31)))), ((int)(((byte)(38)))));
             this.btn_about.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(31)))), ((int)(((byte)(38)))));
             this.btn_about.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_about.ForeColor = System.Drawing.Color.White;
-            this.btn_about.Location = new System.Drawing.Point(897, 114);
+            this.btn_about.Location = new System.Drawing.Point(861, 94);
             this.btn_about.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_about.Name = "btn_about";
             this.btn_about.Size = new System.Drawing.Size(19, 68);
@@ -123,7 +124,7 @@ namespace ATGate
             this.lb_startGameStatus.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lb_startGameStatus.Image = global::ATGate.Properties.Resources.min_btn;
             this.lb_startGameStatus.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lb_startGameStatus.Location = new System.Drawing.Point(291, 418);
+            this.lb_startGameStatus.Location = new System.Drawing.Point(261, 392);
             this.lb_startGameStatus.Name = "lb_startGameStatus";
             this.lb_startGameStatus.Size = new System.Drawing.Size(367, 36);
             this.lb_startGameStatus.TabIndex = 9;
@@ -149,7 +150,7 @@ namespace ATGate
             this.lv_serverlist.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lv_serverlist.HideSelection = false;
             this.lv_serverlist.LabelWrap = false;
-            this.lv_serverlist.Location = new System.Drawing.Point(173, 154);
+            this.lv_serverlist.Location = new System.Drawing.Point(151, 132);
             this.lv_serverlist.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lv_serverlist.MultiSelect = false;
             this.lv_serverlist.Name = "lv_serverlist";
@@ -188,7 +189,7 @@ namespace ATGate
             this.btn_close.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(31)))), ((int)(((byte)(38)))));
             this.btn_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_close.ForeColor = System.Drawing.Color.Black;
-            this.btn_close.Location = new System.Drawing.Point(894, 57);
+            this.btn_close.Location = new System.Drawing.Point(858, 37);
             this.btn_close.Margin = new System.Windows.Forms.Padding(0);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(24, 28);
@@ -202,7 +203,7 @@ namespace ATGate
             this.pb_title_disct.BackColor = System.Drawing.Color.Transparent;
             this.pb_title_disct.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.pb_title_disct.Image = global::ATGate.Properties.Resources.Title_District;
-            this.pb_title_disct.Location = new System.Drawing.Point(173, 94);
+            this.pb_title_disct.Location = new System.Drawing.Point(151, 72);
             this.pb_title_disct.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pb_title_disct.Name = "pb_title_disct";
             this.pb_title_disct.Size = new System.Drawing.Size(370, 85);
@@ -222,7 +223,7 @@ namespace ATGate
             this.min_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(31)))), ((int)(((byte)(38)))));
             this.min_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.min_btn.ForeColor = System.Drawing.Color.Black;
-            this.min_btn.Location = new System.Drawing.Point(894, 87);
+            this.min_btn.Location = new System.Drawing.Point(858, 67);
             this.min_btn.Margin = new System.Windows.Forms.Padding(0);
             this.min_btn.Name = "min_btn";
             this.min_btn.Size = new System.Drawing.Size(24, 25);
@@ -233,10 +234,11 @@ namespace ATGate
             // 
             // pb_ctrl_bg
             // 
+            this.pb_ctrl_bg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pb_ctrl_bg.BackColor = System.Drawing.Color.Transparent;
             this.pb_ctrl_bg.BackgroundImage = global::ATGate.Properties.Resources.controls_bg;
             this.pb_ctrl_bg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pb_ctrl_bg.Location = new System.Drawing.Point(888, 40);
+            this.pb_ctrl_bg.Location = new System.Drawing.Point(852, 20);
             this.pb_ctrl_bg.Name = "pb_ctrl_bg";
             this.pb_ctrl_bg.Size = new System.Drawing.Size(36, 160);
             this.pb_ctrl_bg.TabIndex = 15;
@@ -248,7 +250,7 @@ namespace ATGate
             this.pb_title_notification.BackColor = System.Drawing.Color.Transparent;
             this.pb_title_notification.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.pb_title_notification.Image = global::ATGate.Properties.Resources.text_notification;
-            this.pb_title_notification.Location = new System.Drawing.Point(575, 124);
+            this.pb_title_notification.Location = new System.Drawing.Point(553, 102);
             this.pb_title_notification.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pb_title_notification.Name = "pb_title_notification";
             this.pb_title_notification.Size = new System.Drawing.Size(90, 46);
@@ -262,7 +264,7 @@ namespace ATGate
             this.lb_notification.AutoSize = true;
             this.lb_notification.BackColor = System.Drawing.Color.Transparent;
             this.lb_notification.Font = new System.Drawing.Font("KaiTi", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lb_notification.Location = new System.Drawing.Point(571, 181);
+            this.lb_notification.Location = new System.Drawing.Point(549, 159);
             this.lb_notification.Name = "lb_notification";
             this.lb_notification.Size = new System.Drawing.Size(46, 21);
             this.lb_notification.TabIndex = 17;
@@ -275,7 +277,7 @@ namespace ATGate
             this.pb_text_delay.BackColor = System.Drawing.Color.Transparent;
             this.pb_text_delay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.pb_text_delay.Image = global::ATGate.Properties.Resources.text_delay;
-            this.pb_text_delay.Location = new System.Drawing.Point(390, 143);
+            this.pb_text_delay.Location = new System.Drawing.Point(368, 121);
             this.pb_text_delay.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pb_text_delay.Name = "pb_text_delay";
             this.pb_text_delay.Size = new System.Drawing.Size(33, 16);
@@ -288,7 +290,7 @@ namespace ATGate
             // 
             this.pb_divider.BackColor = System.Drawing.Color.Transparent;
             this.pb_divider.Image = global::ATGate.Properties.Resources.divider;
-            this.pb_divider.Location = new System.Drawing.Point(553, 123);
+            this.pb_divider.Location = new System.Drawing.Point(531, 101);
             this.pb_divider.Name = "pb_divider";
             this.pb_divider.Size = new System.Drawing.Size(10, 271);
             this.pb_divider.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -299,14 +301,28 @@ namespace ATGate
             // 
             this.cb_use_cp_mode.AutoSize = true;
             this.cb_use_cp_mode.BackColor = System.Drawing.Color.Transparent;
+            this.cb_use_cp_mode.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.cb_use_cp_mode.FlatAppearance.BorderSize = 0;
             this.cb_use_cp_mode.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cb_use_cp_mode.Location = new System.Drawing.Point(664, 476);
+            this.cb_use_cp_mode.Location = new System.Drawing.Point(655, 454);
             this.cb_use_cp_mode.Name = "cb_use_cp_mode";
-            this.cb_use_cp_mode.Size = new System.Drawing.Size(104, 16);
+            this.cb_use_cp_mode.Size = new System.Drawing.Size(15, 14);
             this.cb_use_cp_mode.TabIndex = 20;
-            this.cb_use_cp_mode.Text = "使用本地开启模式";
             this.cb_use_cp_mode.UseVisualStyleBackColor = false;
+            // 
+            // lb_use_cp_mode_info
+            // 
+            this.lb_use_cp_mode_info.AutoSize = true;
+            this.lb_use_cp_mode_info.BackColor = System.Drawing.Color.Transparent;
+            this.lb_use_cp_mode_info.Cursor = System.Windows.Forms.Cursors.Help;
+            this.lb_use_cp_mode_info.Font = new System.Drawing.Font("Segoe UI", 7.5F);
+            this.lb_use_cp_mode_info.Location = new System.Drawing.Point(679, 454);
+            this.lb_use_cp_mode_info.Name = "lb_use_cp_mode_info";
+            this.lb_use_cp_mode_info.Size = new System.Drawing.Size(85, 12);
+            this.lb_use_cp_mode_info.TabIndex = 21;
+            this.lb_use_cp_mode_info.Text = "使用本地开启模式";
+            this.lb_use_cp_mode_info.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lb_use_cp_mode_info.Click += new System.EventHandler(this.lb_use_cp_mode_info_Click);
             // 
             // Homepage
             // 
@@ -315,7 +331,8 @@ namespace ATGate
             this.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.BackgroundImage = global::ATGate.Properties.Resources.BG;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(952, 539);
+            this.ClientSize = new System.Drawing.Size(892, 495);
+            this.Controls.Add(this.lb_use_cp_mode_info);
             this.Controls.Add(this.cb_use_cp_mode);
             this.Controls.Add(this.pb_text_delay);
             this.Controls.Add(this.pb_title_disct);
@@ -372,6 +389,7 @@ namespace ATGate
         private System.Windows.Forms.PictureBox pb_text_delay;
         private System.Windows.Forms.PictureBox pb_divider;
         private System.Windows.Forms.CheckBox cb_use_cp_mode;
+        private System.Windows.Forms.Label lb_use_cp_mode_info;
     }
 }
 

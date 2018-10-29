@@ -16,6 +16,11 @@ namespace ATGate
             this.textBoxDescription.Text = AssemblyDescription;
         }
 
+        public AboutBox(bool highlight) : this()
+        {
+            pb_highlight.Visible = highlight;
+        }
+
         #region Assembly Attribute Accessors
 
         public string AssemblyTitle
