@@ -17,6 +17,8 @@ namespace ATGate
     {
         private Button serverRefreashBtn = new Button();
         private int selectedServer;
+        private static int refreashServerTryCount = 0;
+        private static bool skipPing = false;
 
         /// <summary>
         /// 服务器列表
@@ -26,13 +28,20 @@ namespace ATGate
         /// </summary>
         private List<Server> serverList = new List<Server> {
             //最好不要超过5个
-            //new Server("问道一区","101.132.189.18"),
+            new Server("问道一区","101.132.189.18"),
+            new Server("问道一区","120.77.45.180"),
+            new Server("====","192.160.1.1"),
             new Server("问道一区","192.168.200.3"),
+            new Server("问道一区","192.168.200.6"),
         };
 
         public Homepage()
         {
+            //初始化
             InitializeComponent();
+            lb_client_ip.Text = ATGateUtil.GetIpAddr();
+            lb_client_mac.Text = ATGateUtil.GetMacAddr();
+            lb_client_version.Text = Application.ProductName + " " + Application.ProductVersion;
             if (System.Environment.OSVersion.Version.Major <= 5)
             {
                 this.BackgroundImageLayout = ImageLayout.Stretch;
@@ -124,10 +133,18 @@ namespace ATGate
             int index = 0;
             try
             {
+                serverRefreashBtn.Enabled = false;
+
+                if (selectedServer != lv_serverlist.SelectedIndices[0] || serverList[lv_serverlist.SelectedIndices[0]].Status.Equals("已连接"))
+                {
+                    refreashServerTryCount = 0;
+                }
+
                 selectedServer = lv_serverlist.SelectedIndices[0];
 
                 index = selectedServer;
                 lv_serverlist.Items[index].SubItems[1].Text = "...";
+
                 
                 await Task.Factory.StartNew(() =>
                 {
@@ -146,6 +163,17 @@ namespace ATGate
                 lv_serverlist.Items[index].SubItems[0].Text = serverList[index].Name + " - " + serverList[index].Status;
                 Console.WriteLine(index);
 
+                if (refreashServerTryCount > 5 && serverList[index].Status.Equals("未连接"))
+                {
+                    if (MessageBox.Show("[HP1]\n更新服务器状态失败，是否尝试直接启动游戏？QQ:" + Properties.Resources.tech_qq + " \nServer: " + serverList[index].Ip.Split(',')[2] + "." + serverList[index].Ip.Split(',')[3], "尝试直接启动", MessageBoxButtons.YesNo)
+                        == DialogResult.Yes)
+                    {
+                        skipPing = true;
+                    }
+                } 
+
+                refreashServerTryCount++;
+                serverRefreashBtn.Enabled = true;
             }
             catch (FileLoadException)
             {
@@ -153,7 +181,8 @@ namespace ATGate
             }
             catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                MessageBox.Show("[HP1]\n更新服务器状态失败，请重试。QQ:" + Properties.Resources.tech_qq + " \nServer: " + serverList[index].Ip, "更新服务器状态");
+                MessageBox.Show("[HP2]\n更新服务器状态失败，请重试。QQ:" + Properties.Resources.tech_qq + " \nServer: " + serverList[index].Ip.Split(',')[2] + "." + serverList[index].Ip.Split(',')[3], "更新服务器状态");
+                serverRefreashBtn.Enabled = true;
             }
         }
 
@@ -219,7 +248,7 @@ namespace ATGate
                         btn_register.Enabled = true;
                         btn_about.Enabled = true;
                         lb_startGameStatus.Visible = false;
-                        MessageBox.Show("游戏启动失败", "游戏启动失败");
+                        MessageBox.Show("[HP3]\n游戏启动失败", "游戏启动失败");
                     }
 
                 }
@@ -273,7 +302,7 @@ namespace ATGate
             }
             catch (Exception)
             {
-                MessageBox.Show("注册失败，请重试。", "注册账号");
+                MessageBox.Show("[HP4]\n注册失败，请重试。", "注册账号");
                 return;
             }
         }
@@ -285,9 +314,13 @@ namespace ATGate
         /// <returns>真/假</returns>
         private bool CheckServerStatus()
         {
-            if (serverList[selectedServer].Status.Equals("未连接"))
+            if (skipPing == true)
             {
-                MessageBox.Show("服务器未连接，请更新状态或选择其他分区。", "服务器未连接");
+                return true;
+            }
+            else if (serverList[selectedServer].Status.Equals("未连接"))
+            {
+                MessageBox.Show("[HP5]\n服务器未连接，请更新状态或选择其他分区。", "服务器未连接");
                 return false;
             }
             return true;
@@ -321,6 +354,47 @@ namespace ATGate
         }
 
         /// <summary>
+        /// 关闭按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btn_close_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        /// <summary>
+        /// 窗口化按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Min_btn_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        /// <summary>
+        /// 本地模式选项
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lb_use_cp_mode_info_Click(object sender, EventArgs e)
+        {
+            AboutBox aboutBox = new AboutBox(true);
+            aboutBox.ShowDialog(this);
+        }
+
+        /// <summary>
+        /// 跳过检测选项
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cb_skip_ping_CheckedChanged(object sender, EventArgs e)
+        {
+            skipPing = cb_skip_ping.Checked;
+        }
+
+        /// <summary>
         /// 窗口控制
         /// </summary>
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -338,22 +412,6 @@ namespace ATGate
                 ReleaseCapture();
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
-        }
-
-        private void Btn_close_Click(object sender, EventArgs e)
-        {
-            Environment.Exit(0);
-        }
-
-        private void Min_btn_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void lb_use_cp_mode_info_Click(object sender, EventArgs e)
-        {
-            AboutBox aboutBox = new AboutBox(true);
-            aboutBox.ShowDialog(this);
         }
     }
 }

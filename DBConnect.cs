@@ -11,9 +11,11 @@ namespace ATGate
     {
         private MySqlConnection connection;
         private string server_ip = "";
+        private string server_ip_display = "";
 
         public DBConnect(string server_ip, string database) {
             this.server_ip = server_ip;
+            server_ip_display = server_ip.Split('.')[2] + "." + server_ip.Split('.')[3];
             string connectionString;
             connectionString = "SERVER=" + server_ip + ";" + "DATABASE=" +
             database + ";" + "UID=" + Properties.Resources.db_uid + ";" + "PASSWORD=" + Properties.Resources.db_passwd + ";";
@@ -36,18 +38,18 @@ namespace ATGate
                 switch (ex.Number)
                 {
                     case 0:
-                        MessageBox.Show("[DC1]\n数据库未连接，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip, "数据库未连接");
+                        MessageBox.Show("[DC1]\n数据库未连接，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip_display, "数据库未连接");
                         break;
 
                     case 1045:
-                        MessageBox.Show("[DC2]\n数据库验证失败，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip, "数据库未连接");
+                        MessageBox.Show("[DC2]\n数据库验证失败，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip_display, "数据库未连接");
                         break;
                 }
 
             }
             catch (Exception e)
             {
-                MessageBox.Show("[DC3]\n发生异常，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\n Server: " + server_ip + "\n e: " + e.GetType(), "发生异常");
+                MessageBox.Show("[DC3]\n发生异常，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\n Server: " + server_ip_display + "\n e: " + e.GetType(), "发生异常");
             }
             return false;
         }
@@ -67,7 +69,7 @@ namespace ATGate
             }
             catch (MySqlException e)
             {
-                MessageBox.Show("[DC4]\n发生异常，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip + "\ne: " + e.GetType(), "发生异常");
+                MessageBox.Show("[DC4]\n发生异常，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip_display + "\ne: " + e.GetType(), "发生异常");
                 return false;
             }
         }
@@ -95,14 +97,14 @@ namespace ATGate
                     switch (ex.Number)
                     {
                         case 0:
-                            MessageBox.Show("[DC5]\n数据库未连接，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip, "数据库未连接");
+                            MessageBox.Show("[DC5]\n数据库未连接，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip_display, "数据库未连接");
                             break;
 
                         case 1062:
-                            MessageBox.Show("[DC6]\n用户名已注册，任何问题请联系管理员。QQ:" + Properties.Resources.admin_qq + "\nServer: " + server_ip, "用户名已注册");
+                            MessageBox.Show("[DC6]\n用户名已注册，任何问题请联系管理员。QQ:" + Properties.Resources.admin_qq + "\nServer: " + server_ip_display, "用户名已注册");
                             break;
                         default:
-                            MessageBox.Show("[DC7]\n注册失败，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip, "注册失败");
+                            MessageBox.Show("[DC7]\n注册失败，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip_display, "注册失败");
                             break;
                     }
                 }
@@ -132,11 +134,11 @@ namespace ATGate
                     switch (ex.Number)
                     {
                         case 0:
-                            MessageBox.Show("[DC8]\n数据库未连接，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip, "数据库未连接");
+                            MessageBox.Show("[DC8]\n数据库未连接，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip_display, "数据库未连接");
                             break;
                         default:
                             Console.WriteLine(ex.Message);
-                            MessageBox.Show("[DC9]\n更改失败，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip, "更改失败");
+                            MessageBox.Show("[DC9]\n更改失败，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip_display, "更改失败");
                             break;
                     }
                 }
