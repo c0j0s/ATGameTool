@@ -142,6 +142,7 @@ namespace ATGate
             this.lb_startGameStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lb_startGameStatus.UseWaitCursor = true;
             this.lb_startGameStatus.Visible = false;
+            this.lb_startGameStatus.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AllowMoveWindow_MouseDown);
             // 
             // lv_serverlist
             // 
@@ -299,6 +300,7 @@ namespace ATGate
             this.pb_divider.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb_divider.TabIndex = 19;
             this.pb_divider.TabStop = false;
+            this.pb_divider.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AllowMoveWindow_MouseDown);
             // 
             // cb_use_cp_mode
             // 
@@ -446,6 +448,7 @@ namespace ATGate
             this.lb_client_version.TabIndex = 4;
             this.lb_client_version.Text = "0.0.0.000";
             this.lb_client_version.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lb_client_version.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AllowMoveWindow_MouseDown);
             // 
             // Homepage
             // 
