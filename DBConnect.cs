@@ -38,18 +38,18 @@ namespace ATGate
                 switch (ex.Number)
                 {
                     case 0:
-                        MessageBox.Show("[DC1]\n数据库未连接，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip_display, "数据库未连接");
+                        new MsgBox("[DC1]", "数据库未连接", "数据库未连接，请联系管理员。", server_ip_display).ShowDialog();
                         break;
 
                     case 1045:
-                        MessageBox.Show("[DC2]\n数据库验证失败，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip_display, "数据库未连接");
+                        new MsgBox("[DC2]", "数据库未连接", "数据库验证失败，请联系管理员。", server_ip_display).ShowDialog();
                         break;
                 }
 
             }
             catch (Exception e)
             {
-                MessageBox.Show("[DC3]\n发生异常，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\n Server: " + server_ip_display + "\n e: " + e.GetType(), "发生异常");
+                new MsgBox("[DC3]", "发生异常", "发生异常", server_ip_display).ShowDialog();
             }
             return false;
         }
@@ -69,7 +69,7 @@ namespace ATGate
             }
             catch (MySqlException e)
             {
-                MessageBox.Show("[DC4]\n发生异常，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip_display + "\ne: " + e.GetType(), "发生异常");
+                new MsgBox("[DC4]", "发生异常", "发生异常\ne: " + e.GetType(), server_ip_display).ShowDialog();
                 return false;
             }
         }
@@ -97,14 +97,13 @@ namespace ATGate
                     switch (ex.Number)
                     {
                         case 0:
-                            MessageBox.Show("[DC5]\n数据库未连接，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip_display, "数据库未连接");
+                            new MsgBox("[DC5]", "数据库未连接", "数据库未连接，请联系管理员。", server_ip_display).ShowDialog();
                             break;
-
                         case 1062:
-                            MessageBox.Show("[DC6]\n用户名已注册，任何问题请联系管理员。QQ:" + Properties.Resources.admin_qq + "\nServer: " + server_ip_display, "用户名已注册");
+                            new MsgBox("[DC6]", "用户名已注册", "用户名已注册，请使用其他名称。", server_ip_display).ShowDialog();
                             break;
                         default:
-                            MessageBox.Show("[DC7]\n注册失败，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip_display, "注册失败");
+                            new MsgBox("[DC7]", "注册失败", "注册失败，请联系管理员。", server_ip_display).ShowDialog();
                             break;
                     }
                 }
@@ -134,11 +133,11 @@ namespace ATGate
                     switch (ex.Number)
                     {
                         case 0:
-                            MessageBox.Show("[DC8]\n数据库未连接，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip_display, "数据库未连接");
+                            new MsgBox("[DC8]", "数据库未连接", "数据库未连接，请联系管理员。", server_ip_display).ShowDialog();
                             break;
                         default:
                             Console.WriteLine(ex.Message);
-                            MessageBox.Show("[DC9]\n更改失败，请联系管理员。QQ:" + Properties.Resources.tech_qq + "\nServer: " + server_ip_display, "更改失败");
+                            new MsgBox("[DC9]", "更改失败", "更改失败，请联系管理员。", server_ip_display).ShowDialog();
                             break;
                     }
                 }

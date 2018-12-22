@@ -232,4 +232,8 @@
     <value>0</value>
     <comment>允许修改密码？ 1：可，0：否</comment>
   </data>
+  <data name="distribute" xml:space="preserve">
+    <value>Origin</value>
+    <comment>发行识别标签</comment>
+  </data>
 </root>

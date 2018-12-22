@@ -1,6 +1,6 @@
 ﻿using CrashReporterDotNET;
+using IWshRuntimeLibrary;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -63,19 +63,16 @@ namespace ATGate
         /// <returns>真/假</returns>
         private static bool CheckPreRequisite()
         {
-#if DEBUG
-            string gameFile = @"asktao.mod";
-#else
             string gameFile = "asktao.mod";
-#endif
 
             //check if in game file
-            if (!File.Exists(gameFile))
+            if (!System.IO.File.Exists(gameFile))
             {
                 ATGateUtil.HandleGameNotFound();
             }
             else
             {
+                AskToCreateShortcut();
                 if (ATGateUtil.IfdotNet4AndLaterInstalled())
                 {
                     return true;
@@ -99,6 +96,31 @@ namespace ATGate
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+        }
+
+        public static void AskToCreateShortcut()
+        {
+            //check if shutcut exist
+            object shDesktop = (object)"Desktop";
+            WshShell shell = new WshShell();
+            string shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\" + Application.ProductName + ".lnk";
+            if (!System.IO.File.Exists(shortcutAddress))
+            {
+                if (Properties.Settings.Default.wantShortcut)
+                {
+                    if (MessageBox.Show(
+                        "是否添加桌面快捷键？", "桌面快捷键", MessageBoxButtons.YesNo, MessageBoxIcon.Question
+                    ) == DialogResult.Yes)
+                    {
+                        ATGateUtil.CreateDesktopShortcut();
+                    }
+                    else
+                    {
+                        Properties.Settings.Default.wantShortcut = false;
+                        Properties.Settings.Default.Save();
+                    }
+                }
+            }
         }
 
         /// <summary>

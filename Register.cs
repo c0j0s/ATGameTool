@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -76,7 +75,7 @@ namespace ATGate
                 ATGateUtil.HandleDotNetException();
             }
             catch (NullReferenceException) {
-                MessageBox.Show("无法注册请重试");
+                new MsgBox("[R1]", "注册失败", "无法注册请重试。").ShowDialog();
                 this.Close();
             }
         }
@@ -128,8 +127,8 @@ namespace ATGate
             }
             catch (NullReferenceException)
             {
-                MessageBox.Show("无法更改请重试");
-                this.Close();
+                new MsgBox("[R2]", "更改失败", "无法更改请重试。").ShowDialog();
+                Close();
             }
         }
 
@@ -172,7 +171,7 @@ namespace ATGate
         private void Tb_username_Enter(object sender, EventArgs e)
         {
             ToolTip tt = new ToolTip();
-            tt.Show(@"只允许字母与数字", (TextBox)sender, 0, 23, 3000);
+            tt.Show(@"只允许字母与数字", (TextBox)sender, 0, 31, 3000);
         }
 
         private void Tb_password_KeyPress(object sender, KeyPressEventArgs e)
@@ -190,7 +189,7 @@ namespace ATGate
         private void Tb_password_Enter(object sender, EventArgs e)
         {
             ToolTip tt = new ToolTip();
-            tt.Show(@"只允许字母,数字以及 + @ * / 等符号", (TextBox)sender, 0, 23, 3000);
+            tt.Show(@"只允许字母,数字以及 + @ * / 等符号", (TextBox)sender, 0, 31, 3000);
         }
 
         

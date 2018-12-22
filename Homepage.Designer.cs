@@ -57,6 +57,7 @@ namespace ATGate
             this.cb_skip_ping = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.lb_client_version = new System.Windows.Forms.Label();
+            this.btn_create_shortcut = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pb_title_disct)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_title_notification)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_text_delay)).BeginInit();
@@ -200,7 +201,7 @@ namespace ATGate
             this.btn_close.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btn_close.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_close.ForeColor = System.Drawing.Color.Black;
+            this.btn_close.ForeColor = System.Drawing.Color.Transparent;
             this.btn_close.Location = new System.Drawing.Point(770, 28);
             this.btn_close.Margin = new System.Windows.Forms.Padding(0);
             this.btn_close.Name = "btn_close";
@@ -450,6 +451,26 @@ namespace ATGate
             this.lb_client_version.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lb_client_version.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AllowMoveWindow_MouseDown);
             // 
+            // btn_create_shortcut
+            // 
+            this.btn_create_shortcut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_create_shortcut.BackColor = System.Drawing.Color.Transparent;
+            this.btn_create_shortcut.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btn_create_shortcut.FlatAppearance.BorderSize = 0;
+            this.btn_create_shortcut.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_create_shortcut.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btn_create_shortcut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_create_shortcut.Font = new System.Drawing.Font("KaiTi", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_create_shortcut.ForeColor = System.Drawing.Color.Tomato;
+            this.btn_create_shortcut.Location = new System.Drawing.Point(770, 152);
+            this.btn_create_shortcut.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_create_shortcut.Name = "btn_create_shortcut";
+            this.btn_create_shortcut.Size = new System.Drawing.Size(32, 82);
+            this.btn_create_shortcut.TabIndex = 24;
+            this.btn_create_shortcut.Text = "添加快捷键";
+            this.btn_create_shortcut.UseVisualStyleBackColor = false;
+            this.btn_create_shortcut.Click += new System.EventHandler(this.btn_create_shortcut_Click);
+            // 
             // Homepage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -458,6 +479,7 @@ namespace ATGate
             this.BackgroundImage = global::ATGate.Properties.Resources.BG;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(815, 495);
+            this.Controls.Add(this.btn_create_shortcut);
             this.Controls.Add(this.lb_client_version);
             this.Controls.Add(this.lb_startGameStatus);
             this.Controls.Add(this.groupBox2);
@@ -527,6 +549,7 @@ namespace ATGate
         private System.Windows.Forms.CheckBox cb_skip_ping;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lb_client_version;
+        private System.Windows.Forms.Button btn_create_shortcut;
     }
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -41,11 +42,19 @@ namespace ATGate
             InitializeComponent();
             lb_client_ip.Text = ATGateUtil.GetIpAddr();
             lb_client_mac.Text = ATGateUtil.GetMacAddr();
-            lb_client_version.Text = Application.ProductName + " " + Application.ProductVersion;
+            lb_client_version.Text = Application.ProductName + " " + Application.ProductVersion + " " + Properties.Resources.distribute;
             if (System.Environment.OSVersion.Version.Major <= 5)
             {
-                this.BackgroundImageLayout = ImageLayout.Stretch;
+                BackgroundImageLayout = ImageLayout.Stretch;
             }
+            FormClosing += Homepage_FormClosing;
+        }
+
+        private void Homepage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.newProcessMode = cb_use_cp_mode.Checked;
+            Properties.Settings.Default.Save();
+            Application.Exit();
         }
 
         private void Homepage_Load(object sender, EventArgs e)
@@ -54,11 +63,10 @@ namespace ATGate
 
             for (int index = 0; index < serverList.Count; index++)
             {
-                lvs[index] = new ListViewItem(new string[] { serverList[index].Name + " - 服务器" + serverList[index].Status, "0ms","" });
+                lvs[index] = new ListViewItem(new string[] { serverList[index].Name + " - " + serverList[index].Status, "0ms","" });
             }
 
             lv_serverlist.Items.AddRange(lvs);
-
 
             serverRefreashBtn.Text = "更新状态";
             serverRefreashBtn.Font = new Font("KaiTi", 12);
@@ -79,29 +87,44 @@ namespace ATGate
                 lb_notification.Visible = true;
                 lb_notification.Text = Properties.Resources.noticeboard;
                 pb_title_notification.Visible = true;
-
             }
+
+            cb_use_cp_mode.Checked = Properties.Settings.Default.newProcessMode;
         }
 
         /// <summary>
         /// 读取服务器初始状态
         /// </summary>
-        private void GetInitServerStatus()
+        private async void GetInitServerStatus()
         {
-            for (int index = 0; index < serverList.Count; index++) 
+
+            var tasks = new List<Task>();
+
+            for (int index = 0; index < serverList.Count; index++)
             {
-                Tuple<bool, string> tuple = ATGateUtil.CheckServerStatus(serverList[index].Ip);
-                if (tuple.Item1)
-                {
-                    serverList[index].Status = "已连接";
-                }
-                else {
-                    serverList[index].Status = "未连接";
-                }
-                serverList[index].Delay = tuple.Item2;
-                lv_serverlist.Items[index].SubItems[1].Text = serverList[index].Delay;
-                lv_serverlist.Items[index].SubItems[0].Text = serverList[index].Name + " - " + serverList[index].Status;
+                Ping ping = new Ping();
+                var task = PingAndUpdateNodeAsync(ping, serverList[index], lv_serverlist.Items[index]);
+                tasks.Add(task);
             }
+
+            await TaskEx.WhenAll(tasks);
+
+        }
+
+        private async Task PingAndUpdateNodeAsync(Ping ping, Server server, ListViewItem item)
+        {
+            var reply = await ping.SendTaskAsync(server.Ip);
+            if (reply.Status == IPStatus.Success)
+            {
+                server.Status = "已连接";
+            }
+            else
+            {
+                server.Status = "未连接";
+            }
+            server.Delay = reply.RoundtripTime.ToString();
+            item.SubItems[1].Text = server.Delay;
+            item.SubItems[0].Text = server.Name + " - " + server.Status;
         }
 
         /// <summary>
@@ -165,8 +188,7 @@ namespace ATGate
 
                 if (refreashServerTryCount > 5 && serverList[index].Status.Equals("未连接"))
                 {
-                    if (MessageBox.Show("[HP1]\n更新服务器状态失败，是否尝试直接启动游戏？QQ:" + Properties.Resources.tech_qq + " \nServer: " + serverList[index].Ip.Split(',')[2] + "." + serverList[index].Ip.Split(',')[3], "尝试直接启动", MessageBoxButtons.YesNo)
-                        == DialogResult.Yes)
+                    if (new MsgBox("[HP1]", "尝试直接启动", "更新服务器状态失败，是否尝试直接启动游戏？", serverList[index].Ip.Split('.')[2] + "." + serverList[index].Ip.Split('.')[3]).ShowDialog() == DialogResult.Yes)
                     {
                         skipPing = true;
                     }
@@ -174,6 +196,7 @@ namespace ATGate
 
                 refreashServerTryCount++;
                 serverRefreashBtn.Enabled = true;
+
             }
             catch (FileLoadException)
             {
@@ -181,7 +204,7 @@ namespace ATGate
             }
             catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                MessageBox.Show("[HP2]\n更新服务器状态失败，请重试。QQ:" + Properties.Resources.tech_qq + " \nServer: " + serverList[index].Ip.Split(',')[2] + "." + serverList[index].Ip.Split(',')[3], "更新服务器状态");
+                new MsgBox("[HP2]", "更新服务器状态", "更新服务器状态失败，请重试。", serverList[index].Ip.Split('.')[2] + "." + serverList[index].Ip.Split('.')[3]).ShowDialog();
                 serverRefreashBtn.Enabled = true;
             }
         }
@@ -248,7 +271,7 @@ namespace ATGate
                         btn_register.Enabled = true;
                         btn_about.Enabled = true;
                         lb_startGameStatus.Visible = false;
-                        MessageBox.Show("[HP3]\n游戏启动失败", "游戏启动失败");
+                        new MsgBox("[HP3]", "游戏启动失败", "游戏启动失败").ShowDialog();
                     }
 
                 }
@@ -302,7 +325,7 @@ namespace ATGate
             }
             catch (Exception)
             {
-                MessageBox.Show("[HP4]\n注册失败，请重试。", "注册账号");
+                new MsgBox("[HP4]", "注册账号", "注册失败，请重试。").ShowDialog();
                 return;
             }
         }
@@ -320,7 +343,7 @@ namespace ATGate
             }
             else if (serverList[selectedServer].Status.Equals("未连接"))
             {
-                MessageBox.Show("[HP5]\n服务器未连接，请更新状态或选择其他分区。", "服务器未连接");
+                new MsgBox("[HP5]", "服务器未连接", "服务器未连接，请更新状态或选择其他分区。").ShowDialog();
                 return false;
             }
             return true;
@@ -360,7 +383,14 @@ namespace ATGate
         /// <param name="e"></param>
         private void Btn_close_Click(object sender, EventArgs e)
         {
-            Environment.Exit(0);
+            Close();
+        }
+
+        private void btn_create_shortcut_Click(object sender, EventArgs e)
+        {
+            ATGateUtil.CreateDesktopShortcut();
+            Properties.Settings.Default.wantShortcut = true;
+            Properties.Settings.Default.Save();
         }
 
         /// <summary>
@@ -413,5 +443,7 @@ namespace ATGate
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
         }
+
+        
     }
 }

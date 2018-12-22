@@ -53,7 +53,7 @@ namespace ATGate
             get
             {
               
-                return "管理员QQ:" + Properties.Resources.admin_qq + Environment.NewLine +    "QQ群: " + Properties.Resources.qq_group;
+                return "管理员QQ: \n" + Properties.Resources.admin_qq + Environment.NewLine + Properties.Resources.tech_qq + "\nQQ群: " + Properties.Resources.qq_group;
             }
         }
 

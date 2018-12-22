@@ -67,7 +67,7 @@ namespace ATGate
                 }
                 else
                 {
-                    MessageBox.Show("[DW1]\n该电脑已超过注册数限制，请联系管理员。QQ:" + Properties.Resources.tech_qq + " \nServer: " + server_ip + "\nPC: " + macAddr, "超过注册数限制");
+                    new MsgBox("[DW1]", "超过注册数限制", "该电脑已超过注册数限制，请联系管理员。", server_ip +"\nPC: " + macAddr).ShowDialog();
                 }
             }
             catch (Exception)
