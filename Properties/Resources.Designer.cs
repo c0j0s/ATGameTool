@@ -19,7 +19,7 @@ namespace ATGate.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -108,15 +108,6 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1.
-        /// </summary>
-        internal static string collect_data {
-            get {
-                return ResourceManager.GetString("collect_data", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap controls_bg {
@@ -191,7 +182,7 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1000000000.
+        ///   Looks up a localized string similar to 2000000000.
         /// </summary>
         internal static string gold_amt {
             get {
@@ -271,24 +262,6 @@ namespace ATGate.Properties {
         internal static string registerLimit {
             get {
                 return ResourceManager.GetString("registerLimit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 112.74.183.167.
-        /// </summary>
-        internal static string server_ip {
-            get {
-                return ResourceManager.GetString("server_ip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 问道一区.
-        /// </summary>
-        internal static string server_name {
-            get {
-                return ResourceManager.GetString("server_name", resourceCulture);
             }
         }
         

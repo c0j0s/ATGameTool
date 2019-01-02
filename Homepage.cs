@@ -29,11 +29,7 @@ namespace ATGate
         /// </summary>
         private List<Server> serverList = new List<Server> {
             //最好不要超过5个
-            new Server("问道一区","101.132.189.18"),
-            new Server("问道一区","120.77.45.180"),
-            new Server("====","192.160.1.1"),
-            new Server("问道一区","192.168.200.3"),
-            new Server("问道一区","192.168.200.6"),
+            new Server("问道一区","222.187.220.230"),
         };
 
         public Homepage()

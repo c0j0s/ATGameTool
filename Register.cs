@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,7 +22,12 @@ namespace ATGate
                 btn_change_pass.Visible = false;
                 tb_id_code.Enabled = false;
                 tb_id_code.Text = "不适用";
+                tb_id_code.Visible = false;
+                lb_veri_code_2.Visible = false;
+                lb_veri_code_1.Visible = false;
+                this.Size = new Size(325, 300);
             }
+            lb_limit_info.Text = "一台电脑不可注册超过"+ Properties.Resources.registerLimit + "个账号";
         }
 
         /// <summary>

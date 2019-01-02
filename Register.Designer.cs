@@ -34,10 +34,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.tb_password = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lb_limit_info = new System.Windows.Forms.Label();
+            this.lb_veri_code_1 = new System.Windows.Forms.Label();
             this.tb_id_code = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lb_veri_code_2 = new System.Windows.Forms.Label();
             this.btn_change_pass = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -100,28 +100,28 @@
             this.tb_password.Enter += new System.EventHandler(this.Tb_password_Enter);
             this.tb_password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_password_KeyPress);
             // 
-            // label3
+            // lb_limit_info
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("KaiTi", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.DarkGray;
-            this.label3.Location = new System.Drawing.Point(19, 311);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(279, 19);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "一台电脑不可注册超过5个账号";
+            this.lb_limit_info.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lb_limit_info.AutoSize = true;
+            this.lb_limit_info.Font = new System.Drawing.Font("KaiTi", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_limit_info.ForeColor = System.Drawing.Color.DarkGray;
+            this.lb_limit_info.Location = new System.Drawing.Point(19, 311);
+            this.lb_limit_info.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lb_limit_info.Name = "lb_limit_info";
+            this.lb_limit_info.Size = new System.Drawing.Size(279, 19);
+            this.lb_limit_info.TabIndex = 5;
+            this.lb_limit_info.Text = "一台电脑不可注册超过5个账号";
             // 
-            // label4
+            // lb_veri_code_1
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(14, 157);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(98, 21);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "验证码：";
+            this.lb_veri_code_1.AutoSize = true;
+            this.lb_veri_code_1.Location = new System.Drawing.Point(14, 157);
+            this.lb_veri_code_1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lb_veri_code_1.Name = "lb_veri_code_1";
+            this.lb_veri_code_1.Size = new System.Drawing.Size(98, 21);
+            this.lb_veri_code_1.TabIndex = 7;
+            this.lb_veri_code_1.Text = "验证码：";
             // 
             // tb_id_code
             // 
@@ -132,17 +132,17 @@
             this.tb_id_code.Size = new System.Drawing.Size(276, 31);
             this.tb_id_code.TabIndex = 6;
             // 
-            // label5
+            // lb_veri_code_2
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("KaiTi", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.DarkGray;
-            this.label5.Location = new System.Drawing.Point(15, 223);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(169, 19);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "用于修改账号密码";
+            this.lb_veri_code_2.AutoSize = true;
+            this.lb_veri_code_2.Font = new System.Drawing.Font("KaiTi", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_veri_code_2.ForeColor = System.Drawing.Color.DarkGray;
+            this.lb_veri_code_2.Location = new System.Drawing.Point(15, 223);
+            this.lb_veri_code_2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lb_veri_code_2.Name = "lb_veri_code_2";
+            this.lb_veri_code_2.Size = new System.Drawing.Size(169, 19);
+            this.lb_veri_code_2.TabIndex = 8;
+            this.lb_veri_code_2.Text = "用于修改账号密码";
             // 
             // btn_change_pass
             // 
@@ -170,10 +170,10 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(309, 342);
             this.Controls.Add(this.btn_change_pass);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lb_veri_code_2);
+            this.Controls.Add(this.lb_veri_code_1);
             this.Controls.Add(this.tb_id_code);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lb_limit_info);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tb_password);
             this.Controls.Add(this.label1);
@@ -202,10 +202,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tb_password;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lb_limit_info;
+        private System.Windows.Forms.Label lb_veri_code_1;
         private System.Windows.Forms.TextBox tb_id_code;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lb_veri_code_2;
         private System.Windows.Forms.Button btn_change_pass;
     }
 }
