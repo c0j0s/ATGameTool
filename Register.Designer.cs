@@ -186,7 +186,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Register";
-            this.Opacity = 0.95D;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "注册账号";

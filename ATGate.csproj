@@ -297,9 +297,6 @@
     <None Include="Resources\controls_bg.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\startgame_btn.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\icon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -318,6 +315,15 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BG.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_start_game.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\startgame_btn.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

@@ -167,7 +167,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AboutBox";
-            this.Opacity = 0.95D;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

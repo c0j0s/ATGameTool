@@ -142,15 +142,12 @@
   <data name="asktao_des" xml:space="preserve">
     <value>des:1B8E503A3BEFF909F50D908D6D53EEC26F10C662A39AC98425BFA4218DDBE81C4C196C772872AD4D4FA5C505CAC3E8D3948F59491F059B19D31CBC09FD257696D5CE934F044323E501C14D98F424DAD7233839407A1872FB</value>
   </data>
-  <data name="startgame_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\startgame_btn1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="silver_amt" xml:space="preserve">
     <value>0</value>
     <comment>初始银</comment>
   </data>
   <data name="registerLimit" xml:space="preserve">
-    <value>5</value>
+    <value>1</value>
     <comment>注册限制数</comment>
   </data>
   <data name="crash_report_email" xml:space="preserve">
@@ -199,14 +196,8 @@
     <value>2000000000</value>
     <comment>初始金</comment>
   </data>
-  <data name="BG" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="divider" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\divider.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="startgame_btn1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\startgame_btn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="tech_qq" xml:space="preserve">
     <value>1097808560</value>
@@ -226,5 +217,11 @@
   <data name="distribute" xml:space="preserve">
     <value>Origin</value>
     <comment>发行识别标签</comment>
+  </data>
+  <data name="BG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BG.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="startgame_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\startgame_btn.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

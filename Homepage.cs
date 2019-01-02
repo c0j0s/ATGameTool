@@ -38,7 +38,7 @@ namespace ATGate
             InitializeComponent();
             lb_client_ip.Text = ATGateUtil.GetIpAddr();
             lb_client_mac.Text = ATGateUtil.GetMacAddr();
-            lb_client_version.Text = Application.ProductName + " " + Application.ProductVersion + " " + Properties.Resources.distribute;
+            lb_client_version.Text = Application.ProductVersion + " " + Properties.Resources.distribute;
             if (System.Environment.OSVersion.Version.Major <= 5)
             {
                 BackgroundImageLayout = ImageLayout.Stretch;
@@ -440,6 +440,5 @@ namespace ATGate
             }
         }
 
-        
     }
 }

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("问道登入器")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("OldUI")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("COJOS")]
 [assembly: AssemblyProduct("问道登入器")]
@@ -36,7 +36,7 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 // MajorVersion.ClientVersion.NeedVerify?.BuildVersion:
-[assembly: AssemblyVersion("1.7.0.000")]
-[assembly: AssemblyFileVersion("1.7.0.000")]
+[assembly: AssemblyVersion("1.7.5.000")]
+[assembly: AssemblyFileVersion("1.7.5.000")]
 [assembly: NeutralResourcesLanguage("zh-CN")]
 
