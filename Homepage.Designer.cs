@@ -465,9 +465,9 @@ namespace ATGate
             this.btn_create_shortcut.Location = new System.Drawing.Point(770, 152);
             this.btn_create_shortcut.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_create_shortcut.Name = "btn_create_shortcut";
-            this.btn_create_shortcut.Size = new System.Drawing.Size(32, 82);
+            this.btn_create_shortcut.Size = new System.Drawing.Size(32, 116);
             this.btn_create_shortcut.TabIndex = 24;
-            this.btn_create_shortcut.Text = "添加快捷键";
+            this.btn_create_shortcut.Text = "添加快捷方式";
             this.btn_create_shortcut.UseVisualStyleBackColor = false;
             this.btn_create_shortcut.Click += new System.EventHandler(this.btn_create_shortcut_Click);
             // 
