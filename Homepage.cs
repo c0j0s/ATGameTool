@@ -36,8 +36,8 @@ namespace ATGate
         {
             //初始化
             InitializeComponent();
-            lb_client_ip.Text = ATGateUtil.GetIpAddr();
-            lb_client_mac.Text = ATGateUtil.GetMacAddr();
+            //lb_client_ip.Text = ATGateUtil.GetIpAddr();
+            //lb_client_mac.Text = ATGateUtil.GetMacAddr();
             lb_client_version.Text = Application.ProductVersion + " " + Properties.Resources.distribute;
             if (System.Environment.OSVersion.Version.Major <= 5)
             {
@@ -78,12 +78,12 @@ namespace ATGate
 
             GetInitServerStatus();
 
-            if (!Properties.Resources.noticeboard.Equals(""))
-            {
-                lb_notification.Visible = true;
-                lb_notification.Text = Properties.Resources.noticeboard;
-                pb_title_notification.Visible = true;
-            }
+            //if (!Properties.Resources.noticeboard.Equals(""))
+            //{
+            //    lb_notification.Visible = true;
+            //    lb_notification.Text = Properties.Resources.noticeboard;
+            //    pb_title_notification.Visible = true;
+            //}
 
             cb_use_cp_mode.Checked = Properties.Settings.Default.newProcessMode;
         }
