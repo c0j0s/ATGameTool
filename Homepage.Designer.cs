@@ -54,10 +54,10 @@ namespace ATGate
             // 
             this.btn_start_game.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_start_game.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btn_start_game.FlatAppearance.BorderColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.btn_start_game.FlatAppearance.BorderSize = 2;
-            this.btn_start_game.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_start_game.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btn_start_game.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btn_start_game.FlatAppearance.BorderSize = 3;
+            this.btn_start_game.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btn_start_game.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btn_start_game.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_start_game.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.btn_start_game.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -74,10 +74,10 @@ namespace ATGate
             // 
             this.btn_register.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_register.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btn_register.FlatAppearance.BorderColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.btn_register.FlatAppearance.BorderSize = 2;
-            this.btn_register.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_register.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btn_register.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btn_register.FlatAppearance.BorderSize = 3;
+            this.btn_register.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btn_register.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btn_register.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_register.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.btn_register.ForeColor = System.Drawing.Color.Black;
