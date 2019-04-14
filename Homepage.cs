@@ -24,12 +24,29 @@ namespace ATGate
         /// <summary>
         /// 服务器列表
         /// 
-        /// 格式如下：
-        /// new Server("问道一区","0.0.0.0")
         /// </summary>
         private List<Server> serverList = new List<Server> {
             //最好不要超过5个
-            new Server("问道一区","222.187.220.230"),
+            new Server(){
+                Name = "问道一区", //区名
+                Ip = "132.232.226.65", //服务器IP
+                Port = "8101", //【可选】端口
+                RegisterIp = "132.232.226.65" //【可选】注册IP
+            },
+            new Server(){
+                Name = "问道二区", //区名
+                Ip = "222.187.220.230", //服务器IP
+            },
+            new Server(){
+                Name = "问道一区", //区名
+                Ip = "127.0.0.1", //服务器IP
+            },
+            new Server(){
+                Name = "问道一区", //区名
+                Ip = "222.187.220.230", //服务器IP
+                Port = "8101", //【可选】端口
+                RegisterIp = "132.232.226.65" //【可选】注册IP
+            },
         };
 
         public Homepage()
@@ -105,11 +122,18 @@ namespace ATGate
 
             await TaskEx.WhenAll(tasks);
 
+            if (serverList.Count > 0)
+            {
+                btn_register.Enabled = serverList[0].RegisterServerStatus;
+                btn_start_game.Enabled = serverList[0].Status.Equals("已连接") ? true : false;
+            }
+
         }
 
         private async Task PingAndUpdateNodeAsync(Ping ping, Server server, ListViewItem item)
         {
             var reply = await ping.SendTaskAsync(server.Ip);
+
             if (reply.Status == IPStatus.Success)
             {
                 server.Status = "已连接";
@@ -118,6 +142,20 @@ namespace ATGate
             {
                 server.Status = "未连接";
             }
+
+
+            Console.WriteLine("ping: " + server.Ip + "pingR: " + server.getRegisterIp() + reply.Status);
+
+            if (!server.Ip.Equals(server.getRegisterIp()))
+            {
+                PingReply registerServerReply = await ping.SendTaskAsync(server.getRegisterIp());
+                server.RegisterServerStatus = registerServerReply.Status == IPStatus.Success;
+            }
+            else
+            {
+                server.RegisterServerStatus = reply.Status == IPStatus.Success;
+            }
+
             server.Delay = reply.RoundtripTime.ToString();
             item.SubItems[1].Text = server.Delay;
             item.SubItems[0].Text = server.Name + " - " + server.Status;
@@ -136,7 +174,14 @@ namespace ATGate
                 serverRefreashBtn.Location = new Point(lv_serverlist.SelectedItems[0].SubItems[2].Bounds.Left, lv_serverlist.SelectedItems[0].SubItems[2].Bounds.Top);
                 serverRefreashBtn.Visible = true;
                 selectedServer = lv_serverlist.SelectedItems[0].Index;
-                Console.WriteLine(selectedServer);
+
+
+                if (serverList.Count > 0)
+                {
+                    btn_register.Enabled = serverList[selectedServer].RegisterServerStatus;
+                }
+
+                btn_start_game.Enabled = serverList[selectedServer].Status.Equals("已连接")? true: false;
             }
             else {
                 serverRefreashBtn.Visible = false;
@@ -167,7 +212,7 @@ namespace ATGate
                 
                 await Task.Factory.StartNew(() =>
                 {
-                    Tuple<bool, string> tuple = ATGateUtil.CheckServerStatus(serverList[index].Ip);
+                    Tuple<bool, string, bool> tuple = ATGateUtil.CheckServerStatus(serverList[index]);
                     if (tuple.Item1)
                     {
                         serverList[index].Status = "已连接";
@@ -176,7 +221,12 @@ namespace ATGate
                     {
                         serverList[index].Status = "未连接";
                     }
+
+                    serverList[index].RegisterServerStatus = tuple.Item3;
                     serverList[index].Delay = tuple.Item2;
+
+                    btn_register.Enabled = tuple.Item3;
+                    btn_start_game.Enabled = tuple.Item1;
                 });
                 lv_serverlist.Items[index].SubItems[1].Text = serverList[index].Delay;
                 lv_serverlist.Items[index].SubItems[0].Text = serverList[index].Name + " - " + serverList[index].Status;
@@ -199,7 +249,7 @@ namespace ATGate
                 ATGateUtil.HandleDotNetException();
             }
             catch (Exception ex) {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
                 new MsgBox("[HP2]", "更新服务器状态", "更新服务器状态失败，请重试。", serverList[index].Ip.Split('.')[2] + "." + serverList[index].Ip.Split('.')[3]).ShowDialog();
                 serverRefreashBtn.Enabled = true;
             }
@@ -247,7 +297,7 @@ namespace ATGate
                         }
                         else
                         {
-                            status = HandleStartGame.StartProcessSimplify(absPath, server.CmdArgs);
+                            status = HandleStartGame.StartProcessSimplify(absPath, server.getCmdArgs);
                         }
                     });
 
@@ -304,10 +354,6 @@ namespace ATGate
             try
             {
 
-                if (!CheckServerStatus())
-                {
-                    return;
-                }
                 Console.WriteLine("Register server " + selectedServer);
                 Server server = serverList[selectedServer];
                 Register register = new Register(server)
@@ -343,6 +389,18 @@ namespace ATGate
                 return false;
             }
             return true;
+        }
+
+        private bool CheckRegisterServerStatus()
+        {
+            if (skipPing == true)
+            {
+                return true;
+            }
+            else
+            {
+                return serverList[selectedServer].RegisterServerStatus;
+            }
         }
 
         /// <summary>

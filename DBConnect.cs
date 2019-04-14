@@ -38,16 +38,20 @@ namespace ATGate
                 switch (ex.Number)
                 {
                     case 0:
-                        new MsgBox("[DC1]", "数据库未连接", "数据库未连接，请联系管理员。", server_ip_display).ShowDialog();
+                        new MsgBox("[DC1]", "服务器未连接", "服务器未连接，请联系管理员。", server_ip_display).ShowDialog();
                         break;
 
                     case 1045:
-                        new MsgBox("[DC2]", "数据库未连接", "数据库验证失败，请联系管理员。", server_ip_display).ShowDialog();
+                        new MsgBox("[DC2]", "服务器未连接", "服务器验证失败，请联系管理员。", server_ip_display).ShowDialog();
+                        break;
+
+                    default:
+                        new MsgBox("[DC2.1]", "服务器未连接", "无法连接服务器，请联系管理员。", server_ip_display).ShowDialog();
                         break;
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 new MsgBox("[DC3]", "发生异常", "发生异常", server_ip_display).ShowDialog();
             }
@@ -97,7 +101,7 @@ namespace ATGate
                     switch (ex.Number)
                     {
                         case 0:
-                            new MsgBox("[DC5]", "数据库未连接", "数据库未连接，请联系管理员。", server_ip_display).ShowDialog();
+                            new MsgBox("[DC5]", "服务器未连接", "服务器未连接，请联系管理员。", server_ip_display).ShowDialog();
                             break;
                         case 1062:
                             new MsgBox("[DC6]", "用户名已注册", "用户名已注册，请使用其他名称。", server_ip_display).ShowDialog();
@@ -133,7 +137,7 @@ namespace ATGate
                     switch (ex.Number)
                     {
                         case 0:
-                            new MsgBox("[DC8]", "数据库未连接", "数据库未连接，请联系管理员。", server_ip_display).ShowDialog();
+                            new MsgBox("[DC8]", "服务器未连接", "服务器未连接，请联系管理员。", server_ip_display).ShowDialog();
                             break;
                         default:
                             Console.WriteLine(ex.Message);
