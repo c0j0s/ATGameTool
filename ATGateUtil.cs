@@ -103,29 +103,40 @@ namespace ATGate
         /// </summary>
         /// <param name="ip"></param>
         /// <returns>真/假</returns>
-        public static Tuple<bool, string> CheckServerStatus(string ip)
+        public static Tuple<bool, string, bool> CheckServerStatus(Server server)
         {
             try
             {
                 Ping pinger = new Ping();
-                Boolean server_status = false;
-                PingReply reply = pinger.Send(ip);
-                server_status = reply.Status == IPStatus.Success;
-                //Console.WriteLine("reply.RoundtripTime: " + reply.RoundtripTime);
-                //Console.WriteLine("Server online? " + server_status);
+                PingReply reply = pinger.Send(server.Ip);
+                var serverStatus = reply.Status == IPStatus.Success;
+                var registerServerStatus = false;
+
+                Console.WriteLine(server.getRegisterIp());
+
+                if (!server.Ip.Equals(server.getRegisterIp()))
+                {
+                    PingReply registerServerReply = pinger.Send(server.getRegisterIp());
+                    registerServerStatus = registerServerReply.Status == IPStatus.Success;
+                    Console.WriteLine(registerServerStatus);
+                }
+                else
+                {
+                    registerServerStatus = serverStatus;
+                }
 
                 if (Properties.Resources.skip_ping.Equals("1"))
                 {
-                    server_status = true;
+                    serverStatus = true;
                 }
 
-                return new Tuple<bool, string>(server_status, reply.RoundtripTime.ToString());
+                return new Tuple<bool, string, bool>(serverStatus, reply.RoundtripTime.ToString(), registerServerStatus);
             }
             catch (PingException)
             {
                 Console.WriteLine("Fail to ping server");
             }
-            return new Tuple<bool, string>(false,"0");
+            return new Tuple<bool, string, bool>(false,"0",false);
         }
 
         /// <summary>

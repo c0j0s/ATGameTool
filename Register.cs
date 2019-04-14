@@ -15,7 +15,7 @@ namespace ATGate
         public Register(Server server)
         {
             InitializeComponent();
-            server_ip = server.Ip;
+            server_ip = server.getRegisterIp();
             if (Properties.Resources.allow_change_pass.Equals("0"))
             {
                 allChangePass = false;

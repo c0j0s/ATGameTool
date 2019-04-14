@@ -39,13 +39,13 @@ namespace ATGate
         /// <returns>真/假</returns>
         public static bool StartProcessByCmd(Server server)
         {
-            Console.WriteLine(server.CmdString);
+            Console.WriteLine(server.getCmdString);
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
                 WindowStyle = ProcessWindowStyle.Hidden,
                 FileName = "cmd.exe",
-                Arguments = server.CmdString
+                Arguments = server.getCmdString
             };
             process.StartInfo = startInfo;
             bool status = process.Start();
