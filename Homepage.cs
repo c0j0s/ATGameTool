@@ -29,7 +29,7 @@ namespace ATGate
             new Server(){
                 Name = "问道二区", //区名
                 Ip = "61.160.236.57", //服务器IP
-                Port = "8101", //【可选】端口
+                Port = "9101", //【可选】端口
                 RegisterIp = "61.160.236.57", //【可选】注册IP
                 RegisterDbSchema = "dl_adb_all_2" //【可选】注册数据库，默认dl_adb_all
             },
