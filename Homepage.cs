@@ -23,30 +23,21 @@ namespace ATGate
 
         /// <summary>
         /// 服务器列表
-        /// 
         /// </summary>
         private List<Server> serverList = new List<Server> {
             //最好不要超过5个
             new Server(){
-                Name = "问道一区", //区名
-                Ip = "132.232.226.65", //服务器IP
-                Port = "8101", //【可选】端口
-                RegisterIp = "132.232.226.65" //【可选】注册IP
-            },
-            new Server(){
                 Name = "问道二区", //区名
-                Ip = "222.187.220.230", //服务器IP
-            },
-            new Server(){
-                Name = "问道一区", //区名
-                Ip = "127.0.0.1", //服务器IP
-            },
-            new Server(){
-                Name = "问道一区", //区名
-                Ip = "222.187.220.230", //服务器IP
+                Ip = "61.160.236.57", //服务器IP
                 Port = "8101", //【可选】端口
-                RegisterIp = "132.232.226.65" //【可选】注册IP
+                RegisterIp = "61.160.236.57", //【可选】注册IP
+                RegisterDbSchema = "dl_adb_all_2" //【可选】注册数据库，默认dl_adb_all
             },
+            //【可选】的参数可以不用填
+            new Server(){
+                Name = "问道一区", //区名
+                Ip = "61.160.236.57", //服务器IP
+            }
         };
 
         public Homepage()

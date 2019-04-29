@@ -196,9 +196,9 @@ namespace ATGate
             this.lb_use_cp_mode_info.Font = new System.Drawing.Font("Segoe UI", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lb_use_cp_mode_info.Location = new System.Drawing.Point(23, 25);
             this.lb_use_cp_mode_info.Name = "lb_use_cp_mode_info";
-            this.lb_use_cp_mode_info.Size = new System.Drawing.Size(93, 19);
+            this.lb_use_cp_mode_info.Size = new System.Drawing.Size(91, 14);
             this.lb_use_cp_mode_info.TabIndex = 21;
-            this.lb_use_cp_mode_info.Text = "使用本地模式";
+            this.lb_use_cp_mode_info.Text = "使用WIN10模式";
             this.lb_use_cp_mode_info.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lb_use_cp_mode_info.Click += new System.EventHandler(this.lb_use_cp_mode_info_Click);
             // 

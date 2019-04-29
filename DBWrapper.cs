@@ -13,14 +13,7 @@ namespace ATGate
         private string server_ip = "";
 
         public DBWrapper(string server_ip, string schema) {
-            if (schema.Equals("default"))
-            {
-                db = new DBConnect(server_ip,"dl_adb_all");
-            }
-            else if (schema.Equals("launcher"))
-            {
-                db = new DBConnect(server_ip,"launcher");
-            }
+            db = new DBConnect(server_ip, schema);
             this.server_ip = server_ip;
         }
 

@@ -8,14 +8,14 @@ namespace ATGate
 {
     public partial class Register : Form
     {
-        private string server_ip;
+        private Server server;
         private bool allChangePass = true;
         Task<bool> regStatus;
 
         public Register(Server server)
         {
             InitializeComponent();
-            server_ip = server.getRegisterIp();
+            this.server = server;
             if (Properties.Resources.allow_change_pass.Equals("0"))
             {
                 allChangePass = false;
@@ -49,7 +49,7 @@ namespace ATGate
                 {
                     if (password.Length > int.Parse(Properties.Resources.passwd_min)) //确保密码长度 > 3
                     {
-                        DBWrapper dw = new DBWrapper(server_ip, "default");
+                        DBWrapper dw = new DBWrapper(server.getRegisterIp(), server.RegisterDbSchema);
                         regStatus = await Task.Factory.StartNew(() => dw.CreateAccountWithMacVerificationAsync(username, password, idCode));
                     }
                     else
@@ -100,7 +100,7 @@ namespace ATGate
                 {
                     if (newPassword.Length > int.Parse(Properties.Resources.passwd_min)) //确保密码长度 > 3
                     {
-                        DBWrapper dw = new DBWrapper(server_ip, "default");
+                        DBWrapper dw = new DBWrapper(server.getRegisterIp(), server.RegisterDbSchema);
                         regStatus = await Task.Factory.StartNew(() => dw.ResetAccountPasswordWithIdCode(username, newPassword, idCode));
                     }
                     else

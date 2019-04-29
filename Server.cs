@@ -18,6 +18,7 @@ namespace ATGate
         private string cmdString;
         private string status = "未连接";
         private bool registerServerStatus = false;
+        private string registerDbSchema = "dl_adb_all";
         private string delay;
 
         
@@ -41,7 +42,7 @@ namespace ATGate
             get => "/C start asktao.mod " + this.Name + ";" + this.Ip + ";" + Port + ";kbd:0;swictch:0;paroxy:0;flag:;uncheck";
             set => CmdString = value;
         }
-        
+        public string RegisterDbSchema { get => registerDbSchema; set => registerDbSchema = value; }
 
         public string getRegisterIp() {
 
