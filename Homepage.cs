@@ -189,6 +189,7 @@ namespace ATGate
             try
             {
                 serverRefreashBtn.Enabled = false;
+                cb_skip_ping.Enabled = false;
 
                 if (selectedServer != lv_serverlist.SelectedIndices[0] || serverList[lv_serverlist.SelectedIndices[0]].Status.Equals("已连接"))
                 {
@@ -216,14 +217,16 @@ namespace ATGate
                     serverList[index].RegisterServerStatus = tuple.Item3;
                     serverList[index].Delay = tuple.Item2;
 
-                    btn_register.Enabled = tuple.Item3;
-                    btn_start_game.Enabled = tuple.Item1;
+                    this.Invoke((MethodInvoker)delegate {
+                        btn_register.Enabled = tuple.Item3;
+                        btn_start_game.Enabled = tuple.Item1;
+                    });
                 });
                 lv_serverlist.Items[index].SubItems[1].Text = serverList[index].Delay;
                 lv_serverlist.Items[index].SubItems[0].Text = serverList[index].Name + " - " + serverList[index].Status;
                 Console.WriteLine(index);
 
-                if (refreashServerTryCount > 5 && serverList[index].Status.Equals("未连接"))
+                if (refreashServerTryCount > 4 && serverList[index].Status.Equals("未连接"))
                 {
                     if (new MsgBox("[HP1]", "尝试直接启动", "更新服务器状态失败，是否尝试直接启动游戏？", serverList[index].Ip.Split('.')[2] + "." + serverList[index].Ip.Split('.')[3]).ShowDialog() == DialogResult.Yes)
                     {
@@ -233,13 +236,15 @@ namespace ATGate
 
                 refreashServerTryCount++;
                 serverRefreashBtn.Enabled = true;
+                cb_skip_ping.Enabled = true;
 
             }
             catch (FileLoadException)
             {
                 ATGateUtil.HandleDotNetException();
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.StackTrace);
                 new MsgBox("[HP2]", "更新服务器状态", "更新服务器状态失败，请重试。", serverList[index].Ip.Split('.')[2] + "." + serverList[index].Ip.Split('.')[3]).ShowDialog();
                 serverRefreashBtn.Enabled = true;
@@ -467,6 +472,20 @@ namespace ATGate
         private void cb_skip_ping_CheckedChanged(object sender, EventArgs e)
         {
             skipPing = cb_skip_ping.Checked;
+            if (skipPing)
+            {
+                foreach (var server in serverList)
+                {
+                    server.Status = "已连接";
+                }
+
+                btn_start_game.Enabled = true;
+                serverRefreashBtn.Enabled = false;
+            }
+            else
+            {
+                serverRefreashBtn.Enabled = true;
+            }
         }
 
         /// <summary>

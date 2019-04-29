@@ -215,7 +215,7 @@
     <comment>允许修改密码？ 1：可，0：否</comment>
   </data>
   <data name="distribute" xml:space="preserve">
-    <value>JLTX</value>
+    <value>Origin</value>
     <comment>发行识别标签</comment>
   </data>
   <data name="BG" type="System.Resources.ResXFileRef, System.Windows.Forms">

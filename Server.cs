@@ -14,7 +14,7 @@ namespace ATGate
         private string ip;
         private string registerIp = "";
         private string des;
-        private string port = "8101";
+        private string port;
         private string cmdString;
         private string status = "未连接";
         private bool registerServerStatus = false;
