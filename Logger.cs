@@ -19,9 +19,10 @@ namespace ATDBMerger
             }
         }
 
-        private void Log(string tag = "default", string content="unused log function") {
+        internal void Log(string tag = "default", string content="unused log function") {
             using (StreamWriter sw = File.AppendText(logFilePath))
             {
+                Console.WriteLine("[" + DateTime.Now + "][" + tag + "]: " + content);
                 sw.WriteLine("["+ DateTime.Now + "]["+tag+"]: " + content);
             }
         }

@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 
@@ -11,14 +12,16 @@ namespace ATDBMerger
     {
         private MySqlConnection connection;
         private Server server;
+        private string activeSchema;
         //private string server_ip_display = "";
 
-        public DBConnect(Server server) {
+        public DBConnect(Server server, String schema) {
             this.server = server;
+            activeSchema = schema;
             //server_ip_display = server.getRegisterIp().Split('.')[2] + "." + server.getRegisterIp().Split('.')[3];
             string connectionString;
             connectionString = "SERVER=" + server.getRegisterIp() + ";" + "DATABASE=" +
-            server.RegisterDbSchema + ";" + "UID=" + server.DbLogin + ";" + "PASSWORD=" + server.DbPassword + ";";
+            schema + ";" + "UID=" + server.DbLogin + ";" + "PASSWORD=" + server.DbPassword + ";";
             connection = new MySqlConnection(connectionString);
             Console.WriteLine(connectionString);
         }
@@ -27,7 +30,7 @@ namespace ATDBMerger
         /// 打开数据库连接
         /// </summary>
         /// <returns>真/假</returns>
-        public bool OpenConnection()
+        internal bool OpenConnection()
         {
             try
             {
@@ -64,7 +67,7 @@ namespace ATDBMerger
         /// 关闭数据库连接
         /// </summary>
         /// <returns>真/假</returns>
-        public bool CloseConnection()
+        internal bool CloseConnection()
         {
             try
             {
@@ -84,7 +87,7 @@ namespace ATDBMerger
         /// </summary>
         /// <param name="value"></param>
         /// <returns>数字</returns>
-        public int Insert(string statement)
+        internal int Insert(string statement)
         {
             //Open connection
             if (OpenConnection())
@@ -161,7 +164,7 @@ namespace ATDBMerger
         /// </summary>
         /// <param name="value"></param>
         /// <returns>数字</returns>
-        public int InsertNoException(string statement)
+        internal int InsertNoException(string statement)
         {
             //Open connection
             if (OpenConnection() == true)
@@ -191,7 +194,7 @@ namespace ATDBMerger
         /// </summary>
         /// <param name="query"></param>
         /// <returns>数据表</returns>
-        public DataTable Select(string query)
+        internal DataTable Select(string query)
         {
             DataTable dt = new DataTable();
 
@@ -208,6 +211,25 @@ namespace ATDBMerger
             {
                 throw new Exception();
             }
+        }
+
+        internal void ExportTable(string table, string saveToFile) {
+            
+            using (MySqlCommand cmd = new MySqlCommand())
+            {
+                using (MySqlBackup mb = new MySqlBackup(cmd))
+                {
+                    cmd.Connection = connection;
+                    OpenConnection();
+                    mb.ExportInfo.TablesToBeExportedList = new List<string> {
+                        table
+                    };
+                    
+                    mb.ExportToFile(saveToFile);
+                    CloseConnection();
+                }
+            }
+            
         }
 
     }

@@ -32,7 +32,7 @@
             this.Btn_db_config_disconnect = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.Btn_db_config_connect = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.Tlp_database_config = new System.Windows.Forms.TableLayoutPanel();
             this.Gb_config_b = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.Tb_db_b_ip = new System.Windows.Forms.TextBox();
@@ -62,30 +62,33 @@
             this.label3 = new System.Windows.Forms.Label();
             this.Tb_db_a_port = new System.Windows.Forms.TextBox();
             this.Gb_db_prepare = new System.Windows.Forms.GroupBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.Tb_prepare_output = new System.Windows.Forms.TextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.Cb_duplicate_character_add_suffix = new System.Windows.Forms.CheckBox();
             this.label18 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
+            this.Tb_duplicate_charac_suffix = new System.Windows.Forms.TextBox();
+            this.Lb_db_b_charac_duplicate_count = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.label14 = new System.Windows.Forms.Label();
+            this.Btn_prepare_db_b_data = new System.Windows.Forms.Button();
+            this.Lb_db_b_charac_count = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.Lb_db_a_charac_max_id_hex = new System.Windows.Forms.Label();
+            this.Lb_db_b_duplicate_account_count = new System.Windows.Forms.Label();
+            this.Lb_db_b_account_count = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.Btn_download_db_b = new System.Windows.Forms.Button();
             this.Gb_db_merge = new System.Windows.Forms.GroupBox();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Cb_duplicate_account_add_suffix = new System.Windows.Forms.CheckBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.Tb_duplicate_account_suffix = new System.Windows.Forms.TextBox();
+            this.Tb_db_a_charac_max_id_int = new System.Windows.Forms.TextBox();
             this.Gb_config.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.Tlp_database_config.SuspendLayout();
             this.Gb_config_b.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.Gb_config_a.SuspendLayout();
@@ -93,6 +96,7 @@
             this.Gb_db_prepare.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.Gb_db_merge.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Gb_config
@@ -102,7 +106,7 @@
             this.Gb_config.Controls.Add(this.Btn_db_config_disconnect);
             this.Gb_config.Controls.Add(this.label7);
             this.Gb_config.Controls.Add(this.Btn_db_config_connect);
-            this.Gb_config.Controls.Add(this.tableLayoutPanel1);
+            this.Gb_config.Controls.Add(this.Tlp_database_config);
             this.Gb_config.Location = new System.Drawing.Point(12, 12);
             this.Gb_config.Name = "Gb_config";
             this.Gb_config.Size = new System.Drawing.Size(638, 192);
@@ -120,6 +124,7 @@
             this.Btn_db_config_disconnect.TabIndex = 4;
             this.Btn_db_config_disconnect.Text = "断开";
             this.Btn_db_config_disconnect.UseVisualStyleBackColor = true;
+            this.Btn_db_config_disconnect.Click += new System.EventHandler(this.Btn_db_config_disconnect_Click);
             // 
             // label7
             // 
@@ -142,21 +147,21 @@
             this.Btn_db_config_connect.UseVisualStyleBackColor = true;
             this.Btn_db_config_connect.Click += new System.EventHandler(this.Btn_db_config_connect_Click);
             // 
-            // tableLayoutPanel1
+            // Tlp_database_config
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.Tlp_database_config.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.Gb_config_b, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.Gb_config_a, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 19);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(626, 138);
-            this.tableLayoutPanel1.TabIndex = 1;
+            this.Tlp_database_config.ColumnCount = 2;
+            this.Tlp_database_config.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_database_config.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_database_config.Controls.Add(this.Gb_config_b, 1, 0);
+            this.Tlp_database_config.Controls.Add(this.Gb_config_a, 0, 0);
+            this.Tlp_database_config.Location = new System.Drawing.Point(6, 19);
+            this.Tlp_database_config.Name = "Tlp_database_config";
+            this.Tlp_database_config.RowCount = 1;
+            this.Tlp_database_config.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Tlp_database_config.Size = new System.Drawing.Size(626, 138);
+            this.Tlp_database_config.TabIndex = 1;
             // 
             // Gb_config_b
             // 
@@ -502,22 +507,22 @@
             // 
             // Gb_db_prepare
             // 
-            this.Gb_db_prepare.Controls.Add(this.textBox8);
+            this.Gb_db_prepare.Controls.Add(this.Tb_db_a_charac_max_id_int);
+            this.Gb_db_prepare.Controls.Add(this.groupBox1);
+            this.Gb_db_prepare.Controls.Add(this.Tb_prepare_output);
             this.Gb_db_prepare.Controls.Add(this.groupBox6);
-            this.Gb_db_prepare.Controls.Add(this.label16);
+            this.Gb_db_prepare.Controls.Add(this.Lb_db_b_charac_duplicate_count);
             this.Gb_db_prepare.Controls.Add(this.label17);
-            this.Gb_db_prepare.Controls.Add(this.button4);
-            this.Gb_db_prepare.Controls.Add(this.label14);
+            this.Gb_db_prepare.Controls.Add(this.Btn_prepare_db_b_data);
+            this.Gb_db_prepare.Controls.Add(this.Lb_db_b_charac_count);
             this.Gb_db_prepare.Controls.Add(this.label15);
-            this.Gb_db_prepare.Controls.Add(this.label13);
-            this.Gb_db_prepare.Controls.Add(this.label12);
-            this.Gb_db_prepare.Controls.Add(this.label11);
+            this.Gb_db_prepare.Controls.Add(this.Lb_db_a_charac_max_id_hex);
+            this.Gb_db_prepare.Controls.Add(this.Lb_db_b_duplicate_account_count);
+            this.Gb_db_prepare.Controls.Add(this.Lb_db_b_account_count);
             this.Gb_db_prepare.Controls.Add(this.label10);
             this.Gb_db_prepare.Controls.Add(this.label9);
-            this.Gb_db_prepare.Controls.Add(this.button3);
-            this.Gb_db_prepare.Controls.Add(this.checkBox1);
             this.Gb_db_prepare.Controls.Add(this.label8);
-            this.Gb_db_prepare.Controls.Add(this.button2);
+            this.Gb_db_prepare.Controls.Add(this.Btn_download_db_b);
             this.Gb_db_prepare.Location = new System.Drawing.Point(12, 210);
             this.Gb_db_prepare.Name = "Gb_db_prepare";
             this.Gb_db_prepare.Size = new System.Drawing.Size(638, 219);
@@ -525,39 +530,39 @@
             this.Gb_db_prepare.TabStop = false;
             this.Gb_db_prepare.Text = "2. 准备数据库";
             // 
-            // textBox8
+            // Tb_prepare_output
             // 
-            this.textBox8.Location = new System.Drawing.Point(162, 153);
-            this.textBox8.Multiline = true;
-            this.textBox8.Name = "textBox8";
-            this.textBox8.ReadOnly = true;
-            this.textBox8.Size = new System.Drawing.Size(470, 57);
-            this.textBox8.TabIndex = 18;
+            this.Tb_prepare_output.Location = new System.Drawing.Point(162, 153);
+            this.Tb_prepare_output.Multiline = true;
+            this.Tb_prepare_output.Name = "Tb_prepare_output";
+            this.Tb_prepare_output.ReadOnly = true;
+            this.Tb_prepare_output.Size = new System.Drawing.Size(470, 57);
+            this.Tb_prepare_output.TabIndex = 18;
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.checkBox2);
+            this.groupBox6.Controls.Add(this.Cb_duplicate_character_add_suffix);
             this.groupBox6.Controls.Add(this.label18);
-            this.groupBox6.Controls.Add(this.textBox7);
-            this.groupBox6.Location = new System.Drawing.Point(463, 71);
+            this.groupBox6.Controls.Add(this.Tb_duplicate_charac_suffix);
+            this.groupBox6.Location = new System.Drawing.Point(463, 82);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(169, 55);
             this.groupBox6.TabIndex = 17;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "重复角色";
             // 
-            // checkBox2
+            // Cb_duplicate_character_add_suffix
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = true;
-            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Enabled = false;
-            this.checkBox2.Location = new System.Drawing.Point(6, 0);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(110, 17);
-            this.checkBox2.TabIndex = 14;
-            this.checkBox2.Text = "重复角色名更改";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.Cb_duplicate_character_add_suffix.AutoSize = true;
+            this.Cb_duplicate_character_add_suffix.Checked = true;
+            this.Cb_duplicate_character_add_suffix.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Cb_duplicate_character_add_suffix.Enabled = false;
+            this.Cb_duplicate_character_add_suffix.Location = new System.Drawing.Point(6, 0);
+            this.Cb_duplicate_character_add_suffix.Name = "Cb_duplicate_character_add_suffix";
+            this.Cb_duplicate_character_add_suffix.Size = new System.Drawing.Size(110, 17);
+            this.Cb_duplicate_character_add_suffix.TabIndex = 14;
+            this.Cb_duplicate_character_add_suffix.Text = "重复角色名更改";
+            this.Cb_duplicate_character_add_suffix.UseVisualStyleBackColor = true;
             // 
             // label18
             // 
@@ -568,92 +573,92 @@
             this.label18.TabIndex = 16;
             this.label18.Text = "后缀：";
             // 
-            // textBox7
+            // Tb_duplicate_charac_suffix
             // 
-            this.textBox7.Enabled = false;
-            this.textBox7.Location = new System.Drawing.Point(60, 26);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(100, 20);
-            this.textBox7.TabIndex = 15;
-            this.textBox7.Text = "_B";
+            this.Tb_duplicate_charac_suffix.Enabled = false;
+            this.Tb_duplicate_charac_suffix.Location = new System.Drawing.Point(60, 26);
+            this.Tb_duplicate_charac_suffix.Name = "Tb_duplicate_charac_suffix";
+            this.Tb_duplicate_charac_suffix.Size = new System.Drawing.Size(100, 20);
+            this.Tb_duplicate_charac_suffix.TabIndex = 15;
+            this.Tb_duplicate_charac_suffix.Text = "_B";
             // 
-            // label16
+            // Lb_db_b_charac_duplicate_count
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(325, 124);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(19, 13);
-            this.label16.TabIndex = 13;
-            this.label16.Text = "00";
+            this.Lb_db_b_charac_duplicate_count.AutoSize = true;
+            this.Lb_db_b_charac_duplicate_count.Location = new System.Drawing.Point(325, 105);
+            this.Lb_db_b_charac_duplicate_count.Name = "Lb_db_b_charac_duplicate_count";
+            this.Lb_db_b_charac_duplicate_count.Size = new System.Drawing.Size(19, 13);
+            this.Lb_db_b_charac_duplicate_count.TabIndex = 13;
+            this.Lb_db_b_charac_duplicate_count.Text = "00";
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(161, 124);
+            this.label17.Location = new System.Drawing.Point(161, 105);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(158, 13);
             this.label17.TabIndex = 12;
             this.label17.Text = "数据库B游戏角色名重复数：";
             // 
-            // button4
+            // Btn_prepare_db_b_data
             // 
-            this.button4.Enabled = false;
-            this.button4.Location = new System.Drawing.Point(6, 153);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(149, 23);
-            this.button4.TabIndex = 11;
-            this.button4.Text = "准备数据库B数据";
-            this.button4.UseVisualStyleBackColor = true;
+            this.Btn_prepare_db_b_data.Enabled = false;
+            this.Btn_prepare_db_b_data.Location = new System.Drawing.Point(6, 153);
+            this.Btn_prepare_db_b_data.Name = "Btn_prepare_db_b_data";
+            this.Btn_prepare_db_b_data.Size = new System.Drawing.Size(149, 23);
+            this.Btn_prepare_db_b_data.TabIndex = 11;
+            this.Btn_prepare_db_b_data.Text = "准备数据库B数据";
+            this.Btn_prepare_db_b_data.UseVisualStyleBackColor = true;
             // 
-            // label14
+            // Lb_db_b_charac_count
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(325, 100);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(19, 13);
-            this.label14.TabIndex = 10;
-            this.label14.Text = "00";
+            this.Lb_db_b_charac_count.AutoSize = true;
+            this.Lb_db_b_charac_count.Location = new System.Drawing.Point(325, 81);
+            this.Lb_db_b_charac_count.Name = "Lb_db_b_charac_count";
+            this.Lb_db_b_charac_count.Size = new System.Drawing.Size(19, 13);
+            this.Lb_db_b_charac_count.TabIndex = 10;
+            this.Lb_db_b_charac_count.Text = "00";
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(161, 100);
+            this.label15.Location = new System.Drawing.Point(161, 81);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(122, 13);
             this.label15.TabIndex = 9;
             this.label15.Text = "数据库B游戏角色数：";
             // 
-            // label13
+            // Lb_db_a_charac_max_id_hex
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(325, 76);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(67, 13);
-            this.label13.TabIndex = 8;
-            this.label13.Text = "0000000000";
+            this.Lb_db_a_charac_max_id_hex.AutoSize = true;
+            this.Lb_db_a_charac_max_id_hex.Location = new System.Drawing.Point(368, 57);
+            this.Lb_db_a_charac_max_id_hex.Name = "Lb_db_a_charac_max_id_hex";
+            this.Lb_db_a_charac_max_id_hex.Size = new System.Drawing.Size(67, 13);
+            this.Lb_db_a_charac_max_id_hex.TabIndex = 8;
+            this.Lb_db_a_charac_max_id_hex.Text = "0000000000";
             // 
-            // label12
+            // Lb_db_b_duplicate_account_count
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(388, 24);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(19, 13);
-            this.label12.TabIndex = 7;
-            this.label12.Text = "00";
+            this.Lb_db_b_duplicate_account_count.AutoSize = true;
+            this.Lb_db_b_duplicate_account_count.Location = new System.Drawing.Point(410, 23);
+            this.Lb_db_b_duplicate_account_count.Name = "Lb_db_b_duplicate_account_count";
+            this.Lb_db_b_duplicate_account_count.Size = new System.Drawing.Size(19, 13);
+            this.Lb_db_b_duplicate_account_count.TabIndex = 7;
+            this.Lb_db_b_duplicate_account_count.Text = "00";
             // 
-            // label11
+            // Lb_db_b_account_count
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(256, 24);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(19, 13);
-            this.label11.TabIndex = 6;
-            this.label11.Text = "00";
+            this.Lb_db_b_account_count.AutoSize = true;
+            this.Lb_db_b_account_count.Location = new System.Drawing.Point(256, 24);
+            this.Lb_db_b_account_count.Name = "Lb_db_b_account_count";
+            this.Lb_db_b_account_count.Size = new System.Drawing.Size(19, 13);
+            this.Lb_db_b_account_count.TabIndex = 6;
+            this.Lb_db_b_account_count.Text = "00";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(303, 24);
+            this.label10.Location = new System.Drawing.Point(325, 20);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(79, 13);
             this.label10.TabIndex = 5;
@@ -662,34 +667,11 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(161, 76);
+            this.label9.Location = new System.Drawing.Point(161, 57);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(145, 13);
             this.label9.TabIndex = 4;
             this.label9.Text = "数据库A游戏角色最大ID：";
-            // 
-            // button3
-            // 
-            this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(6, 71);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(149, 23);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "下载数据库B游戏数据";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Enabled = false;
-            this.checkBox1.Location = new System.Drawing.Point(6, 48);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(98, 17);
-            this.checkBox1.TabIndex = 2;
-            this.checkBox1.Text = "重复账号合并";
-            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // label8
             // 
@@ -700,15 +682,15 @@
             this.label8.TabIndex = 1;
             this.label8.Text = "已提取账号数：";
             // 
-            // button2
+            // Btn_download_db_b
             // 
-            this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(6, 19);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(149, 23);
-            this.button2.TabIndex = 0;
-            this.button2.Text = "下载数据库B账号";
-            this.button2.UseVisualStyleBackColor = true;
+            this.Btn_download_db_b.Location = new System.Drawing.Point(6, 19);
+            this.Btn_download_db_b.Name = "Btn_download_db_b";
+            this.Btn_download_db_b.Size = new System.Drawing.Size(149, 23);
+            this.Btn_download_db_b.TabIndex = 0;
+            this.Btn_download_db_b.Text = "提取数据库B";
+            this.Btn_download_db_b.UseVisualStyleBackColor = true;
+            this.Btn_download_db_b.Click += new System.EventHandler(this.Btn_download_db_b_Click);
             // 
             // Gb_db_merge
             // 
@@ -716,6 +698,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Gb_db_merge.Controls.Add(this.button6);
             this.Gb_db_merge.Controls.Add(this.button5);
+            this.Gb_db_merge.Enabled = false;
             this.Gb_db_merge.Location = new System.Drawing.Point(12, 437);
             this.Gb_db_merge.Name = "Gb_db_merge";
             this.Gb_db_merge.Size = new System.Drawing.Size(638, 54);
@@ -725,7 +708,6 @@
             // 
             // button6
             // 
-            this.button6.Enabled = false;
             this.button6.Location = new System.Drawing.Point(161, 19);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(149, 23);
@@ -735,13 +717,63 @@
             // 
             // button5
             // 
-            this.button5.Enabled = false;
             this.button5.Location = new System.Drawing.Point(6, 19);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(149, 23);
             this.button5.TabIndex = 19;
             this.button5.Text = "上传到数据库A";
             this.button5.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.Cb_duplicate_account_add_suffix);
+            this.groupBox1.Controls.Add(this.label25);
+            this.groupBox1.Controls.Add(this.Tb_duplicate_account_suffix);
+            this.groupBox1.Location = new System.Drawing.Point(463, 19);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(169, 55);
+            this.groupBox1.TabIndex = 18;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "重复角色";
+            // 
+            // Cb_duplicate_account_add_suffix
+            // 
+            this.Cb_duplicate_account_add_suffix.AutoSize = true;
+            this.Cb_duplicate_account_add_suffix.Checked = true;
+            this.Cb_duplicate_account_add_suffix.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Cb_duplicate_account_add_suffix.Enabled = false;
+            this.Cb_duplicate_account_add_suffix.Location = new System.Drawing.Point(6, 0);
+            this.Cb_duplicate_account_add_suffix.Name = "Cb_duplicate_account_add_suffix";
+            this.Cb_duplicate_account_add_suffix.Size = new System.Drawing.Size(98, 17);
+            this.Cb_duplicate_account_add_suffix.TabIndex = 14;
+            this.Cb_duplicate_account_add_suffix.Text = "重复账号更改";
+            this.Cb_duplicate_account_add_suffix.UseVisualStyleBackColor = true;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(11, 29);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(43, 13);
+            this.label25.TabIndex = 16;
+            this.label25.Text = "后缀：";
+            // 
+            // Tb_duplicate_account_suffix
+            // 
+            this.Tb_duplicate_account_suffix.Enabled = false;
+            this.Tb_duplicate_account_suffix.Location = new System.Drawing.Point(60, 26);
+            this.Tb_duplicate_account_suffix.Name = "Tb_duplicate_account_suffix";
+            this.Tb_duplicate_account_suffix.Size = new System.Drawing.Size(100, 20);
+            this.Tb_duplicate_account_suffix.TabIndex = 15;
+            this.Tb_duplicate_account_suffix.Text = "_B";
+            // 
+            // Tb_db_a_charac_max_id_int
+            // 
+            this.Tb_db_a_charac_max_id_int.Enabled = false;
+            this.Tb_db_a_charac_max_id_int.Location = new System.Drawing.Point(328, 54);
+            this.Tb_db_a_charac_max_id_int.Name = "Tb_db_a_charac_max_id_int";
+            this.Tb_db_a_charac_max_id_int.Size = new System.Drawing.Size(34, 20);
+            this.Tb_db_a_charac_max_id_int.TabIndex = 19;
             // 
             // Homepage
             // 
@@ -756,7 +788,7 @@
             this.Text = "AT合区工具";
             this.Gb_config.ResumeLayout(false);
             this.Gb_config.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.Tlp_database_config.ResumeLayout(false);
             this.Gb_config_b.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
@@ -768,6 +800,8 @@
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.Gb_db_merge.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -775,7 +809,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox Gb_config;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel Tlp_database_config;
         private System.Windows.Forms.GroupBox Gb_config_b;
         private System.Windows.Forms.GroupBox Gb_config_a;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
@@ -788,26 +822,24 @@
         private System.Windows.Forms.Button Btn_db_config_connect;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox Gb_db_prepare;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button Btn_download_db_b;
         private System.Windows.Forms.GroupBox Gb_db_merge;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label Lb_db_b_charac_count;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label Lb_db_a_charac_max_id_hex;
+        private System.Windows.Forms.Label Lb_db_b_duplicate_account_count;
+        private System.Windows.Forms.Label Lb_db_b_account_count;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label Lb_db_b_charac_duplicate_count;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button Btn_prepare_db_b_data;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox Cb_duplicate_character_add_suffix;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox Tb_duplicate_charac_suffix;
+        private System.Windows.Forms.TextBox Tb_prepare_output;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox Tb_db_a_adb;
@@ -830,5 +862,10 @@
         private System.Windows.Forms.TextBox Tb_db_b_login;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TextBox Tb_db_b_port;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox Cb_duplicate_account_add_suffix;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.TextBox Tb_duplicate_account_suffix;
+        private System.Windows.Forms.TextBox Tb_db_a_charac_max_id_int;
     }
 }
