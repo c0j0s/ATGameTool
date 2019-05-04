@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2015
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATGate", "ATGate.csproj", "{1A25711F-A9DD-412B-8A93-82A7E2C3DEF8}"
 EndProject
@@ -59,8 +59,8 @@ Global
 		{7E482B71-367F-4E89-9602-B7FB1EB08C46}.Release|x64.Build.0 = Release|Any CPU
 		{7E482B71-367F-4E89-9602-B7FB1EB08C46}.Release|x86.ActiveCfg = Release|Any CPU
 		{7E482B71-367F-4E89-9602-B7FB1EB08C46}.Release|x86.Build.0 = Release|Any CPU
-		{7E482B71-367F-4E89-9602-B7FB1EB08C46}.无验证|Any CPU.ActiveCfg = Release|Any CPU
-		{7E482B71-367F-4E89-9602-B7FB1EB08C46}.无验证|Any CPU.Build.0 = Release|Any CPU
+		{7E482B71-367F-4E89-9602-B7FB1EB08C46}.无验证|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E482B71-367F-4E89-9602-B7FB1EB08C46}.无验证|Any CPU.Build.0 = Debug|Any CPU
 		{7E482B71-367F-4E89-9602-B7FB1EB08C46}.无验证|x64.ActiveCfg = Release|Any CPU
 		{7E482B71-367F-4E89-9602-B7FB1EB08C46}.无验证|x64.Build.0 = Release|Any CPU
 		{7E482B71-367F-4E89-9602-B7FB1EB08C46}.无验证|x86.ActiveCfg = Release|Any CPU

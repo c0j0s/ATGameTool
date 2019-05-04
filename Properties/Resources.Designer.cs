@@ -257,7 +257,7 @@ namespace ATGate.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1.
+        ///   Looks up a localized string similar to 6.
         /// </summary>
         internal static string registerLimit {
             get {

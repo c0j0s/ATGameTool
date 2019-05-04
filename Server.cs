@@ -19,6 +19,9 @@ namespace ATGate
         private string status = "未连接";
         private bool registerServerStatus = false;
         private string registerDbSchema = "dl_adb_all";
+        private string dataSchema = "dl_ddb_1";
+        private string dbLogin = "";
+        private string dbPassword = "";
         private string delay;
 
         
@@ -43,6 +46,9 @@ namespace ATGate
             set => CmdString = value;
         }
         public string RegisterDbSchema { get => registerDbSchema; set => registerDbSchema = value; }
+        public string DataSchema { get => dataSchema; set => dataSchema = value; }
+        public string DbLogin { get => dbLogin; set => dbLogin = value; }
+        public string DbPassword { get => dbPassword; set => dbPassword = value; }
 
         public string getRegisterIp() {
 

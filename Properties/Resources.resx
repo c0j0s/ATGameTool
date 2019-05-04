@@ -147,7 +147,7 @@
     <comment>初始银</comment>
   </data>
   <data name="registerLimit" xml:space="preserve">
-    <value>1</value>
+    <value>6</value>
     <comment>注册限制数</comment>
   </data>
   <data name="crash_report_email" xml:space="preserve">

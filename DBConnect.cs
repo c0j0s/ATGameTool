@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace ATGate
 {
 
-    class DBConnect
+    public class DBConnect
     {
         private MySqlConnection connection;
         private string server_ip = "";
