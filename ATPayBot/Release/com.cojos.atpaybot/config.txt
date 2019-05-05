@@ -1,1 +1,0 @@
-<Name>,<IP>,<Database account>,<Password>,<Schema name>,<Port>
