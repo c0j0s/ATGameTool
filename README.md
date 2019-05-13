@@ -37,3 +37,27 @@ __服务区配置文件__
 QQ <-> 酷Q <-> 机器人 <-> Sqlite数据库 （问答/定时任务/充值配置） 
                      <-> MySql数据库 （充值）
 ```
+
+### 使用手册
+#### 初始设置
+![initialisation](https://github.com/c0j0s/ATPay/blob/v2/src/1.png)  
+
+|设置|详情|
+|-----|-----|
+|数据库配置|一般数据库连接配置|
+|管理员QQ|能使用管理员功能的QQ号|
+|开启群|开启机器人的群号|
+|图灵密钥|连接图灵机器人后台的密钥|
+
+#### 管理员功能
+
+|功能|帮助|样式|
+|-----|-----|----|
+|充值|![initialisation](https://github.com/c0j0s/ATPay/blob/v2/src/2_1.png)|![initialisation](https://github.com/c0j0s/ATPay/blob/v2/src/2_2.png)|
+|更换设置|![initialisation](https://github.com/c0j0s/ATPay/blob/v2/src/3_1.png)|![initialisation](https://github.com/c0j0s/ATPay/blob/v2/src/3_2.png)|
+
+---
+后续添加更多功能
+
+#### 聊天功能
+该机器人已连接图灵机器人后台，实现简单聊天功能。管理员可在图灵机器人后台训练/添加新技能。
