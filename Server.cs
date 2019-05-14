@@ -65,5 +65,19 @@ namespace ATDBMerger
             
             return RegisterIp;
         }
+
+        public string getDBConnectionString(string schema)
+        {
+            if (schema.Contains("adb"))
+            {
+                return "SERVER=" + getRegisterIp () + ";" + "DATABASE=" +
+                RegisterDbSchema  + ";" + "UID=" + DbLogin + ";" + "PASSWORD=" + DbPassword + ";charset=GB2312;";
+            }
+            else {
+                return "SERVER=" + getRegisterIp() + ";" + "DATABASE=" +
+                DataSchema + ";" + "UID=" + DbLogin + ";" + "PASSWORD=" + DbPassword + ";charset=GB2312;";
+            }
+          
+        }
     }
 }

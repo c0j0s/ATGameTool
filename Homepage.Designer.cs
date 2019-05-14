@@ -62,6 +62,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.Tb_db_a_port = new System.Windows.Forms.TextBox();
             this.Gb_db_prepare = new System.Windows.Forms.GroupBox();
+            this.Tb_db_a_charac_max_id_int = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Cb_duplicate_account_add_suffix = new System.Windows.Forms.CheckBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.Tb_duplicate_account_suffix = new System.Windows.Forms.TextBox();
             this.Tb_prepare_output = new System.Windows.Forms.TextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.Cb_duplicate_character_add_suffix = new System.Windows.Forms.CheckBox();
@@ -82,11 +87,6 @@
             this.Gb_db_merge = new System.Windows.Forms.GroupBox();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.Cb_duplicate_account_add_suffix = new System.Windows.Forms.CheckBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.Tb_duplicate_account_suffix = new System.Windows.Forms.TextBox();
-            this.Tb_db_a_charac_max_id_int = new System.Windows.Forms.TextBox();
             this.Gb_config.SuspendLayout();
             this.Tlp_database_config.SuspendLayout();
             this.Gb_config_b.SuspendLayout();
@@ -94,9 +94,9 @@
             this.Gb_config_a.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.Gb_db_prepare.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.Gb_db_merge.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Gb_config
@@ -198,7 +198,7 @@
             this.tableLayoutPanel3.Controls.Add(this.Tb_db_b_login, 1, 1);
             this.tableLayoutPanel3.Controls.Add(this.label24, 2, 1);
             this.tableLayoutPanel3.Controls.Add(this.Tb_db_b_port, 3, 1);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(6, 13);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(6, 20);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 4;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -523,12 +523,64 @@
             this.Gb_db_prepare.Controls.Add(this.label9);
             this.Gb_db_prepare.Controls.Add(this.label8);
             this.Gb_db_prepare.Controls.Add(this.Btn_download_db_b);
+            this.Gb_db_prepare.Enabled = false;
             this.Gb_db_prepare.Location = new System.Drawing.Point(12, 210);
             this.Gb_db_prepare.Name = "Gb_db_prepare";
             this.Gb_db_prepare.Size = new System.Drawing.Size(638, 219);
             this.Gb_db_prepare.TabIndex = 1;
             this.Gb_db_prepare.TabStop = false;
             this.Gb_db_prepare.Text = "2. 准备数据库";
+            // 
+            // Tb_db_a_charac_max_id_int
+            // 
+            this.Tb_db_a_charac_max_id_int.Enabled = false;
+            this.Tb_db_a_charac_max_id_int.Location = new System.Drawing.Point(328, 54);
+            this.Tb_db_a_charac_max_id_int.Name = "Tb_db_a_charac_max_id_int";
+            this.Tb_db_a_charac_max_id_int.Size = new System.Drawing.Size(34, 20);
+            this.Tb_db_a_charac_max_id_int.TabIndex = 19;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.Cb_duplicate_account_add_suffix);
+            this.groupBox1.Controls.Add(this.label25);
+            this.groupBox1.Controls.Add(this.Tb_duplicate_account_suffix);
+            this.groupBox1.Location = new System.Drawing.Point(463, 19);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(169, 55);
+            this.groupBox1.TabIndex = 18;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "重复角色";
+            // 
+            // Cb_duplicate_account_add_suffix
+            // 
+            this.Cb_duplicate_account_add_suffix.AutoSize = true;
+            this.Cb_duplicate_account_add_suffix.Checked = true;
+            this.Cb_duplicate_account_add_suffix.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Cb_duplicate_account_add_suffix.Enabled = false;
+            this.Cb_duplicate_account_add_suffix.Location = new System.Drawing.Point(6, 0);
+            this.Cb_duplicate_account_add_suffix.Name = "Cb_duplicate_account_add_suffix";
+            this.Cb_duplicate_account_add_suffix.Size = new System.Drawing.Size(98, 17);
+            this.Cb_duplicate_account_add_suffix.TabIndex = 14;
+            this.Cb_duplicate_account_add_suffix.Text = "重复账号更改";
+            this.Cb_duplicate_account_add_suffix.UseVisualStyleBackColor = true;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(11, 29);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(43, 13);
+            this.label25.TabIndex = 16;
+            this.label25.Text = "后缀：";
+            // 
+            // Tb_duplicate_account_suffix
+            // 
+            this.Tb_duplicate_account_suffix.Enabled = false;
+            this.Tb_duplicate_account_suffix.Location = new System.Drawing.Point(60, 26);
+            this.Tb_duplicate_account_suffix.Name = "Tb_duplicate_account_suffix";
+            this.Tb_duplicate_account_suffix.Size = new System.Drawing.Size(100, 20);
+            this.Tb_duplicate_account_suffix.TabIndex = 15;
+            this.Tb_duplicate_account_suffix.Text = "_B";
             // 
             // Tb_prepare_output
             // 
@@ -724,57 +776,6 @@
             this.button5.Text = "上传到数据库A";
             this.button5.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.Cb_duplicate_account_add_suffix);
-            this.groupBox1.Controls.Add(this.label25);
-            this.groupBox1.Controls.Add(this.Tb_duplicate_account_suffix);
-            this.groupBox1.Location = new System.Drawing.Point(463, 19);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(169, 55);
-            this.groupBox1.TabIndex = 18;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "重复角色";
-            // 
-            // Cb_duplicate_account_add_suffix
-            // 
-            this.Cb_duplicate_account_add_suffix.AutoSize = true;
-            this.Cb_duplicate_account_add_suffix.Checked = true;
-            this.Cb_duplicate_account_add_suffix.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Cb_duplicate_account_add_suffix.Enabled = false;
-            this.Cb_duplicate_account_add_suffix.Location = new System.Drawing.Point(6, 0);
-            this.Cb_duplicate_account_add_suffix.Name = "Cb_duplicate_account_add_suffix";
-            this.Cb_duplicate_account_add_suffix.Size = new System.Drawing.Size(98, 17);
-            this.Cb_duplicate_account_add_suffix.TabIndex = 14;
-            this.Cb_duplicate_account_add_suffix.Text = "重复账号更改";
-            this.Cb_duplicate_account_add_suffix.UseVisualStyleBackColor = true;
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(11, 29);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(43, 13);
-            this.label25.TabIndex = 16;
-            this.label25.Text = "后缀：";
-            // 
-            // Tb_duplicate_account_suffix
-            // 
-            this.Tb_duplicate_account_suffix.Enabled = false;
-            this.Tb_duplicate_account_suffix.Location = new System.Drawing.Point(60, 26);
-            this.Tb_duplicate_account_suffix.Name = "Tb_duplicate_account_suffix";
-            this.Tb_duplicate_account_suffix.Size = new System.Drawing.Size(100, 20);
-            this.Tb_duplicate_account_suffix.TabIndex = 15;
-            this.Tb_duplicate_account_suffix.Text = "_B";
-            // 
-            // Tb_db_a_charac_max_id_int
-            // 
-            this.Tb_db_a_charac_max_id_int.Enabled = false;
-            this.Tb_db_a_charac_max_id_int.Location = new System.Drawing.Point(328, 54);
-            this.Tb_db_a_charac_max_id_int.Name = "Tb_db_a_charac_max_id_int";
-            this.Tb_db_a_charac_max_id_int.Size = new System.Drawing.Size(34, 20);
-            this.Tb_db_a_charac_max_id_int.TabIndex = 19;
-            // 
             // Homepage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -797,11 +798,11 @@
             this.tableLayoutPanel2.PerformLayout();
             this.Gb_db_prepare.ResumeLayout(false);
             this.Gb_db_prepare.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.Gb_db_merge.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }

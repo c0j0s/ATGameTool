@@ -221,6 +221,8 @@ namespace ATDBMerger
                 {
                     cmd.Connection = connection;
                     OpenConnection();
+                    mb.ExportInfo.ExportTableStructure = false;
+                    mb.ExportInfo.RowsExportMode = RowsDataExportMode.Insert;
                     mb.ExportInfo.TablesToBeExportedList = new List<string> {
                         table
                     };

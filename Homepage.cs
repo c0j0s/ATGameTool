@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,6 +21,11 @@ namespace ATDBMerger
 
         private Server serverA;
         private Server serverB;
+
+        private MySqlConnection conAA;
+        private MySqlConnection conAD;
+        private MySqlConnection conBA;
+        private MySqlConnection conBD;
 
         private DBWrapper dBWrapperA;
         private DBWrapper dBWrapperB;
@@ -87,43 +93,83 @@ namespace ATDBMerger
                 DataSchema = Tb_db_b_ddb.Text,
             };
 
-            new Thread(() =>
+            conAA = new MySqlConnection(serverA.getDBConnectionString("adb"));
+            conAD = new MySqlConnection(serverA.getDBConnectionString("ddb"));
+            conBA = new MySqlConnection(serverA.getDBConnectionString("adb"));
+            conBD = new MySqlConnection(serverA.getDBConnectionString("ddb"));
+
+            //ToggleDatabaseConnections(true);
+
+            Btn_db_config_connect.Enabled = false;
+            Btn_db_config_disconnect.Enabled = true;
+            ToggleDatabasePrepareStageFields(true);
+
+            //new Thread(() =>
+            //{
+            //    Thread.CurrentThread.IsBackground = true;
+
+                
+
+            //    dBWrapperA = new DBWrapper(serverA, cache);
+            //    dBWrapperB = new DBWrapper(serverB, cache);
+
+            //    var connectTestA = dBWrapperA.TestConnection();
+            //    var connectTestB = dBWrapperB.TestConnection();
+
+            //    logger.Log(TAG, "Btn_db_config_connect_Click: 数据库A: " + connectTestA + "数据库B: " + connectTestB);
+
+            //    if (connectTestA && connectTestB)
+            //    {
+            //        Invoke((MethodInvoker)delegate {        
+            //            if (MessageBox.Show("数据库A: " + connectTestA + "\n数据库B: " + connectTestB, "数据库连接成功") == DialogResult.OK)
+            //            {
+            //                Btn_db_config_connect.Enabled = false;
+            //                Btn_db_config_disconnect.Enabled = true;
+            //                ToggleDatabasePrepareStageFields(true);
+            //            }
+            //        });
+            //    }
+            //    else
+            //    {
+            //        Invoke((MethodInvoker)delegate {
+            //            if (MessageBox.Show("数据库A: " + connectTestA + "\n数据库B: " + connectTestB, "数据库连接失败") == DialogResult.OK)
+            //            {
+            //                Btn_db_config_connect.Enabled = true;
+            //                Btn_db_config_disconnect.Enabled = false;
+            //                ToggleDatabaseConfigFields(true);
+            //                ToggleDatabasePrepareStageFields(false);
+            //            }
+            //        });
+            //    }
+            //}).Start();
+
+        }
+
+        private bool ToggleDatabaseConnections(bool enable)
+        {
+            try
             {
-                Thread.CurrentThread.IsBackground = true;
-
-                dBWrapperA = new DBWrapper(serverA, cache);
-                dBWrapperB = new DBWrapper(serverB, cache);
-
-                var connectTestA = dBWrapperA.TestConnection();
-                var connectTestB = dBWrapperB.TestConnection();
-
-                logger.Log(TAG, "Btn_db_config_connect_Click: 数据库A: " + connectTestA + "数据库B: " + connectTestB);
-
-                if (connectTestA && connectTestB)
+                if (enable)
                 {
-                    Invoke((MethodInvoker)delegate {        
-                        if (MessageBox.Show("数据库A: " + connectTestA + "\n数据库B: " + connectTestB, "数据库连接成功") == DialogResult.OK)
-                        {
-                            Btn_db_config_connect.Enabled = false;
-                            Btn_db_config_disconnect.Enabled = true;
-                            ToggleDatabasePrepareStageFields(true);
-                        }
-                    });
+                    conAA.OpenAsync();
+                    conAD.OpenAsync();
+                    conBA.OpenAsync();
+                    conBD.OpenAsync();
                 }
                 else
                 {
-                    Invoke((MethodInvoker)delegate {
-                        if (MessageBox.Show("数据库A: " + connectTestA + "\n数据库B: " + connectTestB, "数据库连接失败") == DialogResult.OK)
-                        {
-                            Btn_db_config_connect.Enabled = true;
-                            Btn_db_config_disconnect.Enabled = false;
-                            ToggleDatabaseConfigFields(true);
-                            ToggleDatabasePrepareStageFields(false);
-                        }
-                    });
+                    conAA.CloseAsync();
+                    conAD.CloseAsync();
+                    conBA.CloseAsync();
+                    conBD.CloseAsync();
                 }
-            }).Start();
-
+                return true;
+            }
+            catch (Exception)
+            {
+                
+            }
+            return false;
         }
 
         private void Btn_db_config_disconnect_Click(object sender, EventArgs e)
@@ -139,6 +185,8 @@ namespace ATDBMerger
         {
             try
             {
+                Btn_download_db_b.Enabled = false;
+
                 if (!Directory.Exists(cache))
                 {
                     Directory.CreateDirectory(cache);
@@ -149,39 +197,76 @@ namespace ATDBMerger
                 {
                     Thread.CurrentThread.IsBackground = true;
 
-                    logger.Log(TAG, "Btn_download_db_b_Click: Start downloading all database b tables");
-                    logger.Log(TAG, "Btn_download_db_b_Click: Start downloading account table");
-                    Invoke((MethodInvoker)delegate {
-                        Tb_prepare_output.AppendText(DateTime.Now + " 开始下载数据库B\n");
-                        Tb_prepare_output.AppendText(DateTime.Now + " 下载account表\n");
-                    });
-                    dBWrapperB.DownloadTable(serverB.RegisterDbSchema, "account");
+                    //logger.Log(TAG, "Btn_download_db_b_Click: Start downloading all database b tables");
+                    //logger.Log(TAG, "Btn_download_db_b_Click: Start downloading account table");
+                    //Invoke((MethodInvoker)delegate {
+                    //    Tb_prepare_output.AppendText(DateTime.Now + " 开始下载数据库B\n");
+                    //    Tb_prepare_output.AppendText(DateTime.Now + " 下载account表\n");
+                    //});
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        using (MySqlBackup mb = new MySqlBackup(cmd))
+                        {
+                            cmd.Connection = conBA;
+                            cmd.Connection.Open();
+                            mb.ExportInfo.ExportTableStructure = false;
+                            mb.ExportInfo.TablesToBeExportedList = new List<string> {
+                                "account"
+                            };
+                            mb.ExportToFile(cache + "/b_adb.sql");
+                            cmd.Connection.Close();
+                        }
+                    }
 
-                    logger.Log(TAG, "Btn_download_db_b_Click: Start downloading data table");
-                    Invoke((MethodInvoker)delegate {
-                        Tb_prepare_output.AppendText(DateTime.Now + " 下载data表\n");
-                    });
-                    dBWrapperB.DownloadTable(serverB.DataSchema, "data");
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        using (MySqlBackup mb = new MySqlBackup(cmd))
+                        {
+                            cmd.Connection = conBD;
+                            cmd.Connection.Open();
+                            mb.ExportInfo.ExportTableStructure = false;
+                            mb.ExportInfo.TablesToBeExportedList = new List<string> {
+                                "data",
+                                "basic_char_info",
+                                "gid_info",
+                                "property_recall"
+                            };
+                            mb.ExportToFile(cache + "/b_ddb.sql");
+                            cmd.Connection.Close();
+                        }
+                    }
 
-                    logger.Log(TAG, "Btn_download_db_b_Click: Start downloading basic_char_info table");
-                    Invoke((MethodInvoker)delegate {
-                        Tb_prepare_output.AppendText(DateTime.Now + " 下载basic_char_info表\n");
+                    Invoke((MethodInvoker)delegate
+                    {
+                        Btn_prepare_db_b_data.Enabled = true;
                     });
-                    dBWrapperB.DownloadTable(serverB.DataSchema, "basic_char_info");
+                    //dBWrapperB.DownloadTable(serverB.RegisterDbSchema, "");
 
-                    logger.Log(TAG, "Btn_download_db_b_Click: Start downloading gid_info table");
-                    Invoke((MethodInvoker)delegate {
-                        Tb_prepare_output.AppendText(DateTime.Now + " 下载gid_info表\n");
-                    });
-                    dBWrapperB.DownloadTable(serverB.DataSchema, "gid_info");
+                    //logger.Log(TAG, "Btn_download_db_b_Click: Start downloading data table");
+                    //Invoke((MethodInvoker)delegate {
+                    //    Tb_prepare_output.AppendText(DateTime.Now + " 下载data表\n");
+                    //});
+                    //dBWrapperB.DownloadTable(serverB.DataSchema, "data");
 
-                    logger.Log(TAG, "Btn_download_db_b_Click: Start downloading property_recall table");
-                    Invoke((MethodInvoker)delegate {
-                        Tb_prepare_output.AppendText(DateTime.Now + " 下载property_recall表\n");
-                        Tb_prepare_output.AppendText(DateTime.Now + " 完成下载\n");
-                    });
-                    dBWrapperB.DownloadTable(serverB.DataSchema, "property_recall");
-                    logger.Log(TAG, "Btn_download_db_b_Click: database b table download complete");
+                    //logger.Log(TAG, "Btn_download_db_b_Click: Start downloading basic_char_info table");
+                    //Invoke((MethodInvoker)delegate {
+                    //    Tb_prepare_output.AppendText(DateTime.Now + " 下载basic_char_info表\n");
+                    //});
+                    //dBWrapperB.DownloadTable(serverB.DataSchema, "basic_char_info");
+
+                    //logger.Log(TAG, "Btn_download_db_b_Click: Start downloading gid_info table");
+                    //Invoke((MethodInvoker)delegate {
+                    //    Tb_prepare_output.AppendText(DateTime.Now + " 下载gid_info表\n");
+                    //});
+                    //dBWrapperB.DownloadTable(serverB.DataSchema, "gid_info");
+
+                    //logger.Log(TAG, "Btn_download_db_b_Click: Start downloading property_recall table");
+                    //Invoke((MethodInvoker)delegate {
+                    //    Tb_prepare_output.AppendText(DateTime.Now + " 下载property_recall表\n");
+                    //    Tb_prepare_output.AppendText(DateTime.Now + " 完成下载\n");
+                    //});
+                    //dBWrapperB.DownloadTable(serverB.DataSchema, "property_recall");
+                    //logger.Log(TAG, "Btn_download_db_b_Click: database b table download complete");
 
                 }).Start();
                 
