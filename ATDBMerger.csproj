@@ -81,6 +81,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConflictChecking.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConflictChecking.Designer.cs">
+      <DependentUpon>ConflictChecking.cs</DependentUpon>
+    </Compile>
     <Compile Include="DBConnect.cs" />
     <Compile Include="DBForm.cs">
       <SubType>Form</SubType>
@@ -122,6 +128,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ConflictChecking.resx">
+      <DependentUpon>ConflictChecking.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DBForm.resx">
       <DependentUpon>DBForm.cs</DependentUpon>
     </EmbeddedResource>

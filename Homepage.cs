@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,40 +21,192 @@ namespace ATDBMerger
         private const string cache = "./缓存";
         private Logger logger;
 
-        private Server serverA;
-        private Server serverB;
+        private List<List<string>> aAccount = new List<List<string>>();
+        private List<List<string>> aData = new List<List<string>>();
+        private List<List<string>> aBasicCharInfo = new List<List<string>>();
+        private List<List<string>> aGidInfo = new List<List<string>>();
+        private List<List<string>> aPropertyRecall = new List<List<string>>();
 
-        private MySqlConnection conAA;
-        private MySqlConnection conAD;
-        private MySqlConnection conBA;
-        private MySqlConnection conBD;
+        private List<List<string>> bAccount = new List<List<string>>();
+        private List<List<string>> bData = new List<List<string>>();
+        private List<List<string>> bBasicCharInfo = new List<List<string>>();
+        private List<List<string>> bGidInfo = new List<List<string>>();
+        private List<List<string>> bPropertyRecall = new List<List<string>>();
 
-        private DBWrapper dBWrapperA;
-        private DBWrapper dBWrapperB;
+        private List<List<string>> conflict_account;
+        private List<List<string>> conflict_char_info;
 
+        #region Initialization
         public Homepage(Logger logger)
         {
             this.logger = logger;
             logger.Log(TAG, "Init: Logger attached to Homepage");
             InitializeComponent();
+            InitializeEnvironment();
         }
 
-        private void ToggleDatabaseConfigFields(bool enable) {
-            //Tb_db_a_ip.Enabled = enable;
-            //Tb_db_a_port.Enabled = enable;
-            //Tb_db_a_login.Enabled = enable;
-            //Tb_db_a_password.Enabled = enable;
-            //Tb_db_a_adb.Enabled = enable;
-            //Tb_db_a_ddb.Enabled = enable;
+        private void InitializeEnvironment()
+        {
+            var directories_to_create = new List<string> { "数据库","缓存","数据库/a", "数据库/b"};
+            directories_to_create.ForEach(
+                directory =>{
+                    if (!Directory.Exists(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                        logger.Log(TAG, "InitializeEnvironment: directory created - " + directory );
+                    }
+                }
+            );
+        }
+        #endregion
 
-            //Tb_db_b_ip.Enabled = enable;
-            //Tb_db_b_port.Enabled = enable;
-            //Tb_db_b_login.Enabled = enable;
-            //Tb_db_b_password.Enabled = enable;
-            //Tb_db_b_adb.Enabled = enable;
-            //Tb_db_b_ddb.Enabled = enable;
-            Tlp_database_config.Enabled = enable;
-            logger.Log(TAG, "Tlp_database_config: "+enable);
+        #region Main Event Handlers
+        private async void Btn_db_read_Click(object sender, EventArgs e)
+        {
+            bool all_file_exists = true;
+            var path = "数据库/";
+
+            if (!File.Exists(path + "a/account.sql"))  all_file_exists = false; else lb_a_adb_account_status.ForeColor = Color.Green; 
+            if (!File.Exists(path + "a/data.sql")) all_file_exists = false; else  lb_a_ddb_data_status.ForeColor = Color.Green; 
+            if (!File.Exists(path + "a/basic_char_info.sql")) all_file_exists = false; else lb_a_ddb_basic_char_info_status.ForeColor = Color.Green;
+            if (!File.Exists(path + "a/gid_info.sql")) all_file_exists = false; else lb_a_ddb_gid_info_status.ForeColor = Color.Green;
+            if (!File.Exists(path + "a/property_recall.sql")) all_file_exists = false; else lb_a_ddb_property_recall_status.ForeColor = Color.Green;
+            if (!File.Exists(path + "b/account.sql")) all_file_exists = false; else lb_b_adb_account_status.ForeColor = Color.Green;
+            if (!File.Exists(path + "b/data.sql")) all_file_exists = false; else lb_b_ddb_data_status.ForeColor = Color.Green;
+            if (!File.Exists(path + "b/basic_char_info.sql")) all_file_exists = false; else lb_b_ddb_basic_char_info_status.ForeColor = Color.Green;
+            if (!File.Exists(path + "b/gid_info.sql")) all_file_exists = false; else lb_b_ddb_gid_info_status.ForeColor = Color.Green;
+            if (!File.Exists(path + "b/property_recall.sql")) all_file_exists = false; else lb_b_ddb_property_recall_status.ForeColor = Color.Green;
+
+            if (all_file_exists)
+            {
+
+                var loadDataTasks = new Task[]
+                {
+                    Task.Run(async () => aAccount = await LoadSqlFile(path + "a/account.sql")),
+                    Task.Run(async () => aData = await LoadSqlFile(path + "a/data.sql")),
+                    Task.Run(async () => aBasicCharInfo = await LoadSqlFile(path + "a/basic_char_info.sql")),
+                    Task.Run(async () => aGidInfo = await LoadSqlFile(path + "a/gid_info.sql")),
+                    Task.Run(async () => aPropertyRecall  = await LoadSqlFile(path + "a/property_recall.sql")),
+
+                    Task.Run(async () => bAccount = await LoadSqlFile(path + "b/account.sql")),
+                    Task.Run(async () => bData = await LoadSqlFile(path + "b/data.sql")),
+                    Task.Run(async () => bBasicCharInfo = await LoadSqlFile(path + "b/basic_char_info.sql")),
+                    Task.Run(async () => bGidInfo = await LoadSqlFile(path + "b/gid_info.sql")),
+                    Task.Run(async () => bPropertyRecall  = await LoadSqlFile(path + "b/property_recall.sql"))
+                };
+
+                try
+                {
+                    await Task.WhenAll(loadDataTasks);
+                    ToggleDatabasePrepareStageFields(true);
+                    Btn_db_read.Enabled = false;
+                }
+                catch (Exception ex)
+                {
+                    // handle exception
+                }
+            }
+            else
+            {
+                MessageBox.Show(this,"未找到所有所需的文件，确保所需文件放置在正确的目录里。", "数据库文件加载失败");
+            }
+        }
+
+        private void Btn_analyse_data_Click(object sender, EventArgs e)
+        {
+            Tb_db_a_charac_max_id_int.Text = GetMaxValue(aGidInfo,0);
+            Lb_db_b_charac_count.Text = bGidInfo.Count.ToString();
+            Lb_db_a_property_id.Text = GetMaxValue(aPropertyRecall, 0);
+
+            conflict_account = CheckForConflictValue(aAccount, bAccount, 0);
+            conflict_char_info = CheckForConflictValue(aGidInfo, bGidInfo, 2);
+
+            Lb_db_b_duplicate_account_count.Text = conflict_account.Count.ToString();
+            Lb_db_b_charac_duplicate_count.Text = conflict_char_info.Count.ToString();
+
+            Btn_prepare_db_b_data.Enabled = true;
+            gb_change_conflict_account.Enabled = true;
+            gb_change_conflict_char.Enabled = true;
+            Btn_view_conflict_data.Enabled = true;
+            Btn_analyse_data.Enabled = false;
+        }
+
+        private void Btn_view_conflict_data_Click(object sender, EventArgs e)
+        {
+            new ConflictChecking(conflict_account, conflict_char_info).Show();
+        }
+
+        private void Btn_prepare_db_b_data_Click(object sender, EventArgs e)
+        {
+            Tb_db_a_charac_max_id_int.Enabled = false;
+            Btn_prepare_db_b_data.Enabled = false;
+            gb_change_conflict_account.Enabled = false;
+            gb_change_conflict_char.Enabled = false;
+            Btn_view_conflict_data.Enabled = false;
+
+            Tb_prepare_output.AppendText("开始转换数据识别码\n");
+
+            //1 change all hex and int id to new cal value
+            for (int i = 1; i <= int.Parse(Lb_db_b_charac_count.Text); i++)
+            {
+                var new_int_value = i + (int.Parse(Tb_db_a_charac_max_id_int.Text) * 10);
+                var old_hex_value = Convert.ToString(i, 16).PadLeft(16, '0');
+                var new_hex_value = Convert.ToString(new_int_value, 16).PadLeft(16, '0');
+                //1.1 change data, property recall, basic char info to new hex val
+                Tb_prepare_output.AppendText("转换 " + old_hex_value + " -> " + new_hex_value + "\n");
+                SearchAndReplace("数据库/b/data.sql", old_hex_value, new_hex_value);
+                SearchAndReplace("数据库/b/basic_char_info.sql", old_hex_value, new_hex_value);
+                SearchAndReplace("数据库/b/property_recall.sql", old_hex_value, new_hex_value);
+
+                //1.2 change gid int id to new val
+                Tb_prepare_output.AppendText("转换 " + i + " -> " + new_int_value + "\n");
+                SearchAndReplace("数据库/b/gid_info.sql", "(" + i.ToString() + ",", "(" + new_int_value.ToString() + ",");
+            }
+
+            Tb_prepare_output.AppendText("开始转换参数码\n");
+
+            foreach (var item in bPropertyRecall)
+            {
+                var new_int_value = int.Parse(item[0]) + int.Parse(Lb_db_a_property_id.Text);
+                Tb_prepare_output.AppendText("转换 " + item[0] + " -> " + new_int_value + "\n");
+                SearchAndReplace("数据库/b/property_recall.sql", "(" + item[0].ToString() + ",", "(" + new_int_value.ToString() + ",");
+            }
+
+            //2 add suffix to char name
+            if (Cb_duplicate_account_add_suffix.Checked)
+            {
+                Tb_prepare_output.AppendText("开始转换重复账号\n");
+            }
+            if (Cb_duplicate_character_add_suffix.Checked)
+            {
+                Tb_prepare_output.AppendText("开始转换重复角色名\n");
+                foreach (var item in conflict_char_info)
+                {
+                    var new_value = item[2] + Tb_duplicate_charac_suffix.Text;
+                    Tb_prepare_output.AppendText("转换 " + item[2] + " -> " + new_value + "\n");
+                    SearchAndReplace("数据库/b/data.sql", item[2], new_value);
+                    SearchAndReplace("数据库/b/basic_char_info.sql", item[2], new_value);
+                    SearchAndReplace("数据库/b/property_recall.sql", item[2], new_value);
+                    SearchAndReplace("数据库/b/gid_info.sql", item[2], new_value);
+                }
+            }
+        }
+
+        private void Btn_export_sql_file_Click(object sender, EventArgs e)
+        {
+            
+        }
+        #endregion 
+
+        #region Supporting Functions
+        private void Btn_a_open_directory_Click(object sender, EventArgs e)
+        {
+            Process.Start(Directory.GetCurrentDirectory() + @"\数据库\a");
+        }
+
+        private void Btn_b_open_directory_Click(object sender, EventArgs e)
+        {
+            Process.Start(Directory.GetCurrentDirectory() + @"\数据库\b");
         }
 
         private void ToggleDatabasePrepareStageFields(bool enable)
@@ -67,223 +221,95 @@ namespace ATDBMerger
             logger.Log(TAG, "Gb_db_merge: " + enable);
         }
 
-        private void Btn_db_config_connect_Click(object sender, EventArgs e)
-        {
-            logger.Log(TAG, "Btn_db_config_connect_Click");
-            Btn_db_config_connect.Enabled = false;
-            ToggleDatabaseConfigFields(false);
-
-            serverA = new Server()
-            {
-                RegisterIp = Tb_db_a_ip.Text,
-                Port = Tb_db_a_port.Text,
-                DbLogin = Tb_db_a_login.Text,
-                DbPassword = Tb_db_a_password.Text,
-                RegisterDbSchema = Tb_db_a_adb.Text,
-                DataSchema = Tb_db_a_ddb.Text,
-            };
-
-            serverB = new Server()
-            {
-                RegisterIp = Tb_db_b_ip.Text,
-                Port = Tb_db_b_port.Text,
-                DbLogin = Tb_db_b_login.Text,
-                DbPassword = Tb_db_b_password.Text,
-                RegisterDbSchema = Tb_db_b_adb.Text,
-                DataSchema = Tb_db_b_ddb.Text,
-            };
-
-            conAA = new MySqlConnection(serverA.getDBConnectionString("adb"));
-            conAD = new MySqlConnection(serverA.getDBConnectionString("ddb"));
-            conBA = new MySqlConnection(serverA.getDBConnectionString("adb"));
-            conBD = new MySqlConnection(serverA.getDBConnectionString("ddb"));
-
-            //ToggleDatabaseConnections(true);
-
-            Btn_db_config_connect.Enabled = false;
-            Btn_db_config_disconnect.Enabled = true;
-            ToggleDatabasePrepareStageFields(true);
-
-            //new Thread(() =>
-            //{
-            //    Thread.CurrentThread.IsBackground = true;
-
-                
-
-            //    dBWrapperA = new DBWrapper(serverA, cache);
-            //    dBWrapperB = new DBWrapper(serverB, cache);
-
-            //    var connectTestA = dBWrapperA.TestConnection();
-            //    var connectTestB = dBWrapperB.TestConnection();
-
-            //    logger.Log(TAG, "Btn_db_config_connect_Click: 数据库A: " + connectTestA + "数据库B: " + connectTestB);
-
-            //    if (connectTestA && connectTestB)
-            //    {
-            //        Invoke((MethodInvoker)delegate {        
-            //            if (MessageBox.Show("数据库A: " + connectTestA + "\n数据库B: " + connectTestB, "数据库连接成功") == DialogResult.OK)
-            //            {
-            //                Btn_db_config_connect.Enabled = false;
-            //                Btn_db_config_disconnect.Enabled = true;
-            //                ToggleDatabasePrepareStageFields(true);
-            //            }
-            //        });
-            //    }
-            //    else
-            //    {
-            //        Invoke((MethodInvoker)delegate {
-            //            if (MessageBox.Show("数据库A: " + connectTestA + "\n数据库B: " + connectTestB, "数据库连接失败") == DialogResult.OK)
-            //            {
-            //                Btn_db_config_connect.Enabled = true;
-            //                Btn_db_config_disconnect.Enabled = false;
-            //                ToggleDatabaseConfigFields(true);
-            //                ToggleDatabasePrepareStageFields(false);
-            //            }
-            //        });
-            //    }
-            //}).Start();
-
-        }
-
-        private bool ToggleDatabaseConnections(bool enable)
-        {
+        private async Task<List<List<string>>> LoadSqlFile(string filepath) {
             try
             {
-                if (enable)
+                var list = new List<List<string>>();
+                string line;
+
+                StreamReader file = new StreamReader(filepath, Encoding.GetEncoding("gb2312"));
+                while ((line = file.ReadLine()) != null)
                 {
-                    conAA.OpenAsync();
-                    conAD.OpenAsync();
-                    conBA.OpenAsync();
-                    conBD.OpenAsync();
+                    if (line.StartsWith("INSERT"))
+                    {
+                        list.Add(ExtractInsertValues(line));
+                    }
                 }
-                else
-                {
-                    conAA.CloseAsync();
-                    conAD.CloseAsync();
-                    conBA.CloseAsync();
-                    conBD.CloseAsync();
-                }
-                return true;
+                file.Close();
+                
+                return list;
             }
             catch (Exception)
             {
-                
-            }
-            return false;
-        }
-
-        private void Btn_db_config_disconnect_Click(object sender, EventArgs e)
-        {
-            logger.Log(TAG, "Btn_db_config_disconnect_Click");
-            ToggleDatabaseConfigFields(true);
-            ToggleDatabasePrepareStageFields(false);
-            ToggleDatabaseMergeStageFields(false);
-            //clear cached files
-        }
-
-        private void Btn_download_db_b_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Btn_download_db_b.Enabled = false;
-
-                if (!Directory.Exists(cache))
-                {
-                    Directory.CreateDirectory(cache);
-                }
-
-                //download database b 
-                new Thread(() =>
-                {
-                    Thread.CurrentThread.IsBackground = true;
-
-                    //logger.Log(TAG, "Btn_download_db_b_Click: Start downloading all database b tables");
-                    //logger.Log(TAG, "Btn_download_db_b_Click: Start downloading account table");
-                    //Invoke((MethodInvoker)delegate {
-                    //    Tb_prepare_output.AppendText(DateTime.Now + " 开始下载数据库B\n");
-                    //    Tb_prepare_output.AppendText(DateTime.Now + " 下载account表\n");
-                    //});
-                    using (MySqlCommand cmd = new MySqlCommand())
-                    {
-                        using (MySqlBackup mb = new MySqlBackup(cmd))
-                        {
-                            cmd.Connection = conBA;
-                            cmd.Connection.Open();
-                            mb.ExportInfo.ExportTableStructure = false;
-                            mb.ExportInfo.TablesToBeExportedList = new List<string> {
-                                "account"
-                            };
-                            mb.ExportToFile(cache + "/b_adb.sql");
-                            cmd.Connection.Close();
-                        }
-                    }
-
-                    using (MySqlCommand cmd = new MySqlCommand())
-                    {
-                        using (MySqlBackup mb = new MySqlBackup(cmd))
-                        {
-                            cmd.Connection = conBD;
-                            cmd.Connection.Open();
-                            mb.ExportInfo.ExportTableStructure = false;
-                            mb.ExportInfo.TablesToBeExportedList = new List<string> {
-                                "data",
-                                "basic_char_info",
-                                "gid_info",
-                                "property_recall"
-                            };
-                            mb.ExportToFile(cache + "/b_ddb.sql");
-                            cmd.Connection.Close();
-                        }
-                    }
-
-                    Invoke((MethodInvoker)delegate
-                    {
-                        Btn_prepare_db_b_data.Enabled = true;
-                    });
-                    //dBWrapperB.DownloadTable(serverB.RegisterDbSchema, "");
-
-                    //logger.Log(TAG, "Btn_download_db_b_Click: Start downloading data table");
-                    //Invoke((MethodInvoker)delegate {
-                    //    Tb_prepare_output.AppendText(DateTime.Now + " 下载data表\n");
-                    //});
-                    //dBWrapperB.DownloadTable(serverB.DataSchema, "data");
-
-                    //logger.Log(TAG, "Btn_download_db_b_Click: Start downloading basic_char_info table");
-                    //Invoke((MethodInvoker)delegate {
-                    //    Tb_prepare_output.AppendText(DateTime.Now + " 下载basic_char_info表\n");
-                    //});
-                    //dBWrapperB.DownloadTable(serverB.DataSchema, "basic_char_info");
-
-                    //logger.Log(TAG, "Btn_download_db_b_Click: Start downloading gid_info table");
-                    //Invoke((MethodInvoker)delegate {
-                    //    Tb_prepare_output.AppendText(DateTime.Now + " 下载gid_info表\n");
-                    //});
-                    //dBWrapperB.DownloadTable(serverB.DataSchema, "gid_info");
-
-                    //logger.Log(TAG, "Btn_download_db_b_Click: Start downloading property_recall table");
-                    //Invoke((MethodInvoker)delegate {
-                    //    Tb_prepare_output.AppendText(DateTime.Now + " 下载property_recall表\n");
-                    //    Tb_prepare_output.AppendText(DateTime.Now + " 完成下载\n");
-                    //});
-                    //dBWrapperB.DownloadTable(serverB.DataSchema, "property_recall");
-                    //logger.Log(TAG, "Btn_download_db_b_Click: database b table download complete");
-
-                }).Start();
-                
-                //retrieve database infos
-                //logger.Log(TAG, "Btn_download_db_b_Click: Getting all database values");
-                //Task task1 = Task.Factory.StartNew(() => dBWrapperB.DownloadTable(serverB.RegisterDbSchema, "accounts"));
-                //Task.WaitAll(task1, task2, task3, task4, task5);
-                //logger.Log(TAG, "Btn_download_db_b_Click: Values retrival completed");
-
-                //enable controls
-            }
-            catch (Exception)
-            {
-
                 throw;
             }
-            
         }
+
+        private List<string> ExtractInsertValues(string insertStatement) {
+            var split = insertStatement.Split('(');
+            var clear = split[1].Replace(");", "");
+            var values = clear.Replace("'", "").Replace(" ", "").Split(',');
+            return values.ToList();
+        }
+
+        private string GetMaxValue(List<List<string>> datalist, int key_position) {
+            try
+            {
+                string max = "0";
+                datalist.ForEach(data =>
+                {
+                    var val = Int32.Parse(data[key_position]);
+
+                    if (Int32.Parse(max) < val)
+                    {
+                        max = val.ToString();
+                    }
+
+                });
+                return max;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private List<List<string>> CheckForConflictValue(List<List<string>> search_base, List<List<string>> check_base, int key_position) {
+
+            var commons = search_base.Select(s1 => s1[key_position]).ToList().Intersect(check_base.Select(s2 => s2[key_position]).ToList()).ToList();
+
+            List<List<string>> search_list = new List<List<string>>();
+
+            foreach (var item in check_base)
+            {
+                if (commons.Exists(x => x.Equals(item[key_position])))
+                {
+                    search_list.Add(item);
+                    Console.WriteLine(item[key_position]);
+                }
+            }
+
+            return search_list;
+        }
+
+        private void SearchAndReplace(string file_path, string old_val, string new_val) {
+            File.WriteAllText(file_path, File.ReadAllText(file_path, Encoding.GetEncoding("gb2312")).Replace(old_val, new_val), Encoding.GetEncoding("gb2312"));
+        }
+        
+        private void Tb_db_a_charac_max_id_int_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var val = Tb_db_a_charac_max_id_int.Text;
+                Lb_db_a_charac_max_id_hex.Text = Convert.ToString(Int32.Parse(val), 16).PadLeft (16,'0');
+            }
+            catch (Exception)
+            {
+                Lb_db_a_charac_max_id_hex.Text = "";
+            }
+        }
+
+        #endregion
+      
     }
 }
