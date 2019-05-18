@@ -83,7 +83,7 @@
     <StartupObject>ATGate.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '有验证|AnyCPU'">
-    <OutputPath>bin\有验证\</OutputPath>
+    <OutputPath>..\TestingDump\大爷1.6客户端\</OutputPath>
     <DefineConstants>TRACE;NeedVerify</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>

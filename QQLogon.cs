@@ -30,7 +30,7 @@ namespace ATGate
 
                     ExtractQQ();
 
-                    Uri uri = new Uri("http://bbs.qun.qq.com/forumdisplay?gId=649967463");
+                    Uri uri = new Uri("http://bbs.qun.qq.com/forumdisplay?gId=" + Properties.Resources.qq_group);
                     qqLogonPanel.Navigate(uri);
                     Console.WriteLine("login success");
                     break;
