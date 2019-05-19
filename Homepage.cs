@@ -71,7 +71,12 @@ namespace ATDBMerger
             if (!File.Exists(path + "a/basic_char_info.sql")) all_file_exists = false; else lb_a_ddb_basic_char_info_status.ForeColor = Color.Green;
             if (!File.Exists(path + "a/gid_info.sql")) all_file_exists = false; else lb_a_ddb_gid_info_status.ForeColor = Color.Green;
             if (!File.Exists(path + "a/property_recall.sql")) all_file_exists = false; else lb_a_ddb_property_recall_status.ForeColor = Color.Green;
-            if (!File.Exists(path + "b/account.sql")) all_file_exists = false; else lb_b_adb_account_status.ForeColor = Color.Green;
+
+            if (!Cb_share_account.Checked)
+            {
+                if (!File.Exists(path + "b/account.sql")) all_file_exists = false; else lb_b_adb_account_status.ForeColor = Color.Green;
+            }
+
             if (!File.Exists(path + "b/data.sql")) all_file_exists = false; else lb_b_ddb_data_status.ForeColor = Color.Green;
             if (!File.Exists(path + "b/basic_char_info.sql")) all_file_exists = false; else lb_b_ddb_basic_char_info_status.ForeColor = Color.Green;
             if (!File.Exists(path + "b/gid_info.sql")) all_file_exists = false; else lb_b_ddb_gid_info_status.ForeColor = Color.Green;
@@ -88,7 +93,7 @@ namespace ATDBMerger
                     Task.Run(async () => aGidInfo = await LoadSqlFile(path + "a/gid_info.sql")),
                     Task.Run(async () => aPropertyRecall  = await LoadSqlFile(path + "a/property_recall.sql")),
 
-                    Task.Run(async () => bAccount = await LoadSqlFile(path + "b/account.sql")),
+                    Task.Run(async () => bAccount = await LoadSqlFile(path + "b/account.sql", !Cb_share_account.Checked)),
                     Task.Run(async () => bData = await LoadSqlFile(path + "b/data.sql")),
                     Task.Run(async () => bBasicCharInfo = await LoadSqlFile(path + "b/basic_char_info.sql")),
                     Task.Run(async () => bGidInfo = await LoadSqlFile(path + "b/gid_info.sql")),
@@ -100,6 +105,7 @@ namespace ATDBMerger
                     await Task.WhenAll(loadDataTasks);
                     ToggleDatabasePrepareStageFields(true);
                     Btn_db_read.Enabled = false;
+                    Cb_share_account.Enabled = false;
                 }
                 catch (Exception ex)
                 {
@@ -118,17 +124,26 @@ namespace ATDBMerger
             Lb_db_b_charac_count.Text = bGidInfo.Count.ToString();
             Lb_db_a_property_id.Text = GetMaxValue(aPropertyRecall, 0);
 
-            conflict_account = CheckForConflictValue(aAccount, bAccount, 0);
-            conflict_char_info = CheckForConflictValue(aGidInfo, bGidInfo, 2);
+            if (Cb_share_account.Checked)
+            {
+                Cb_duplicate_account_add_suffix.Checked = false;
+                Lb_db_b_duplicate_account_count.Visible = false;
+                conflict_account = new List<List<string>>();
+            }
+            else {
+                conflict_account = CheckForConflictValue(aAccount, bAccount, 0);
+                Lb_db_b_duplicate_account_count.Text = conflict_account.Count.ToString();
+            }
 
-            Lb_db_b_duplicate_account_count.Text = conflict_account.Count.ToString();
+            conflict_char_info = CheckForConflictValue(aGidInfo, bGidInfo, 2);
             Lb_db_b_charac_duplicate_count.Text = conflict_char_info.Count.ToString();
 
             Btn_prepare_db_b_data.Enabled = true;
-            gb_change_conflict_account.Enabled = true;
+            gb_change_conflict_account.Enabled = !Cb_share_account.Checked;
             gb_change_conflict_char.Enabled = true;
             Btn_view_conflict_data.Enabled = true;
             Btn_analyse_data.Enabled = false;
+            Gb_dist_name.Enabled = true;
         }
 
         private void Btn_view_conflict_data_Click(object sender, EventArgs e)
@@ -138,11 +153,48 @@ namespace ATDBMerger
 
         private void Btn_prepare_db_b_data_Click(object sender, EventArgs e)
         {
+            if (Tb_old_dist_name.Text.Equals("") || Tb_new_dist_name.Text.Equals(""))
+            {
+                MessageBox.Show(this, "确保所需参数已输入！", "输入选项");
+                return;
+            }
+
+            if (Cb_duplicate_account_add_suffix.Checked)
+            {
+                if (Tb_duplicate_account_suffix.Text.Equals(""))
+                {
+                    MessageBox.Show(this, "确保所需参数已输入！", "输入选项");
+                    return;
+                }
+            }
+
+            if (Cb_duplicate_character_add_suffix.Checked)
+            {
+                if (Tb_duplicate_charac_suffix.Text.Equals(""))
+                {
+                    MessageBox.Show(this, "确保所需参数已输入！", "输入选项");
+                    return;
+                }
+            }
+
             Tb_db_a_charac_max_id_int.Enabled = false;
             Btn_prepare_db_b_data.Enabled = false;
             gb_change_conflict_account.Enabled = false;
             gb_change_conflict_char.Enabled = false;
             Btn_view_conflict_data.Enabled = false;
+            Gb_dist_name.Enabled = false;
+
+            Tb_prepare_output.AppendText("备份数据库B到缓存\n");
+            foreach (var file in Directory.GetFiles("数据库/b/"))
+            {
+                var temp = Directory.GetCurrentDirectory() + "/" + file.Replace("数据库/b", "缓存");
+
+                if (File.Exists(temp))
+                {
+                    File.Delete(temp);
+                }
+                File.Copy(Directory.GetCurrentDirectory() + "/" + file, temp);
+            }
 
             Tb_prepare_output.AppendText("开始转换数据识别码\n");
 
@@ -190,11 +242,14 @@ namespace ATDBMerger
                     SearchAndReplace("数据库/b/gid_info.sql", item[2], new_value);
                 }
             }
-        }
 
-        private void Btn_export_sql_file_Click(object sender, EventArgs e)
-        {
-            
+            //3 change dist name for data
+            Tb_prepare_output.AppendText("开始转换区名 " + Tb_old_dist_name.Text + " -> " + Tb_new_dist_name.Text + "\n");
+            SearchAndReplace("数据库/b/data.sql", Tb_old_dist_name.Text, Tb_new_dist_name.Text);
+
+            Tb_prepare_output.AppendText("完成数据处理\n");
+            Gb_db_prepare.Enabled = false;
+            Gb_db_merge.Enabled = true;
         }
         #endregion 
 
@@ -221,21 +276,24 @@ namespace ATDBMerger
             logger.Log(TAG, "Gb_db_merge: " + enable);
         }
 
-        private async Task<List<List<string>>> LoadSqlFile(string filepath) {
+        private async Task<List<List<string>>> LoadSqlFile(string filepath, bool need_load = true) {
             try
             {
                 var list = new List<List<string>>();
-                string line;
-
-                StreamReader file = new StreamReader(filepath, Encoding.GetEncoding("gb2312"));
-                while ((line = file.ReadLine()) != null)
+                if (need_load)
                 {
-                    if (line.StartsWith("INSERT"))
+                    string line;
+
+                    StreamReader file = new StreamReader(filepath, Encoding.GetEncoding("gb2312"));
+                    while ((line = file.ReadLine()) != null)
                     {
-                        list.Add(ExtractInsertValues(line));
+                        if (line.StartsWith("INSERT"))
+                        {
+                            list.Add(ExtractInsertValues(line));
+                        }
                     }
+                    file.Close();
                 }
-                file.Close();
                 
                 return list;
             }
@@ -310,6 +368,10 @@ namespace ATDBMerger
         }
 
         #endregion
-      
+
+        private void Cb_share_account_CheckStateChanged(object sender, EventArgs e)
+        {
+            lb_b_adb_account_status.Visible = !Cb_share_account.Checked;
+        }
     }
 }
