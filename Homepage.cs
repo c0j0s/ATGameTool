@@ -43,6 +43,9 @@ namespace ATDBMerger
             logger.Log(TAG, "Init: Logger attached to Homepage");
             InitializeComponent();
             InitializeEnvironment();
+
+            Cb_share_account.Checked = true;
+            Cb_share_account.Enabled = false;
         }
 
         private void InitializeEnvironment()

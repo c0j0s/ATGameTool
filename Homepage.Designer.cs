@@ -33,6 +33,7 @@
             this.Btn_db_read = new System.Windows.Forms.Button();
             this.Tlp_database_config = new System.Windows.Forms.TableLayoutPanel();
             this.Gb_config_b = new System.Windows.Forms.GroupBox();
+            this.Cb_share_account = new System.Windows.Forms.CheckBox();
             this.btn_b_open_directory = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
@@ -63,6 +64,11 @@
             this.lb_a_ddb_gid_info_status = new System.Windows.Forms.Label();
             this.lb_a_ddb_property_recall_status = new System.Windows.Forms.Label();
             this.Gb_db_prepare = new System.Windows.Forms.GroupBox();
+            this.Gb_dist_name = new System.Windows.Forms.GroupBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.Tb_new_dist_name = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.Tb_old_dist_name = new System.Windows.Forms.TextBox();
             this.Lb_db_a_property_id = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.Btn_view_conflict_data = new System.Windows.Forms.Button();
@@ -88,12 +94,6 @@
             this.Btn_analyse_data = new System.Windows.Forms.Button();
             this.Gb_db_merge = new System.Windows.Forms.GroupBox();
             this.Btn_export_sql_file = new System.Windows.Forms.Button();
-            this.Cb_share_account = new System.Windows.Forms.CheckBox();
-            this.Gb_dist_name = new System.Windows.Forms.GroupBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.Tb_old_dist_name = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this.Tb_new_dist_name = new System.Windows.Forms.TextBox();
             this.Gb_config.SuspendLayout();
             this.Tlp_database_config.SuspendLayout();
             this.Gb_config_b.SuspendLayout();
@@ -101,10 +101,10 @@
             this.Gb_config_a.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.Gb_db_prepare.SuspendLayout();
+            this.Gb_dist_name.SuspendLayout();
             this.gb_change_conflict_account.SuspendLayout();
             this.gb_change_conflict_char.SuspendLayout();
             this.Gb_db_merge.SuspendLayout();
-            this.Gb_dist_name.SuspendLayout();
             this.SuspendLayout();
             // 
             // Gb_config
@@ -173,6 +173,17 @@
             this.Gb_config_b.TabStop = false;
             this.Gb_config_b.Text = "数据库B";
             // 
+            // Cb_share_account
+            // 
+            this.Cb_share_account.AutoSize = true;
+            this.Cb_share_account.Location = new System.Drawing.Point(175, 0);
+            this.Cb_share_account.Name = "Cb_share_account";
+            this.Cb_share_account.Size = new System.Drawing.Size(126, 17);
+            this.Cb_share_account.TabIndex = 3;
+            this.Cb_share_account.Text = "是否共享Account表";
+            this.Cb_share_account.UseVisualStyleBackColor = true;
+            this.Cb_share_account.CheckStateChanged += new System.EventHandler(this.Cb_share_account_CheckStateChanged);
+            // 
             // btn_b_open_directory
             // 
             this.btn_b_open_directory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -189,7 +200,7 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.96227F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.03773F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
             this.tableLayoutPanel1.Controls.Add(this.label4, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
@@ -280,7 +291,7 @@
             // 
             this.lb_b_adb_account_status.AutoSize = true;
             this.lb_b_adb_account_status.ForeColor = System.Drawing.Color.Red;
-            this.lb_b_adb_account_status.Location = new System.Drawing.Point(213, 0);
+            this.lb_b_adb_account_status.Location = new System.Drawing.Point(212, 0);
             this.lb_b_adb_account_status.Name = "lb_b_adb_account_status";
             this.lb_b_adb_account_status.Size = new System.Drawing.Size(43, 13);
             this.lb_b_adb_account_status.TabIndex = 7;
@@ -290,7 +301,7 @@
             // 
             this.lb_b_ddb_data_status.AutoSize = true;
             this.lb_b_ddb_data_status.ForeColor = System.Drawing.Color.Red;
-            this.lb_b_ddb_data_status.Location = new System.Drawing.Point(213, 20);
+            this.lb_b_ddb_data_status.Location = new System.Drawing.Point(212, 20);
             this.lb_b_ddb_data_status.Name = "lb_b_ddb_data_status";
             this.lb_b_ddb_data_status.Size = new System.Drawing.Size(43, 13);
             this.lb_b_ddb_data_status.TabIndex = 8;
@@ -300,7 +311,7 @@
             // 
             this.lb_b_ddb_basic_char_info_status.AutoSize = true;
             this.lb_b_ddb_basic_char_info_status.ForeColor = System.Drawing.Color.Red;
-            this.lb_b_ddb_basic_char_info_status.Location = new System.Drawing.Point(213, 40);
+            this.lb_b_ddb_basic_char_info_status.Location = new System.Drawing.Point(212, 40);
             this.lb_b_ddb_basic_char_info_status.Name = "lb_b_ddb_basic_char_info_status";
             this.lb_b_ddb_basic_char_info_status.Size = new System.Drawing.Size(43, 13);
             this.lb_b_ddb_basic_char_info_status.TabIndex = 9;
@@ -310,7 +321,7 @@
             // 
             this.lb_b_ddb_gid_info_status.AutoSize = true;
             this.lb_b_ddb_gid_info_status.ForeColor = System.Drawing.Color.Red;
-            this.lb_b_ddb_gid_info_status.Location = new System.Drawing.Point(213, 60);
+            this.lb_b_ddb_gid_info_status.Location = new System.Drawing.Point(212, 60);
             this.lb_b_ddb_gid_info_status.Name = "lb_b_ddb_gid_info_status";
             this.lb_b_ddb_gid_info_status.Size = new System.Drawing.Size(43, 13);
             this.lb_b_ddb_gid_info_status.TabIndex = 10;
@@ -320,7 +331,7 @@
             // 
             this.lb_b_ddb_property_recall_status.AutoSize = true;
             this.lb_b_ddb_property_recall_status.ForeColor = System.Drawing.Color.Red;
-            this.lb_b_ddb_property_recall_status.Location = new System.Drawing.Point(213, 80);
+            this.lb_b_ddb_property_recall_status.Location = new System.Drawing.Point(212, 80);
             this.lb_b_ddb_property_recall_status.Name = "lb_b_ddb_property_recall_status";
             this.lb_b_ddb_property_recall_status.Size = new System.Drawing.Size(43, 13);
             this.lb_b_ddb_property_recall_status.TabIndex = 11;
@@ -356,7 +367,7 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.96227F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.03773F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
             this.tableLayoutPanel2.Controls.Add(this.label12, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.label13, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.label14, 1, 0);
@@ -447,7 +458,7 @@
             // 
             this.lb_a_adb_account_status.AutoSize = true;
             this.lb_a_adb_account_status.ForeColor = System.Drawing.Color.Red;
-            this.lb_a_adb_account_status.Location = new System.Drawing.Point(213, 0);
+            this.lb_a_adb_account_status.Location = new System.Drawing.Point(212, 0);
             this.lb_a_adb_account_status.Name = "lb_a_adb_account_status";
             this.lb_a_adb_account_status.Size = new System.Drawing.Size(43, 13);
             this.lb_a_adb_account_status.TabIndex = 7;
@@ -457,7 +468,7 @@
             // 
             this.lb_a_ddb_data_status.AutoSize = true;
             this.lb_a_ddb_data_status.ForeColor = System.Drawing.Color.Red;
-            this.lb_a_ddb_data_status.Location = new System.Drawing.Point(213, 20);
+            this.lb_a_ddb_data_status.Location = new System.Drawing.Point(212, 20);
             this.lb_a_ddb_data_status.Name = "lb_a_ddb_data_status";
             this.lb_a_ddb_data_status.Size = new System.Drawing.Size(43, 13);
             this.lb_a_ddb_data_status.TabIndex = 8;
@@ -467,7 +478,7 @@
             // 
             this.lb_a_ddb_basic_char_info_status.AutoSize = true;
             this.lb_a_ddb_basic_char_info_status.ForeColor = System.Drawing.Color.Red;
-            this.lb_a_ddb_basic_char_info_status.Location = new System.Drawing.Point(213, 40);
+            this.lb_a_ddb_basic_char_info_status.Location = new System.Drawing.Point(212, 40);
             this.lb_a_ddb_basic_char_info_status.Name = "lb_a_ddb_basic_char_info_status";
             this.lb_a_ddb_basic_char_info_status.Size = new System.Drawing.Size(43, 13);
             this.lb_a_ddb_basic_char_info_status.TabIndex = 9;
@@ -477,7 +488,7 @@
             // 
             this.lb_a_ddb_gid_info_status.AutoSize = true;
             this.lb_a_ddb_gid_info_status.ForeColor = System.Drawing.Color.Red;
-            this.lb_a_ddb_gid_info_status.Location = new System.Drawing.Point(213, 60);
+            this.lb_a_ddb_gid_info_status.Location = new System.Drawing.Point(212, 60);
             this.lb_a_ddb_gid_info_status.Name = "lb_a_ddb_gid_info_status";
             this.lb_a_ddb_gid_info_status.Size = new System.Drawing.Size(43, 13);
             this.lb_a_ddb_gid_info_status.TabIndex = 10;
@@ -487,7 +498,7 @@
             // 
             this.lb_a_ddb_property_recall_status.AutoSize = true;
             this.lb_a_ddb_property_recall_status.ForeColor = System.Drawing.Color.Red;
-            this.lb_a_ddb_property_recall_status.Location = new System.Drawing.Point(213, 80);
+            this.lb_a_ddb_property_recall_status.Location = new System.Drawing.Point(212, 80);
             this.lb_a_ddb_property_recall_status.Name = "lb_a_ddb_property_recall_status";
             this.lb_a_ddb_property_recall_status.Size = new System.Drawing.Size(43, 13);
             this.lb_a_ddb_property_recall_status.TabIndex = 11;
@@ -520,6 +531,54 @@
             this.Gb_db_prepare.TabIndex = 1;
             this.Gb_db_prepare.TabStop = false;
             this.Gb_db_prepare.Text = "2. 准备数据库";
+            // 
+            // Gb_dist_name
+            // 
+            this.Gb_dist_name.Controls.Add(this.label23);
+            this.Gb_dist_name.Controls.Add(this.Tb_new_dist_name);
+            this.Gb_dist_name.Controls.Add(this.label22);
+            this.Gb_dist_name.Controls.Add(this.Tb_old_dist_name);
+            this.Gb_dist_name.Enabled = false;
+            this.Gb_dist_name.Location = new System.Drawing.Point(164, 171);
+            this.Gb_dist_name.Name = "Gb_dist_name";
+            this.Gb_dist_name.Size = new System.Drawing.Size(169, 78);
+            this.Gb_dist_name.TabIndex = 18;
+            this.Gb_dist_name.TabStop = false;
+            this.Gb_dist_name.Text = "二区更名";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(11, 48);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(43, 13);
+            this.label23.TabIndex = 18;
+            this.label23.Text = "新名：";
+            // 
+            // Tb_new_dist_name
+            // 
+            this.Tb_new_dist_name.Location = new System.Drawing.Point(60, 45);
+            this.Tb_new_dist_name.Name = "Tb_new_dist_name";
+            this.Tb_new_dist_name.Size = new System.Drawing.Size(100, 20);
+            this.Tb_new_dist_name.TabIndex = 17;
+            this.Tb_new_dist_name.Text = "问道二区";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(11, 22);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(43, 13);
+            this.label22.TabIndex = 16;
+            this.label22.Text = "旧名：";
+            // 
+            // Tb_old_dist_name
+            // 
+            this.Tb_old_dist_name.Location = new System.Drawing.Point(60, 19);
+            this.Tb_old_dist_name.Name = "Tb_old_dist_name";
+            this.Tb_old_dist_name.Size = new System.Drawing.Size(100, 20);
+            this.Tb_old_dist_name.TabIndex = 15;
+            this.Tb_old_dist_name.Text = "问道一区";
             // 
             // Lb_db_a_property_id
             // 
@@ -767,65 +826,6 @@
             this.Btn_export_sql_file.UseVisualStyleBackColor = true;
             this.Btn_export_sql_file.Click += new System.EventHandler(this.Btn_b_open_directory_Click);
             // 
-            // Cb_share_account
-            // 
-            this.Cb_share_account.AutoSize = true;
-            this.Cb_share_account.Location = new System.Drawing.Point(175, 0);
-            this.Cb_share_account.Name = "Cb_share_account";
-            this.Cb_share_account.Size = new System.Drawing.Size(126, 17);
-            this.Cb_share_account.TabIndex = 3;
-            this.Cb_share_account.Text = "是否共享Account表";
-            this.Cb_share_account.UseVisualStyleBackColor = true;
-            this.Cb_share_account.CheckStateChanged += new System.EventHandler(this.Cb_share_account_CheckStateChanged);
-            // 
-            // Gb_dist_name
-            // 
-            this.Gb_dist_name.Controls.Add(this.label23);
-            this.Gb_dist_name.Controls.Add(this.Tb_new_dist_name);
-            this.Gb_dist_name.Controls.Add(this.label22);
-            this.Gb_dist_name.Controls.Add(this.Tb_old_dist_name);
-            this.Gb_dist_name.Enabled = false;
-            this.Gb_dist_name.Location = new System.Drawing.Point(164, 171);
-            this.Gb_dist_name.Name = "Gb_dist_name";
-            this.Gb_dist_name.Size = new System.Drawing.Size(169, 78);
-            this.Gb_dist_name.TabIndex = 18;
-            this.Gb_dist_name.TabStop = false;
-            this.Gb_dist_name.Text = "二区更名";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(11, 22);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(43, 13);
-            this.label22.TabIndex = 16;
-            this.label22.Text = "旧名：";
-            // 
-            // Tb_old_dist_name
-            // 
-            this.Tb_old_dist_name.Location = new System.Drawing.Point(60, 19);
-            this.Tb_old_dist_name.Name = "Tb_old_dist_name";
-            this.Tb_old_dist_name.Size = new System.Drawing.Size(100, 20);
-            this.Tb_old_dist_name.TabIndex = 15;
-            this.Tb_old_dist_name.Text = "问道一区";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(11, 48);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(43, 13);
-            this.label23.TabIndex = 18;
-            this.label23.Text = "新名：";
-            // 
-            // Tb_new_dist_name
-            // 
-            this.Tb_new_dist_name.Location = new System.Drawing.Point(60, 45);
-            this.Tb_new_dist_name.Name = "Tb_new_dist_name";
-            this.Tb_new_dist_name.Size = new System.Drawing.Size(100, 20);
-            this.Tb_new_dist_name.TabIndex = 17;
-            this.Tb_new_dist_name.Text = "问道二区";
-            // 
             // Homepage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -836,7 +836,7 @@
             this.Controls.Add(this.Gb_config);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Homepage";
-            this.Text = "AT合区工具";
+            this.Text = "AT合区工具 - 测试版";
             this.Gb_config.ResumeLayout(false);
             this.Gb_config.PerformLayout();
             this.Tlp_database_config.ResumeLayout(false);
@@ -849,13 +849,13 @@
             this.tableLayoutPanel2.PerformLayout();
             this.Gb_db_prepare.ResumeLayout(false);
             this.Gb_db_prepare.PerformLayout();
+            this.Gb_dist_name.ResumeLayout(false);
+            this.Gb_dist_name.PerformLayout();
             this.gb_change_conflict_account.ResumeLayout(false);
             this.gb_change_conflict_account.PerformLayout();
             this.gb_change_conflict_char.ResumeLayout(false);
             this.gb_change_conflict_char.PerformLayout();
             this.Gb_db_merge.ResumeLayout(false);
-            this.Gb_dist_name.ResumeLayout(false);
-            this.Gb_dist_name.PerformLayout();
             this.ResumeLayout(false);
 
         }
