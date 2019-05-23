@@ -1,5 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +8,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -202,8 +202,8 @@ namespace ATDBMerger
             for (int i = 1; i <= int.Parse(Lb_db_b_charac_count.Text); i++)
             {
                 var new_int_value = i + (int.Parse(Tb_db_a_charac_max_id_int.Text) * 10);
-                var old_hex_value = Convert.ToString(i, 16).PadLeft(16, '0');
-                var new_hex_value = Convert.ToString(new_int_value, 16).PadLeft(16, '0');
+                var old_hex_value = Convert.ToString(i, 16).PadLeft(16, '0').ToUpper();
+                var new_hex_value = Convert.ToString(new_int_value, 16).PadLeft(16, '0').ToUpper();
                 //1.1 change data, property recall, basic char info to new hex val
                 Tb_prepare_output.AppendText("转换 " + old_hex_value + " -> " + new_hex_value + "\n");
                 SearchAndReplace("数据库/b/data.sql", old_hex_value, new_hex_value);
@@ -212,7 +212,7 @@ namespace ATDBMerger
 
                 //1.2 change gid int id to new val
                 Tb_prepare_output.AppendText("转换 " + i + " -> " + new_int_value + "\n");
-                SearchAndReplace("数据库/b/gid_info.sql", "(" + i.ToString() + ",", "(" + new_int_value.ToString() + ",");
+                SearchAndReplace("数据库/b/gid_info.sql",i.ToString(),new_int_value.ToString(),true);
             }
 
             Tb_prepare_output.AppendText("开始转换参数码\n");
@@ -221,7 +221,7 @@ namespace ATDBMerger
             {
                 var new_int_value = int.Parse(item[0]) + int.Parse(Lb_db_a_property_id.Text);
                 Tb_prepare_output.AppendText("转换 " + item[0] + " -> " + new_int_value + "\n");
-                SearchAndReplace("数据库/b/property_recall.sql", "(" + item[0].ToString() + ",", "(" + new_int_value.ToString() + ",");
+                SearchAndReplace("数据库/b/property_recall.sql",item[0].ToString(),new_int_value.ToString(),true);
             }
 
             //2 add suffix to char name
@@ -350,8 +350,18 @@ namespace ATDBMerger
             return search_list;
         }
 
-        private void SearchAndReplace(string file_path, string old_val, string new_val) {
-            File.WriteAllText(file_path, File.ReadAllText(file_path, Encoding.GetEncoding("gb2312")).Replace(old_val, new_val), Encoding.GetEncoding("gb2312"));
+        private void SearchAndReplace(string file_path, string old_val, string new_val, bool regex = false)
+        {
+            if (regex)
+            {
+                Regex re = new Regex(@"\([']?"+ old_val + "[']?,");
+                new_val = "('" + new_val + "',";
+                File.WriteAllText(file_path, re.Replace(File.ReadAllText(file_path, Encoding.GetEncoding("gb2312")), new_val), Encoding.GetEncoding("gb2312"));
+            }
+            else
+            {
+                File.WriteAllText(file_path, File.ReadAllText(file_path, Encoding.GetEncoding("gb2312")).Replace(old_val, new_val), Encoding.GetEncoding("gb2312"));
+            }
         }
         
         private void Tb_db_a_charac_max_id_int_TextChanged(object sender, EventArgs e)
