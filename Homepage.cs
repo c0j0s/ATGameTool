@@ -47,13 +47,14 @@ namespace ATDBMerger
 
         private void InitializeEnvironment()
         {
-            var directories_to_create = new List<string> { "数据库","缓存","数据库/a", "数据库/b"};
+            var directories_to_create = new List<string> { "数据库", "缓存", "数据库/a", "数据库/b" };
             directories_to_create.ForEach(
-                directory =>{
+                directory =>
+                {
                     if (!Directory.Exists(directory))
                     {
                         Directory.CreateDirectory(directory);
-                        logger.Log(TAG, "InitializeEnvironment: directory created - " + directory );
+                        logger.Log(TAG, "InitializeEnvironment: directory created - " + directory);
                     }
                 }
             );
@@ -66,8 +67,11 @@ namespace ATDBMerger
             bool all_file_exists = true;
             var path = "数据库/";
 
-            if (!File.Exists(path + "a/account.sql"))  all_file_exists = false; else lb_a_adb_account_status.ForeColor = Color.Green; 
-            if (!File.Exists(path + "a/data.sql")) all_file_exists = false; else  lb_a_ddb_data_status.ForeColor = Color.Green; 
+            if (!Cb_share_account.Checked)
+            {
+                if (!File.Exists(path + "a/account.sql")) all_file_exists = false; else lb_a_adb_account_status.ForeColor = Color.Green;
+            }
+            if (!File.Exists(path + "a/data.sql")) all_file_exists = false; else lb_a_ddb_data_status.ForeColor = Color.Green;
             if (!File.Exists(path + "a/basic_char_info.sql")) all_file_exists = false; else lb_a_ddb_basic_char_info_status.ForeColor = Color.Green;
             if (!File.Exists(path + "a/gid_info.sql")) all_file_exists = false; else lb_a_ddb_gid_info_status.ForeColor = Color.Green;
             if (!File.Exists(path + "a/property_recall.sql")) all_file_exists = false; else lb_a_ddb_property_recall_status.ForeColor = Color.Green;
@@ -87,7 +91,7 @@ namespace ATDBMerger
 
                 var loadDataTasks = new Task[]
                 {
-                    Task.Run(async () => aAccount = await LoadSqlFile(path + "a/account.sql")),
+                    Task.Run(async () => aAccount = await LoadSqlFile(path + "a/account.sql", !Cb_share_account.Checked)),
                     Task.Run(async () => aData = await LoadSqlFile(path + "a/data.sql")),
                     Task.Run(async () => aBasicCharInfo = await LoadSqlFile(path + "a/basic_char_info.sql")),
                     Task.Run(async () => aGidInfo = await LoadSqlFile(path + "a/gid_info.sql")),
@@ -114,13 +118,13 @@ namespace ATDBMerger
             }
             else
             {
-                MessageBox.Show(this,"未找到所有所需的文件，确保所需文件放置在正确的目录里。", "数据库文件加载失败");
+                MessageBox.Show(this, "未找到所有所需的文件，确保所需文件放置在正确的目录里。", "数据库文件加载失败");
             }
         }
 
         private void Btn_analyse_data_Click(object sender, EventArgs e)
         {
-            Tb_db_a_charac_max_id_int.Text = GetMaxValue(aGidInfo,0);
+            Tb_db_a_charac_max_id_int.Text = GetMaxValue(aGidInfo, 0);
             Lb_db_b_charac_count.Text = bGidInfo.Count.ToString();
             Lb_db_a_property_id.Text = GetMaxValue(aPropertyRecall, 0);
 
@@ -130,7 +134,8 @@ namespace ATDBMerger
                 Lb_db_b_duplicate_account_count.Visible = false;
                 conflict_account = new List<List<string>>();
             }
-            else {
+            else
+            {
                 conflict_account = CheckForConflictValue(aAccount, bAccount, 0);
                 Lb_db_b_duplicate_account_count.Text = conflict_account.Count.ToString();
             }
@@ -212,7 +217,7 @@ namespace ATDBMerger
 
                 //1.2 change gid int id to new val
                 Tb_prepare_output.AppendText("转换 " + i + " -> " + new_int_value + "\n");
-                SearchAndReplace("数据库/b/gid_info.sql",i.ToString(),new_int_value.ToString(),true);
+                SearchAndReplace("数据库/b/gid_info.sql", i.ToString(), new_int_value.ToString(), true);
             }
 
             Tb_prepare_output.AppendText("开始转换参数码\n");
@@ -221,7 +226,7 @@ namespace ATDBMerger
             {
                 var new_int_value = int.Parse(item[0]) + int.Parse(Lb_db_a_property_id.Text);
                 Tb_prepare_output.AppendText("转换 " + item[0] + " -> " + new_int_value + "\n");
-                SearchAndReplace("数据库/b/property_recall.sql",item[0].ToString(),new_int_value.ToString(),true);
+                SearchAndReplace("数据库/b/property_recall.sql", item[0].ToString(), new_int_value.ToString(), true);
             }
 
             //2 add suffix to char name
@@ -243,7 +248,20 @@ namespace ATDBMerger
                 }
             }
 
-            //3 change dist name for data
+            //3 remove data conflict
+            Tb_prepare_output.AppendText("开始检查DATA冲突\n");
+            var load_task = Task.Run(async () => bData = await LoadSqlFile("数据库/b/data.sql"));
+            Task.WhenAll(load_task);
+            var conflict_data = CheckDuplicateLineUsingPrimaryKeys(bData, aData, 3);
+            Tb_prepare_output.AppendText("DATA冲突："+conflict_data.Count+"行\n");
+            
+            foreach (string lines in conflict_data)
+            {
+                Tb_prepare_output.AppendText("移除 : " + lines + "\n");
+                File.WriteAllLines("数据库/b/data.sql", File.ReadLines("数据库/b/data.sql", Encoding.GetEncoding("gb2312")).Where(l => l.ToUpper() != lines.ToUpper()).ToList(), Encoding.GetEncoding("gb2312"));
+            }
+
+            //4 change dist name for data
             Tb_prepare_output.AppendText("开始转换区名 " + Tb_old_dist_name.Text + " -> " + Tb_new_dist_name.Text + "\n");
             SearchAndReplace("数据库/b/data.sql", Tb_old_dist_name.Text, Tb_new_dist_name.Text);
 
@@ -251,9 +269,10 @@ namespace ATDBMerger
             Gb_db_prepare.Enabled = false;
             Gb_db_merge.Enabled = true;
         }
-        #endregion 
 
-        #region Supporting Functions
+        #endregion
+
+        #region Other Event Handlers
         private void Btn_a_open_directory_Click(object sender, EventArgs e)
         {
             Process.Start(Directory.GetCurrentDirectory() + @"\数据库\a");
@@ -264,19 +283,57 @@ namespace ATDBMerger
             Process.Start(Directory.GetCurrentDirectory() + @"\数据库\b");
         }
 
+        private void Tb_db_a_charac_max_id_int_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var val = Tb_db_a_charac_max_id_int.Text;
+                Lb_db_a_charac_max_id_hex.Text = Convert.ToString(Int32.Parse(val), 16).PadLeft(16, '0');
+            }
+            catch (Exception)
+            {
+                Lb_db_a_charac_max_id_hex.Text = "";
+            }
+        }
+        private void Cb_share_account_CheckStateChanged(object sender, EventArgs e)
+        {
+            lb_b_adb_account_status.Visible = !Cb_share_account.Checked;
+            lb_a_adb_account_status.Visible = !Cb_share_account.Checked;
+        }
+
+        private List<string> CheckDuplicateLineUsingPrimaryKeys(List<List<string>> search_base, List<List<string>> check_base, int num_of_keys)
+        {
+
+            var list = new List<string>();
+
+            foreach (var item in check_base)
+            {
+                var res = search_base.FindIndex(x => KeyCheck(x, item, num_of_keys));
+                if (res != -1)
+                {
+                    list.Add(search_base[res].Last());
+                }
+            }
+
+            return list;
+        }
+        #endregion
+
+        #region Supporting Functions
         private void ToggleDatabasePrepareStageFields(bool enable)
         {
             Gb_db_prepare.Enabled = enable;
             logger.Log(TAG, "Gb_db_prepare: " + enable);
         }
-        
+
         private void ToggleDatabaseMergeStageFields(bool enable)
         {
             Gb_db_merge.Enabled = enable;
             logger.Log(TAG, "Gb_db_merge: " + enable);
         }
 
-        private async Task<List<List<string>>> LoadSqlFile(string filepath, bool need_load = true) {
+        private async Task<List<List<string>>> LoadSqlFile(string filepath, bool need_load = true)
+        {
             try
             {
                 var list = new List<List<string>>();
@@ -294,7 +351,7 @@ namespace ATDBMerger
                     }
                     file.Close();
                 }
-                
+
                 return list;
             }
             catch (Exception)
@@ -303,14 +360,18 @@ namespace ATDBMerger
             }
         }
 
-        private List<string> ExtractInsertValues(string insertStatement) {
+        private List<string> ExtractInsertValues(string insertStatement)
+        {
             var split = insertStatement.Split('(');
             var clear = split[1].Replace(");", "");
             var values = clear.Replace("'", "").Replace(" ", "").Split(',');
-            return values.ToList();
+            var list = values.ToList();
+            list.Add(insertStatement);
+            return list;
         }
 
-        private string GetMaxValue(List<List<string>> datalist, int key_position) {
+        private string GetMaxValue(List<List<string>> datalist, int key_position)
+        {
             try
             {
                 string max = "0";
@@ -332,7 +393,8 @@ namespace ATDBMerger
             }
         }
 
-        private List<List<string>> CheckForConflictValue(List<List<string>> search_base, List<List<string>> check_base, int key_position) {
+        private List<List<string>> CheckForConflictValue(List<List<string>> search_base, List<List<string>> check_base, int key_position)
+        {
 
             var commons = search_base.Select(s1 => s1[key_position]).ToList().Intersect(check_base.Select(s2 => s2[key_position]).ToList()).ToList();
 
@@ -354,7 +416,7 @@ namespace ATDBMerger
         {
             if (regex)
             {
-                Regex re = new Regex(@"\([']?"+ old_val + "[']?,");
+                Regex re = new Regex(@"\([']?" + old_val + "[']?,");
                 new_val = "('" + new_val + "',";
                 File.WriteAllText(file_path, re.Replace(File.ReadAllText(file_path, Encoding.GetEncoding("gb2312")), new_val), Encoding.GetEncoding("gb2312"));
             }
@@ -363,25 +425,26 @@ namespace ATDBMerger
                 File.WriteAllText(file_path, File.ReadAllText(file_path, Encoding.GetEncoding("gb2312")).Replace(old_val, new_val), Encoding.GetEncoding("gb2312"));
             }
         }
-        
-        private void Tb_db_a_charac_max_id_int_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var val = Tb_db_a_charac_max_id_int.Text;
-                Lb_db_a_charac_max_id_hex.Text = Convert.ToString(Int32.Parse(val), 16).PadLeft (16,'0');
-            }
-            catch (Exception)
-            {
-                Lb_db_a_charac_max_id_hex.Text = "";
-            }
-        }
 
+       
+
+        private bool KeyCheck(List<string> a, List<string> b, int num_of_keys)
+        {
+            bool pass = false;
+            for (int i = 0; i < num_of_keys; i++)
+            {
+                if (a[i].ToUpper().Equals(b[i].ToUpper()))
+                {
+                    pass = true;
+                }
+                else
+                {
+                    pass = false;
+                }
+            }
+            return pass;
+        }
         #endregion
 
-        private void Cb_share_account_CheckStateChanged(object sender, EventArgs e)
-        {
-            lb_b_adb_account_status.Visible = !Cb_share_account.Checked;
-        }
     }
 }
