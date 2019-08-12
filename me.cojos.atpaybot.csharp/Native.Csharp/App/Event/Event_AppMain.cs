@@ -62,7 +62,8 @@ namespace Native.Csharp.App.Event
 			// 下列代码演示如何将 IEvent_UserExpand 接口实例化并拿到对应的实例
 			IEvent_UserExpand userExpand = container.Resolve<IEvent_UserExpand> ();
 			UserExport.UserOpenConsole += userExpand.OpenConsoleWindow;
-		}
+            UserExport.UserOpenSettings += userExpand.OpenSettingsWindow;
+        }
 
 		/// <summary>
 		/// 初始化完毕

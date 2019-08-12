@@ -27,15 +27,24 @@ namespace Native.Csharp.App.Core
 		/// 用户打开控制台事件
 		/// </summary>
 		public static event EventHandler<EventArgs> UserOpenConsole = (sender, e) => { };
-		#endregion
 
-		#region --导出方法--
-		[DllExport (ExportName = "_eventOpenConsole", CallingConvention = CallingConvention.StdCall)]
+        public static event EventHandler<EventArgs> UserOpenSettings = (sender, e) => { };
+        #endregion
+
+        #region --导出方法--
+        [DllExport (ExportName = "_eventOpenConsole", CallingConvention = CallingConvention.StdCall)]
 		private static int EventOpenConsole ()
 		{
 			UserOpenConsole (null, new EventArgs ());
 			return 0;
 		}
-		#endregion
-	}
+
+        [DllExport(ExportName = "_eventOpenSettings", CallingConvention = CallingConvention.StdCall)]
+        private static int EventOpenSettings ()
+        {
+            UserOpenSettings(null, new EventArgs());
+            return 0;
+        }
+        #endregion
+    }
 }

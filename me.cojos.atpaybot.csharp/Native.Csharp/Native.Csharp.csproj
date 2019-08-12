@@ -85,6 +85,7 @@
     </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -149,6 +150,10 @@
     <ProjectReference Include="..\Native.Csharp.Tool\Native.Csharp.Tool.csproj">
       <Project>{9db94cbf-6843-4ea3-9241-769124416fe9}</Project>
       <Name>Native.Csharp.Tool</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Native.Csharp.UI\Native.Csharp.UI.csproj">
+      <Project>{061b3368-2449-461a-a0e2-4a852406e5ba}</Project>
+      <Name>Native.Csharp.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
