@@ -40,7 +40,7 @@ QQ <-> 酷Q <-> 机器人 <-> Sqlite数据库 （问答/定时任务/充值配�
 
 ### 使用手册
 #### 初始设置
-![initialisation](https://github.com/c0j0s/ATPay/blob/v2/src/1.png)  
+![initialisation](src/1.png)  
 
 |设置|详情|
 |-----|-----|
@@ -53,8 +53,8 @@ QQ <-> 酷Q <-> 机器人 <-> Sqlite数据库 （问答/定时任务/充值配�
 
 |功能|帮助|样式|
 |-----|-----|----|
-|充值|![initialisation](https://github.com/c0j0s/ATPay/blob/v2/src/2_1.png)|![initialisation](https://github.com/c0j0s/ATPay/blob/v2/src/2_2.png)|
-|更换设置|![initialisation](https://github.com/c0j0s/ATPay/blob/v2/src/3_1.png)|![initialisation](https://github.com/c0j0s/ATPay/blob/v2/src/3_2.png)|
+|充值|![initialisation](src/2_1.png)|![initialisation](src/2_2.png)|
+|更换设置|![initialisation](src/3_1.png)|![initialisation](src/3_2.png)|
 
 ---
 后续添加更多功能
